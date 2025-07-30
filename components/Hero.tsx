@@ -52,7 +52,7 @@ export default function Hero() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <a
                     href="#projects"
-                    className="group inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25"
+                    className="group inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:shadow-md hover:shadow-blue-500/25"
                   >
                     View My Work
                     <ArrowRight

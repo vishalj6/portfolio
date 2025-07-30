@@ -15,7 +15,7 @@ export default function About() {
 
           <AnimatedSection animation="fadeInUp" delay={200}>
             <div className="mb-16">
-              <div className="bg-gray-800 rounded-lg p-8 shadow-xl hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 hover:scale-[1.02] group">
+              <div className="bg-gray-800 rounded-lg p-8 shadow-xl hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 group">
                 <h3 className="text-2xl font-semibold mb-6 text-blue-400 group-hover:text-blue-300 transition-colors duration-300">
                   Background
                 </h3>
