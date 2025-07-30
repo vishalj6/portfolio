@@ -17,22 +17,22 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <div className="bg-gray-800 rounded-lg overflow-hidden shadow-xl hover:shadow-md hover:shadow-blue-500/20 transition-all duration-500 transform hover:scale-101 group">
+    <div className="bg-gray-800 rounded-lg overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 transform hover:scale-105 group">
       <div className="relative h-48 overflow-hidden">
         <Image
           src={project.image || "/placeholder.svg"}
           alt={project.title}
           fill
-          className="object-cover transition-transform duration-700 group-hover:scale-110"
+          className="object-cover transition-transform duration-700 group-hover:scale-108"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent group-hover:from-gray-900/60 transition-all duration-500"></div>
         <div className="absolute inset-0 bg-blue-500/0 transition-all duration-500"></div>
       </div>
       <div className="p-6">
-        <h3 className="text-xl font-semibold mb-3 text-white group-hover:text-blue-300 transition-colors duration-300">
+        <h3 className="text-xl font-semibold mb-3 text-white transition-colors duration-300">
           {project.title}
         </h3>
-        <p className="text-gray-400 mb-4 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+        <p className="text-gray-400 mb-4 leading-relaxed transition-colors duration-300">
           {project.description}
         </p>
         <div className="flex flex-wrap gap-2 mb-6">
