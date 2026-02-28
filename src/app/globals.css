@@ -1,26 +1,152 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-background: #0a0a1a;
+  --color-foreground: #e0e0e0;
+  --color-cyan: #00f0ff;
+  --color-purple: #a855f7;
+  --color-cyan-dim: #00f0ff33;
+  --color-purple-dim: #a855f733;
+  --color-card: #111128;
+  --color-card-border: #1e1e3a;
+  --color-card-hover: #1a1a40;
+  --color-muted: #8888aa;
+  --color-section: #0d0d24;
+  --font-sans: var(--font-space-grotesk);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #00f0ff44;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00f0ff88;
+}
+
+/* Selection */
+::selection {
+  background: #00f0ff33;
+  color: #00f0ff;
+}
+
+/* Glow utilities */
+.glow-cyan {
+  box-shadow: 0 0 20px #00f0ff33, 0 0 40px #00f0ff11;
+}
+.glow-purple {
+  box-shadow: 0 0 20px #a855f733, 0 0 40px #a855f711;
+}
+.glow-cyan-strong {
+  box-shadow: 0 0 30px #00f0ff55, 0 0 60px #00f0ff22;
+}
+.text-glow-cyan {
+  text-shadow: 0 0 20px #00f0ff66, 0 0 40px #00f0ff33;
+}
+.text-glow-purple {
+  text-shadow: 0 0 20px #a855f766, 0 0 40px #a855f733;
+}
+
+/* Animated gradient background for mobile (Three.js fallback) */
+.gradient-bg-mobile {
+  background: radial-gradient(ellipse at 20% 50%, #0f0f3a 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, #1a0a2e 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, #0a1628 0%, transparent 50%),
+    #0a0a1a;
+  background-size: 200% 200%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Loading screen glitch */
+@keyframes glitch-1 {
+  0%,
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: translate(0);
+  }
+  20% {
+    clip-path: inset(20% 0 60% 0);
+    transform: translate(-3px, 3px);
+  }
+  40% {
+    clip-path: inset(40% 0 40% 0);
+    transform: translate(3px, -3px);
+  }
+  60% {
+    clip-path: inset(60% 0 20% 0);
+    transform: translate(-2px, 2px);
+  }
+  80% {
+    clip-path: inset(80% 0 5% 0);
+    transform: translate(2px, -2px);
+  }
+}
+
+@keyframes glitch-2 {
+  0%,
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: translate(0);
+  }
+  20% {
+    clip-path: inset(60% 0 20% 0);
+    transform: translate(3px, -3px);
+  }
+  40% {
+    clip-path: inset(10% 0 70% 0);
+    transform: translate(-3px, 3px);
+  }
+  60% {
+    clip-path: inset(50% 0 30% 0);
+    transform: translate(2px, -2px);
+  }
+  80% {
+    clip-path: inset(30% 0 50% 0);
+    transform: translate(-2px, 2px);
+  }
+}
+
+/* Pulse ring */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
 }
