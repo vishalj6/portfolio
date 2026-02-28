@@ -1,40 +1,50 @@
 "use client";
 
 import { motion } from "framer-motion";
-import MotionWrapper from "@/components/ui/MotionWrapper";
+import { useInView } from "react-intersection-observer";
 import { socials, email } from "@/data/socials";
-import { staggerContainer, fadeUp } from "@/lib/animations";
 
 export default function Contact() {
-  return (
-    <section id="contact" className="relative py-24 md:py-32 px-4 bg-section/50">
-      {/* Section accent */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-purple/20 to-transparent" />
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
 
+  return (
+    <section
+      id="contact"
+      ref={ref}
+      className="relative py-28 md:py-36 px-4 scene-transition"
+    >
       <div className="max-w-2xl mx-auto text-center">
-        {/* Section heading */}
-        <MotionWrapper className="mb-8">
-          <p className="text-cyan text-sm tracking-[0.3em] uppercase mb-3">
-            06. Contact
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Let&apos;s Build Something
-          </h2>
-          <p className="text-muted leading-relaxed">
+        {/* End credits style heading */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 1.5 }}
+          className="mb-12"
+        >
+          <p className="text-muted text-sm leading-relaxed max-w-lg mx-auto">
             I&apos;m always open to discussing new projects, backend architecture
             challenges, or opportunities to be part of something impactful.
           </p>
-        </MotionWrapper>
+        </motion.div>
 
-        {/* Email CTA */}
-        <MotionWrapper className="mb-12" delay={0.2}>
+        {/* Email CTA — cinematic button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="mb-16"
+        >
           <a
             href={`mailto:${email}`}
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-cyan/10 border border-cyan/30 text-cyan font-medium
-                       hover:bg-cyan/20 hover:border-cyan/60 transition-all duration-300 glow-cyan"
+            className="group relative inline-flex items-center gap-3 px-8 py-3.5 text-sm font-mono tracking-wider uppercase
+                       text-cyan border border-cyan/20 hover:border-cyan/50 hover:bg-cyan/5 transition-all duration-500"
           >
+            {/* Corner accents */}
+            <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-cyan/50" />
+            <span className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-cyan/50" />
+
             <svg
-              className="w-5 h-5"
+              className="w-4 h-4"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -46,35 +56,33 @@ export default function Contact() {
                 d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
               />
             </svg>
-            Say Hello
+            Transmit Signal
           </a>
-        </MotionWrapper>
+        </motion.div>
 
-        {/* Social links */}
+        {/* Social links — minimal */}
         <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="flex items-center justify-center gap-6"
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="flex items-center justify-center gap-5 mb-20"
         >
-          {socials.map((social) => (
+          {socials.map((social, i) => (
             <motion.a
               key={social.name}
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              variants={fadeUp}
-              whileHover={{
-                scale: 1.15,
-                y: -4,
-              }}
-              className="group relative p-3 rounded-xl border border-card-border bg-card/50 backdrop-blur-sm
-                         hover:border-cyan/30 transition-colors duration-300"
+              initial={{ opacity: 0, y: 10 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.4, delay: 0.6 + i * 0.1 }}
+              whileHover={{ y: -3 }}
+              className="p-3 border border-card-border hover:border-cyan/30 text-muted hover:text-cyan
+                         transition-all duration-300 group"
               aria-label={social.name}
             >
               <svg
-                className="w-5 h-5 text-muted group-hover:text-cyan transition-colors duration-300"
+                className="w-4 h-4"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -84,22 +92,34 @@ export default function Contact() {
               >
                 <path d={social.icon} />
               </svg>
-              {/* Tooltip */}
-              <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 rounded text-xs bg-card border border-card-border text-foreground
-                             opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                {social.name}
-              </span>
             </motion.a>
           ))}
         </motion.div>
 
-        {/* Footer */}
-        <MotionWrapper delay={0.4} className="mt-20 pt-8 border-t border-card-border">
-          <p className="text-muted/60 text-xs tracking-wider">
-            Designed & Built by{" "}
-            <span className="text-cyan/70">Vishal Jadeja</span>
-          </p>
-        </MotionWrapper>
+        {/* End credits — film style */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 1, delay: 0.8 }}
+          className="pt-8 border-t border-card-border/30"
+        >
+          <div className="space-y-3">
+            <p className="text-[10px] font-mono text-muted/30 tracking-[0.5em] uppercase">
+              End Credits
+            </p>
+            <div className="w-12 h-px bg-cyan/10 mx-auto" />
+            <p className="text-muted/30 text-xs font-mono">
+              Directed, Written & Engineered by
+            </p>
+            <p className="text-foreground/50 text-sm font-bold tracking-wider">
+              VISHAL JADEJA
+            </p>
+            <div className="w-12 h-px bg-purple/10 mx-auto mt-4" />
+            <p className="text-muted/20 text-[10px] font-mono tracking-wider mt-4">
+              © {new Date().getFullYear()} — All Rights Reserved
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

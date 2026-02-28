@@ -3,8 +3,11 @@
 import { useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import LoadingScreen from "@/components/LoadingScreen";
+import CinematicIntro from "@/components/CinematicIntro";
+import FilmOverlay from "@/components/FilmOverlay";
+import SceneIndicator from "@/components/SceneIndicator";
 import Navbar from "@/components/Navbar";
+import SceneHeading from "@/components/ui/SceneHeading";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Skills from "@/components/sections/Skills";
@@ -29,28 +32,77 @@ export default function Home() {
 
   return (
     <>
-      {/* Loading screen */}
-      {loading && <LoadingScreen onComplete={handleLoadingComplete} />}
+      {/* ── Cinematic Intro (replaces loading screen) ── */}
+      {loading && <CinematicIntro onComplete={handleLoadingComplete} />}
 
-      {/* 3D particle background — desktop only */}
+      {/* ── Film overlays — grain, vignette, letterbox, scanlines ── */}
+      <FilmOverlay />
+
+      {/* ── 3D particle background — desktop only ── */}
       {isDesktop && <ParticleField />}
 
-      {/* Mobile gradient fallback */}
+      {/* ── Mobile gradient fallback ── */}
       {!isDesktop && (
         <div className="fixed inset-0 z-0 gradient-bg-mobile" />
       )}
 
-      {/* Navbar */}
+      {/* ── Navbar — cinematic HUD ── */}
       <Navbar />
 
-      {/* Main content */}
+      {/* ── Scene Indicator — right side dots (desktop) ── */}
+      {!loading && <SceneIndicator />}
+
+      {/* ── Main content — the film ── */}
       <main className="relative z-10">
+        {/* ACT I — The Protagonist */}
         <Hero />
+
+        {/* Scene Transition → ACT II */}
+        <SceneHeading
+          sceneNumber="Scene II"
+          title="The Origin Story"
+          subtitle="How it all began"
+        />
         <About />
+
+        {/* Scene Transition → ACT III */}
+        <SceneHeading
+          sceneNumber="Scene III"
+          title="The Arsenal"
+          subtitle="Weapons of choice"
+        />
         <Skills />
+
+        {/* Scene Transition → ACT IV */}
+        <SceneHeading
+          sceneNumber="Scene IV"
+          title="The Missions"
+          subtitle="Classified operations"
+        />
         <Projects />
+
+        {/* Scene Transition → ACT V */}
+        <SceneHeading
+          sceneNumber="Scene V"
+          title="The Journey"
+          subtitle="A flashback sequence"
+        />
         <Experience />
+
+        {/* Scene Transition → ACT VI */}
+        <SceneHeading
+          sceneNumber="Scene VI"
+          title="The Training"
+          subtitle="A montage"
+        />
         <DSA />
+
+        {/* Scene Transition → ACT VII */}
+        <SceneHeading
+          sceneNumber="Scene VII"
+          title="The Signal"
+          subtitle="Transmission open"
+        />
         <Contact />
       </main>
     </>

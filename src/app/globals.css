@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #0a0a1a;
-  --color-foreground: #e0e0e0;
-  --color-cyan: #00f0ff;
-  --color-purple: #a855f7;
-  --color-cyan-dim: #00f0ff33;
-  --color-purple-dim: #a855f733;
-  --color-card: #111128;
-  --color-card-border: #1e1e3a;
-  --color-card-hover: #1a1a40;
-  --color-muted: #8888aa;
-  --color-section: #0d0d24;
+  --color-background: #050510;
+  --color-foreground: #d4d4d8;
+  --color-cyan: #00e5ff;
+  --color-purple: #b44aff;
+  --color-gold: #d4a853;
+  --color-cyan-dim: #00e5ff25;
+  --color-purple-dim: #b44aff25;
+  --color-card: #0c0c1d;
+  --color-card-border: #1a1a35;
+  --color-card-hover: #141430;
+  --color-muted: #6b6b8a;
+  --color-section: #080818;
   --font-sans: var(--font-space-grotesk);
   --font-mono: var(--font-geist-mono);
 }
 
-/* Smooth scroll */
 html {
   scroll-behavior: smooth;
 }
@@ -26,127 +26,193 @@ body {
   color: var(--color-foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   overflow-x: hidden;
+  cursor: default;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #0a0a1a;
-}
-::-webkit-scrollbar-thumb {
-  background: #00f0ff44;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #00f0ff88;
+/* ============ SCROLLBAR ============ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #00e5ff22; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #00e5ff55; }
+::selection { background: #00e5ff22; color: #00e5ff; }
+
+/* ============ FILM GRAIN OVERLAY ============ */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  animation: grain 0.5s steps(6) infinite;
 }
 
-/* Selection */
-::selection {
-  background: #00f0ff33;
-  color: #00f0ff;
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-2%, -3%); }
+  20% { transform: translate(3%, 1%); }
+  30% { transform: translate(-1%, 3%); }
+  40% { transform: translate(3%, -2%); }
+  50% { transform: translate(-3%, 1%); }
+  60% { transform: translate(2%, -1%); }
+  70% { transform: translate(-1%, -3%); }
+  80% { transform: translate(1%, 2%); }
+  90% { transform: translate(-2%, 1%); }
 }
 
-/* Glow utilities */
-.glow-cyan {
-  box-shadow: 0 0 20px #00f0ff33, 0 0 40px #00f0ff11;
-}
-.glow-purple {
-  box-shadow: 0 0 20px #a855f733, 0 0 40px #a855f711;
-}
-.glow-cyan-strong {
-  box-shadow: 0 0 30px #00f0ff55, 0 0 60px #00f0ff22;
-}
-.text-glow-cyan {
-  text-shadow: 0 0 20px #00f0ff66, 0 0 40px #00f0ff33;
-}
-.text-glow-purple {
-  text-shadow: 0 0 20px #a855f766, 0 0 40px #a855f733;
+/* ============ VIGNETTE OVERLAY ============ */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.7) 100%);
 }
 
-/* Animated gradient background for mobile (Three.js fallback) */
+/* ============ LETTERBOX BARS ============ */
+.letterbox-top,
+.letterbox-bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 5vh;
+  background: #000;
+  z-index: 998;
+  pointer-events: none;
+}
+.letterbox-top { top: 0; }
+.letterbox-bottom { bottom: 0; }
+
+@media (max-width: 768px) {
+  .letterbox-top, .letterbox-bottom { height: 3vh; }
+}
+
+/* ============ SCANLINES ============ */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 997;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.03) 0px,
+    rgba(0, 0, 0, 0.03) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* ============ GLOW UTILITIES ============ */
+.glow-cyan { box-shadow: 0 0 20px #00e5ff30, 0 0 60px #00e5ff10; }
+.glow-purple { box-shadow: 0 0 20px #b44aff30, 0 0 60px #b44aff10; }
+.glow-cyan-strong { box-shadow: 0 0 40px #00e5ff50, 0 0 80px #00e5ff20, 0 0 120px #00e5ff10; }
+.text-glow-cyan { text-shadow: 0 0 30px #00e5ff80, 0 0 60px #00e5ff40, 0 0 100px #00e5ff20; }
+.text-glow-purple { text-shadow: 0 0 30px #b44aff80, 0 0 60px #b44aff40; }
+.text-glow-gold { text-shadow: 0 0 20px #d4a85366, 0 0 40px #d4a85333; }
+
+/* ============ MOBILE GRADIENT BG ============ */
 .gradient-bg-mobile {
-  background: radial-gradient(ellipse at 20% 50%, #0f0f3a 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, #1a0a2e 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, #0a1628 0%, transparent 50%),
-    #0a0a1a;
-  background-size: 200% 200%;
-  animation: gradient-shift 15s ease infinite;
+  background:
+    radial-gradient(ellipse at 20% 50%, #0a0a2e 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, #150a25 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, #0a1020 0%, transparent 50%),
+    #050510;
 }
 
-@keyframes gradient-shift {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+/* ============ CINEMATIC ANIMATIONS ============ */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.8; }
+  94% { opacity: 1; }
+  96% { opacity: 0.9; }
+  97% { opacity: 1; }
 }
 
-/* Loading screen glitch */
-@keyframes glitch-1 {
-  0%,
-  100% {
-    clip-path: inset(0 0 0 0);
-    transform: translate(0);
-  }
-  20% {
-    clip-path: inset(20% 0 60% 0);
-    transform: translate(-3px, 3px);
-  }
-  40% {
-    clip-path: inset(40% 0 40% 0);
-    transform: translate(3px, -3px);
-  }
-  60% {
-    clip-path: inset(60% 0 20% 0);
-    transform: translate(-2px, 2px);
-  }
-  80% {
-    clip-path: inset(80% 0 5% 0);
-    transform: translate(2px, -2px);
-  }
+@keyframes typewriter-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
-@keyframes glitch-2 {
-  0%,
-  100% {
-    clip-path: inset(0 0 0 0);
-    transform: translate(0);
-  }
-  20% {
-    clip-path: inset(60% 0 20% 0);
-    transform: translate(3px, -3px);
-  }
-  40% {
-    clip-path: inset(10% 0 70% 0);
-    transform: translate(-3px, 3px);
-  }
-  60% {
-    clip-path: inset(50% 0 30% 0);
-    transform: translate(2px, -2px);
-  }
-  80% {
-    clip-path: inset(30% 0 50% 0);
-    transform: translate(-2px, 2px);
-  }
+@keyframes scanline-move {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
 }
 
-/* Pulse ring */
 @keyframes pulse-ring {
-  0% {
-    transform: scale(0.8);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(2.5);
-    opacity: 0;
-  }
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes horizontal-scan {
+  0% { left: -20%; }
+  100% { left: 120%; }
 }
 
 .animate-pulse-ring {
   animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+.animate-flicker {
+  animation: flicker 8s infinite;
+}
+
+/* ============ SCENE TRANSITION ============ */
+.scene-transition {
+  position: relative;
+  overflow: hidden;
+}
+
+.scene-transition::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -20%;
+  width: 10%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #00e5ff08, transparent);
+  animation: horizontal-scan 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ============ CINEMATIC QUOTE STYLE ============ */
+.cinematic-quote {
+  position: relative;
+  padding-left: 1.5rem;
+  border-left: 2px solid #00e5ff33;
+  font-style: italic;
+}
+
+.cinematic-quote::before {
+  content: '"';
+  position: absolute;
+  left: -0.5rem;
+  top: -0.5rem;
+  font-size: 3rem;
+  color: #00e5ff15;
+  font-style: normal;
+  line-height: 1;
+}
+
+/* ============ CLASSIFIED STAMP ============ */
+@keyframes stamp-in {
+  0% { transform: scale(3) rotate(-20deg); opacity: 0; }
+  50% { transform: scale(1.1) rotate(-12deg); opacity: 0.8; }
+  100% { transform: scale(1) rotate(-12deg); opacity: 1; }
+}
+
+.classified-stamp {
+  animation: stamp-in 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+}
+
+/* ============ CREDITS ROLL ============ */
+@keyframes credits-roll {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100%); }
 }

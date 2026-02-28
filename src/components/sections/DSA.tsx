@@ -1,9 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import MotionWrapper from "@/components/ui/MotionWrapper";
+import { useInView } from "react-intersection-observer";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
-import { staggerContainer, fadeUp, scaleIn } from "@/lib/animations";
 
 const dsaCategories = [
   "Trees",
@@ -19,68 +18,74 @@ const dsaCategories = [
 ];
 
 export default function DSA() {
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
+
   return (
-    <section id="dsa" className="relative py-24 md:py-32 px-4">
-      {/* Section accent */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-cyan/20 to-transparent" />
-
+    <section
+      id="dsa"
+      ref={ref}
+      className="relative py-28 md:py-36 px-4 scene-transition"
+    >
       <div className="max-w-4xl mx-auto text-center">
-        {/* Section heading */}
-        <MotionWrapper className="mb-16">
-          <p className="text-cyan text-sm tracking-[0.3em] uppercase mb-3">
-            05. Problem Solving
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold">
-            DSA & Engineering Mindset
-          </h2>
-        </MotionWrapper>
+        {/* Training montage — big dramatic counter */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={inView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="mb-12"
+        >
+          <div className="inline-flex flex-col items-center p-8 md:p-10 border border-card-border bg-card/20 backdrop-blur-sm relative overflow-hidden">
+            {/* Corner brackets */}
+            <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-cyan/25" />
+            <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-cyan/25" />
+            <div className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-cyan/25" />
+            <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-cyan/25" />
 
-        {/* Big counter */}
-        <MotionWrapper variants={scaleIn} className="mb-12">
-          <div className="inline-flex flex-col items-center p-8 rounded-2xl border border-card-border bg-card/50 backdrop-blur-sm glow-cyan">
-            <div className="text-6xl md:text-8xl font-bold text-cyan text-glow-cyan mb-2">
+            {/* Label */}
+            <span className="text-[9px] font-mono text-gold/40 tracking-[0.4em] uppercase mb-4">
+              Training Record
+            </span>
+
+            <div className="text-6xl md:text-8xl font-bold text-cyan text-glow-cyan mb-3 font-mono">
               <AnimatedCounter target={400} suffix="+" duration={2500} />
             </div>
-            <p className="text-muted text-sm uppercase tracking-wider">
-              LeetCode Problems Solved
+            <p className="text-muted/60 text-xs uppercase tracking-[0.3em] font-mono">
+              LeetCode Problems Conquered
             </p>
           </div>
-        </MotionWrapper>
+        </motion.div>
 
-        {/* Tagline */}
-        <MotionWrapper className="mb-10">
-          <p className="text-muted max-w-2xl mx-auto leading-relaxed">
+        {/* Description */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="mb-10"
+        >
+          <p className="text-muted max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
             Strong foundation in data structures and algorithms with a focus on{" "}
             <span className="text-foreground">backend problem-solving</span>.
             Every system I architect is backed by algorithmic thinking — from
             choosing the right data structure for caching to optimizing database
             query patterns.
           </p>
-        </MotionWrapper>
+        </motion.div>
 
-        {/* Category badges */}
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          className="flex flex-wrap justify-center gap-3"
-        >
-          {dsaCategories.map((cat) => (
+        {/* Category badges — training disciplines */}
+        <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+          {dsaCategories.map((cat, i) => (
             <motion.span
               key={cat}
-              variants={fadeUp}
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 0 20px #a855f733",
-              }}
-              className="px-4 py-2 rounded-lg border border-purple/20 text-purple/80 text-sm bg-purple/5
-                         hover:border-purple/40 hover:text-purple transition-colors cursor-default"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.3, delay: 0.5 + i * 0.06 }}
+              className="px-3 py-1.5 border border-purple/15 text-purple/60 text-xs font-mono uppercase tracking-wider
+                         hover:border-purple/30 hover:text-purple/80 hover:bg-purple/5 transition-all duration-300 cursor-default"
             >
               {cat}
             </motion.span>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
