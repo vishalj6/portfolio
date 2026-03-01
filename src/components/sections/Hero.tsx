@@ -25,7 +25,7 @@ export default function Hero() {
               Vishal Jadeja<span className="text-[#F5FF82]">.</span>
             </h1>
             <p className="text-[#8C8C8C] text-sm font-mono mt-3 tracking-wide">
-              Full Stack Developer&nbsp;&nbsp;·&nbsp;&nbsp;Node.js &amp; React&nbsp;&nbsp;·&nbsp;&nbsp;Mumbai
+              Software Engineer&nbsp;&nbsp;·&nbsp;&nbsp;Node.js &amp; React&nbsp;&nbsp;·&nbsp;&nbsp;Ahmedabad
             </p>
           </div>
 
@@ -91,7 +91,7 @@ export default function Hero() {
           {/* Experience line */}
           <div>
             <p className="text-[#6B6B6B] text-[9px] font-mono tracking-widest uppercase mb-2">Experience</p>
-            <p className="text-[#E0E0E0] text-xs font-semibold">Full Stack Developer</p>
+            <p className="text-[#E0E0E0] text-xs font-semibold">Software Engineer</p>
             <p className="text-[#F5FF82] text-[11px]">Glitchover</p>
             <p className="text-[#555] text-[10px] font-mono mt-0.5">2024 – Present · Full-time</p>
           </div>

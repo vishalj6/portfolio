@@ -19,12 +19,14 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vishal Jadeja | Full Stack Developer",
+  title: "Vishal Jadeja | Software Engineer",
   description:
     "Full Stack Engineer specializing in scalable backend systems, real-time architecture, microservices, and high-performance APIs. MERN stack expert with 1500+ concurrent user systems.",
   keywords: [
     "Vishal Jadeja",
     "Full Stack Developer",
+    "Software Engineer",
+    "Software Developer",
     "Backend Engineer",
     "MERN Stack",
     "Node.js",
@@ -37,7 +39,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Vishal Jadeja" }],
   openGraph: {
-    title: "Vishal Jadeja | Full Stack Developer",
+    title: "Vishal Jadeja | Software Engineer",
     description:
       "Full Stack Engineer building scalable backend systems and real-time architecture.",
     url: "https://vishaljadeja.dev",
@@ -47,9 +49,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vishal Jadeja | Full Stack Developer",
-    description:
-      "Full Stack Engineer building scalable backend systems and real-time architecture.",
+    title: "Vishal Jadeja | Software Engineer",
+    description: "Full Stack Engineer building scalable backend systems and real-time architecture.",
   },
   robots: {
     index: true,
@@ -70,7 +71,7 @@ export default function RootLayout({
         {children}
         <Analytics />
         <SpeedInsights />
-        
+
       </body>
     </html>
   );
