@@ -1,315 +1,241 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #FFFBF0;
-  --color-foreground: #1a1a1a;
-  --color-comic-yellow: #FFE600;
-  --color-comic-red: #E8002D;
-  --color-comic-blue: #0052CC;
-  --color-comic-cyan: #00C4CC;
-  --color-comic-green: #00B050;
-  --color-comic-panel: #FFFFFF;
-  --color-comic-border: #1a1a1a;
-  --color-comic-shadow: #1a1a1a;
-  --color-muted: #555555;
-  --font-sans: var(--font-comic-neue);
-  --font-heading: var(--font-bangers);
-  --font-mono: var(--font-fira-code);
+  --color-bg: #0C0C0C;
+  --color-surface: #141414;
+  --color-text: #F2F2F0;
+  --color-muted: #6B6B6B;
+  --color-border: #1F1F1F;
+  --color-accent: #F5FF82;
+  --font-sans: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-/* ============ BASE ============ */
 body {
-  background: var(--color-background);
-  color: var(--color-foreground);
-  font-family: var(--font-sans), 'Comic Sans MS', cursive;
+  background-color: #0C0C0C;
+  color: #F2F2F0;
+  font-family: var(--font-sans), system-ui, sans-serif;
   overflow-x: hidden;
-  cursor: default;
-  /* Halftone dot pattern */
-  background-image: radial-gradient(circle, #e8d8a0 1px, transparent 1px);
-  background-size: 24px 24px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ============ SCROLLBAR — Comic Bold ============ */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #FFE600; }
-::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 0; }
-::-webkit-scrollbar-thumb:hover { background: #E8002D; }
+::-webkit-scrollbar {
+  width: 3px;
+}
 
-::selection { background: #FFE600; color: #1a1a1a; }
+::-webkit-scrollbar-track {
+  background: #0C0C0C;
+}
 
-/* ============ COMIC PANEL ============ */
-.comic-panel {
-  border: 3px solid #1a1a1a;
-  background: #fff;
-  box-shadow: 6px 6px 0 #1a1a1a;
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #F5FF82;
+}
+
+::selection {
+  background: #F5FF82;
+  color: #0C0C0C;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes line-draw {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-cursor {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes glow-pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 255, 130, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 16px 2px rgba(245, 255, 130, 0.15);
+  }
+}
+
+@keyframes count-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stagger helpers */
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+.delay-600 {
+  animation-delay: 600ms;
+}
+
+.delay-700 {
+  animation-delay: 700ms;
+}
+
+.delay-800 {
+  animation-delay: 800ms;
+}
+
+.anim-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.anim-fade-in {
+  animation: fade-in 0.6s ease both;
+}
+
+.anim-slide-left {
+  animation: slide-in-left 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.anim-count {
+  animation: count-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Animated section header line */
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: #1F1F1F;
+  transform-origin: left;
+  animation: line-draw 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.link-underline {
   position: relative;
-}
-
-.comic-panel-yellow {
-  border: 3px solid #1a1a1a;
-  background: #FFE600;
-  box-shadow: 6px 6px 0 #1a1a1a;
-}
-
-.comic-panel-red {
-  border: 3px solid #1a1a1a;
-  background: #E8002D;
-  box-shadow: 6px 6px 0 #1a1a1a;
-}
-
-.comic-panel-blue {
-  border: 3px solid #1a1a1a;
-  background: #0052CC;
-  box-shadow: 6px 6px 0 #1a1a1a;
-}
-
-/* ============ SPEECH BUBBLE ============ */
-.speech-bubble {
-  position: relative;
-  background: #fff;
-  border: 3px solid #1a1a1a;
-  border-radius: 18px;
-  padding: 1rem 1.5rem;
-  box-shadow: 4px 4px 0 #1a1a1a;
-}
-
-.speech-bubble::after {
-  content: '';
-  position: absolute;
-  bottom: -18px;
-  left: 28px;
-  width: 0;
-  height: 0;
-  border-left: 14px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 18px solid #1a1a1a;
-}
-
-.speech-bubble::before {
-  content: '';
-  position: absolute;
-  bottom: -12px;
-  left: 30px;
-  width: 0;
-  height: 0;
-  border-left: 11px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 14px solid #fff;
-  z-index: 1;
-}
-
-/* Thought bubble */
-.thought-bubble {
-  position: relative;
-  background: #fff;
-  border: 3px solid #1a1a1a;
-  border-radius: 50px;
-  padding: 1rem 1.5rem;
-  box-shadow: 4px 4px 0 #1a1a1a;
-}
-
-/* ============ COMIC TEXT EFFECTS ============ */
-.comic-title {
-  font-family: var(--font-heading), 'Impact', sans-serif;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  -webkit-text-stroke: 2px #1a1a1a;
-  paint-order: stroke fill;
-}
-
-.comic-title-outline {
-  font-family: var(--font-heading), 'Impact', sans-serif;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  -webkit-text-stroke: 3px #1a1a1a;
-  color: #FFE600;
-  paint-order: stroke fill;
-}
-
-.text-outline {
-  -webkit-text-stroke: 2px #1a1a1a;
-  paint-order: stroke fill;
-}
-
-/* ============ STARBURST / ACTION SHAPES ============ */
-.starburst {
-  clip-path: polygon(
-    50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%,
-    50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
-  );
-}
-
-/* ============ HALFTONE OVERLAY ============ */
-.halftone {
-  position: relative;
-}
-.halftone::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle, rgba(0,0,0,0.08) 1px, transparent 1px);
-  background-size: 8px 8px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ============ SPEED LINES ============ */
-.speed-lines {
-  background: repeating-conic-gradient(
-    #FFE600 0deg 2deg,
-    transparent 2deg 5deg,
-    #FFE600 5deg 6deg,
-    transparent 6deg 10deg
-  );
-}
-
-/* ============ ZAP / POW WORDS ============ */
-.zap-word {
-  font-family: var(--font-heading), 'Impact', sans-serif;
-  font-size: 4rem;
-  text-transform: uppercase;
-  -webkit-text-stroke: 3px #1a1a1a;
-  color: #FFE600;
-  paint-order: stroke fill;
-  transform: rotate(-8deg);
-  display: inline-block;
-  letter-spacing: 0.05em;
-  line-height: 1;
-  filter: drop-shadow(4px 4px 0 #1a1a1a);
-}
-
-/* ============ COMIC ACTION TAG ============ */
-.action-tag {
-  font-family: var(--font-heading), 'Impact', sans-serif;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  background: #FFE600;
-  border: 2px solid #1a1a1a;
-  padding: 2px 10px;
-  box-shadow: 2px 2px 0 #1a1a1a;
-  display: inline-block;
-}
-
-.action-tag-red {
-  background: #E8002D;
-  color: #fff;
-  border: 2px solid #1a1a1a;
-  box-shadow: 2px 2px 0 #1a1a1a;
-}
-
-.action-tag-blue {
-  background: #0052CC;
-  color: #fff;
-  border: 2px solid #1a1a1a;
-  box-shadow: 2px 2px 0 #1a1a1a;
-}
-
-/* ============ COMIC BUTTON ============ */
-.comic-btn {
-  font-family: var(--font-heading), 'Impact', sans-serif;
-  font-size: 1rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  background: #FFE600;
-  color: #1a1a1a;
-  border: 3px solid #1a1a1a;
-  box-shadow: 4px 4px 0 #1a1a1a;
-  padding: 0.6rem 1.6rem;
-  display: inline-block;
-  cursor: pointer;
-  transition: transform 0.1s, box-shadow 0.1s;
   text-decoration: none;
 }
-.comic-btn:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 #1a1a1a;
-}
-.comic-btn:active {
-  transform: translate(4px, 4px);
-  box-shadow: 0px 0px 0 #1a1a1a;
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0;
+  height: 1px;
+  background: #F5FF82;
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.comic-btn-red {
-  background: #E8002D;
-  color: #fff;
-  border: 3px solid #1a1a1a;
-  box-shadow: 4px 4px 0 #1a1a1a;
-}
-.comic-btn-red:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 #1a1a1a;
+.link-underline:hover::after {
+  width: 100%;
 }
 
-/* ============ PANEL BORDER (Section divider) ============ */
-.panel-border-top {
-  border-top: 4px solid #1a1a1a;
-}
-.panel-border-bottom {
-  border-bottom: 4px solid #1a1a1a;
-}
-
-/* ============ NEWSPAPER COLUMN ============ */
-.newspaper-col {
-  column-count: 2;
-  column-gap: 2rem;
-  column-rule: 2px solid #1a1a1a;
-}
-
-/* ============ TYPEWRITER CURSOR ============ */
-@keyframes typewriter-cursor {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* ============ COMIC BOOM ANIMATION ============ */
-@keyframes boom-in {
-  0% { transform: scale(0) rotate(-15deg); opacity: 0; }
-  70% { transform: scale(1.15) rotate(3deg); opacity: 1; }
-  100% { transform: scale(1) rotate(-2deg); opacity: 1; }
-}
-.boom-in { animation: boom-in 0.5s cubic-bezier(0.36,0.07,0.19,0.97) forwards; }
-
-@keyframes wiggle {
-  0%, 100% { transform: rotate(-2deg); }
-  50% { transform: rotate(2deg); }
-}
-
-/* ============ COMIC BADGE ============ */
-.comic-badge {
-  font-family: var(--font-heading), 'Impact', sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
+.section-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  border: 2px solid currentColor;
-  padding: 2px 8px;
+  color: #6B6B6B;
+}
+
+.skill-tag {
   display: inline-block;
-  box-shadow: 2px 2px 0 currentColor;
+  padding: 3px 10px;
+  border: 1px solid #1F1F1F;
+  font-size: 0.78rem;
+  color: #A0A0A0;
+  letter-spacing: 0.03em;
+  transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
-/* ============ SECTION BG ALTERNATING ============ */
-.section-white { background: #fff; }
-.section-yellow { background: #FFE600; }
-.section-dark { background: #1a1a1a; color: #fff; }
-.section-blue { background: #0052CC; color: #fff; }
-.section-red { background: #E8002D; color: #fff; }
-.section-cream { background: #FFFBF0; }
-
-/* ============ COMIC GRID PANEL LAYOUT ============ */
-.comic-grid {
-  display: grid;
-  gap: 0;
-  border: 3px solid #1a1a1a;
+.skill-tag:hover {
+  border-color: #F5FF82;
+  color: #F5FF82;
+  box-shadow: 0 0 8px rgba(245, 255, 130, 0.08);
 }
 
-/* ============ FONT HEADING UTILITY ============ */
-.font-heading {
-  font-family: var(--font-heading), 'Impact', sans-serif;
+/* Subtle glow on card hover */
+.card-glow {
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
-.font-comic {
-  font-family: var(--font-sans), 'Comic Sans MS', cursive;
+
+.card-glow:hover {
+  box-shadow: 0 0 0 1px rgba(245, 255, 130, 0.04), 0 8px 40px rgba(0, 0, 0, 0.5);
 }

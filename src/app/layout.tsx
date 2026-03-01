@@ -1,24 +1,18 @@
 import type { Metadata } from "next";
-import { Bangers, Comic_Neue, Fira_Code } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const bangers = Bangers({
-  variable: "--font-bangers",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
-const comicNeue = Comic_Neue({
-  variable: "--font-comic-neue",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-  weight: ["300", "400", "700"],
-  display: "swap",
-});
-
-const firaCode = Fira_Code({
-  variable: "--font-fira-code",
-  subsets: ["latin"],
+  weight: ["400", "500"],
   display: "swap",
 });
 
@@ -69,7 +63,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${bangers.variable} ${comicNeue.variable} ${firaCode.variable} antialiased bg-background text-foreground`}
+        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}
       >
         {children}
       </body>

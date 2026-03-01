@@ -1,130 +1,63 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 const stats = [
-  { label: "Concurrent Users", value: "1500+", color: "#E8002D" },
-  { label: "Polling Load Cut", value: "60%", color: "#0052CC" },
-  { label: "Latency Reduced", value: "45%", color: "#00B050" },
-  { label: "Deploy Speedup", value: "70%", color: "#E8002D" },
+  { value: "1500+", label: "Concurrent Users" },
+  { value: "60%", label: "API Polling Cut" },
+  { value: "45%", label: "Latency Reduced" },
+  { value: "70%", label: "Faster Deploys" },
 ];
 
 export default function About() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section
-      id="about"
-      ref={ref}
-      className="relative py-0 border-b-4 border-[#1a1a1a]"
-      style={{ background: "#fff" }}
-    >
-      {/* Section header panel */}
-      <div className="bg-[#1a1a1a] border-b-4 border-[#1a1a1a] px-6 py-3 flex items-center gap-4">
-        <span className="font-heading text-[#FFE600] text-3xl uppercase tracking-wider">Chapter II</span>
-        <span className="font-heading text-white text-lg uppercase tracking-widest">— About Me</span>
-      </div>
+    <section id="about" ref={ref} className="border-t border-[#1F1F1F] py-24 px-6 md:px-16 bg-[#0F0F0F]">
+      <div className="max-w-5xl mx-auto">
+        {/* Section header */}
+        <div className="flex items-baseline gap-6 mb-16">
+          <span className="text-[#F5FF82]/50 text-xs font-mono tracking-widest anim-fade-in">01</span>
+          <span className="section-label anim-fade-in delay-100">About</span>
+          <div className="section-line delay-200" />
+        </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-12 md:py-16">
-        <div className="grid lg:grid-cols-2 gap-8 items-start">
-
-          {/* Left — narration panels */}
-          <div className="space-y-6">
-            {/* Speech bubble intro */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5 }}
-              className="speech-bubble"
-            >
-              <p className="font-heading text-xl md:text-2xl text-[#1a1a1a] leading-snug">
-                &ldquo;I don&apos;t just write code — I build systems that scale under pressure.&rdquo;
-              </p>
-            </motion.div>
-
-            {[
-              "I&apos;m a Full Stack Engineer with over a year of hands-on experience. I&apos;ve architected backend systems that handle thousands of concurrent connections.",
-              "I built a real-time tournament system handling 1500+ concurrent users with sub-200ms latency. Replaced REST polling with WebSocket-driven event architecture — cutting polling load by 60%.",
-              "Solved race conditions in payment systems using atomic transactions. Architected payment microservices integrating Razorpay, Stripe, and Cashfree — handling real money in production with zero tolerance for errors.",
-            ].map((text, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.15 * (i + 1) }}
-                className="comic-panel p-4"
-              >
-                <p
-                  className="font-comic text-[#1a1a1a] text-sm md:text-base leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: text }}
-                />
-              </motion.div>
-            ))}
-
-            {/* DSA callout */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="comic-panel-yellow p-4"
-            >
-              <p className="font-comic text-[#1a1a1a] text-sm">
-                <span className="font-heading text-[#E8002D] text-base">BONUS SKILL!</span>{" "}
-                Beyond engineering, I&apos;m invested in algorithmic thinking — with{" "}
-                <strong>400+ LeetCode problems</strong> solved across trees, graphs, and DP.
-              </p>
-            </motion.div>
+        <div className="grid md:grid-cols-2 gap-16">
+          {/* Bio */}
+          <div
+            className={`transition-all duration-700 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+          >
+            <p className="text-[#D0D0D0] text-base md:text-lg font-medium leading-relaxed mb-4">
+              I build things that scale — not just in code, but in reliability.
+            </p>
+            <p className="text-[#7A7A7A] text-base leading-relaxed mb-5">
+              I'm a full-stack engineer focused on backend architecture — building
+              systems that are fast, reliable, and built to last. Currently working
+              at <span className="text-[#F2F2F0]">Glitchover</span>, where I architect
+              real-time tournament infrastructure serving thousands of concurrent users.
+            </p>
+            <p className="text-[#7A7A7A] text-base leading-relaxed">
+              My approach: lean code, clean abstractions, and an obsession with
+              performance. Whether it's squeezing latency out of a MongoDB aggregation
+              pipeline or resolving race conditions in a payment system, I care deeply
+              about getting the details right.
+            </p>
           </div>
 
-          {/* Right — stats panels */}
-          <div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="mb-4"
-            >
-              <div className="bg-[#1a1a1a] inline-block px-4 py-1">
-                <span className="font-heading text-[#FFE600] text-lg uppercase tracking-widest">
-                  Key Stats
-                </span>
+          {/* Stats */}
+          <div
+            className={`grid grid-cols-2 gap-px bg-[#1F1F1F] border border-[#1F1F1F] transition-all duration-700 delay-150 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+          >
+            {stats.map((s, i) => (
+              <div
+                key={s.label}
+                className={`bg-[#0C0C0C] p-6 flex flex-col justify-between transition-all duration-500 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                style={{ transitionDelay: `${200 + i * 80}ms` }}
+              >
+                <span className="text-[#F5FF82] text-3xl font-bold tracking-tight">{s.value}</span>
+                <span className="section-label mt-2">{s.label}</span>
               </div>
-            </motion.div>
-
-            <div className="grid grid-cols-2 gap-3">
-              {stats.map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
-                  className="comic-panel p-4 text-center"
-                >
-                  <div
-                    className="font-heading text-4xl mb-1"
-                    style={{ color: stat.color }}
-                  >
-                    {stat.value}
-                  </div>
-                  <div className="font-comic text-[11px] text-[#555] uppercase tracking-wider leading-tight">
-                    {stat.label}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Thought bubble extra */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.5, delay: 0.7 }}
-              className="mt-6 thought-bubble text-center"
-            >
-              <p className="font-comic text-[#555] text-sm italic">
-                &ldquo;Every system I build is battle-tested under real-world load.&rdquo;
-              </p>
-            </motion.div>
+            ))}
           </div>
         </div>
       </div>

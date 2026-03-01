@@ -4,13 +4,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState, useCallback } from "react";
 
 const scenes = [
-  { id: "hero",       chapter: "I",   label: "The Realm"    },
-  { id: "about",      chapter: "II",  label: "The Chronicle" },
-  { id: "skills",     chapter: "III", label: "The Armory"   },
-  { id: "projects",   chapter: "IV",  label: "The Victories" },
-  { id: "experience", chapter: "V",   label: "The Service"  },
-  { id: "dsa",        chapter: "VI",  label: "The Road"     },
-  { id: "contact",    chapter: "VII", label: "The Raven"    },
+  { id: "hero", chapter: "I", label: "The Realm" },
+  { id: "about", chapter: "II", label: "The Chronicle" },
+  { id: "skills", chapter: "III", label: "The Armory" },
+  { id: "projects", chapter: "IV", label: "The Victories" },
+  { id: "experience", chapter: "V", label: "The Service" },
+  { id: "dsa", chapter: "VI", label: "The Road" },
+  { id: "contact", chapter: "VII", label: "The Raven" },
 ];
 
 // ─── Campfire stop marker ────────────────────────────────────────────────────
@@ -84,13 +84,13 @@ function CampfireStop({
 
 // ─── Main component ──────────────────────────────────────────────────────────
 export default function SceneIndicator() {
-  const [activeScene, setActiveScene]   = useState(0);
-  const [progress, setProgress]         = useState(0);
+  const [activeScene, setActiveScene] = useState(0);
+  const [progress, setProgress] = useState(0);
   const [hoveredScene, setHoveredScene] = useState<number | null>(null);
 
   const handleScroll = useCallback(() => {
     const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrolled     = window.scrollY / scrollHeight;
+    const scrolled = window.scrollY / scrollHeight;
     setProgress(Math.min(scrolled, 1));
 
     const scrollPos = window.scrollY + window.innerHeight / 2;
@@ -110,10 +110,10 @@ export default function SceneIndicator() {
   }, [handleScroll]);
 
   // Layout constants
-  const STOP_COUNT   = scenes.length;
-  const STOP_GAP     = 44;                          // px between stops
+  const STOP_COUNT = scenes.length;
+  const STOP_GAP = 44;                          // px between stops
   const TOTAL_HEIGHT = (STOP_COUNT - 1) * STOP_GAP; // 264px
-  const CX           = 18;                           // SVG centre-x of path
+  const CX = 18;                           // SVG centre-x of path
 
   // Gently winding path — alternating x offsets
   const stopY = (i: number) => i * STOP_GAP;
@@ -124,14 +124,14 @@ export default function SceneIndicator() {
     let d = `M ${stopX(0)} ${stopY(0)}`;
     for (let i = 1; i < STOP_COUNT; i++) {
       const px = stopX(i - 1), py = stopY(i - 1);
-      const cx = stopX(i),     cy = stopY(i);
+      const cx = stopX(i), cy = stopY(i);
       const midY = (py + cy) / 2;
       d += ` C ${px} ${midY}, ${cx} ${midY}, ${cx} ${cy}`;
     }
     return d;
   };
 
-  const roadPath  = buildPath();
+  const roadPath = buildPath();
   const litHeight = progress * TOTAL_HEIGHT;
 
   return (
@@ -154,8 +154,8 @@ export default function SceneIndicator() {
         <defs>
           <linearGradient id="road-lit" x1="0" y1="0" x2="0" y2={TOTAL_HEIGHT}
             gradientUnits="userSpaceOnUse">
-            <stop offset="0%"   stopColor="#d4b45c" />
-            <stop offset="55%"  stopColor="#9b2a3a" />
+            <stop offset="0%" stopColor="#d4b45c" />
+            <stop offset="55%" stopColor="#9b2a3a" />
             <stop offset="100%" stopColor="#6ba0bb" />
           </linearGradient>
           <clipPath id="road-progress-clip">
@@ -175,11 +175,11 @@ export default function SceneIndicator() {
 
       {/* ── Campfire stops ── */}
       {scenes.map((scene, i) => {
-        const isActive  = i === activeScene;
+        const isActive = i === activeScene;
         const isVisited = i < activeScene;
         const isHovered = i === hoveredScene;
-        const topPos    = stopY(i) - 11; // centre the 22px icon on the stop y
-        const leftPos   = stopX(i) - 10; // centre the 20px icon on the stop x
+        const topPos = stopY(i) - 11; // centre the 22px icon on the stop y
+        const leftPos = stopX(i) - 10; // centre the 20px icon on the stop x
 
         return (
           <div
@@ -235,9 +235,9 @@ export default function SceneIndicator() {
                   <div
                     className="absolute left-full top-1/2 -translate-y-1/2 w-0 h-0"
                     style={{
-                      borderTop:    "4px solid transparent",
+                      borderTop: "4px solid transparent",
                       borderBottom: "4px solid transparent",
-                      borderLeft:   "4px solid #3e3528b0",
+                      borderLeft: "4px solid #3e3528b0",
                     }}
                   />
                 </motion.div>
