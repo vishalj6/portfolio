@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { projects } from "@/data/projects";
 
+const accentColors = ["#E8002D", "#0052CC"];
+
 export default function Projects() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 });
 
@@ -11,115 +13,97 @@ export default function Projects() {
     <section
       id="projects"
       ref={ref}
-      className="relative py-28 md:py-36 px-4 scene-transition"
+      className="border-b-4 border-[#1a1a1a]"
+      style={{ background: "#1a1a1a" }}
     >
-      <div className="max-w-5xl mx-auto">
-        {/* Mission briefing cards */}
-        <div className="space-y-12">
-          {projects.map((project, index) => (
+      {/* Header */}
+      <div className="bg-[#FFE600] border-b-4 border-[#1a1a1a] px-6 py-3 flex items-center gap-4">
+        <span className="font-heading text-[#1a1a1a] text-3xl uppercase tracking-wider">Chapter IV</span>
+        <span className="font-heading text-[#E8002D] text-lg uppercase tracking-widest">— Featured Projects</span>
+      </div>
+
+      <div className="max-w-5xl mx-auto px-4 py-12 md:py-16 space-y-10">
+        {projects.map((project, index) => {
+          const accent = accentColors[index % accentColors.length];
+          return (
             <motion.div
               key={project.title}
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{
-                duration: 0.8,
-                delay: index * 0.3,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-              className="relative border border-card-border bg-card/20 backdrop-blur-sm
-                         hover:border-cyan/15 transition-all duration-700 group overflow-hidden"
+              transition={{ duration: 0.5, delay: index * 0.2 }}
+              className="comic-panel relative overflow-hidden"
             >
-              {/* Top accent line */}
-              <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-cyan/20 to-transparent" />
-
-              {/* Corner brackets */}
-              <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-cyan/25" />
-              <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-cyan/25" />
-              <div className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-cyan/25" />
-              <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-cyan/25" />
-
-              {/* Scanning light animation */}
-              <motion.div
-                initial={{ left: "-30%" }}
-                animate={inView ? { left: "130%" } : {}}
-                transition={{
-                  duration: 2,
-                  delay: 0.8 + index * 0.3,
-                  ease: "easeInOut",
-                }}
-                className="absolute top-0 w-[15%] h-full bg-linear-to-r from-transparent via-cyan/3 to-transparent pointer-events-none"
-              />
+              {/* Top accent bar */}
+              <div className="h-3" style={{ background: accent }} />
 
               <div className="p-6 md:p-8">
-                {/* Mission header */}
-                <div className="flex items-start justify-between mb-6 gap-4">
+                {/* Issue badge */}
+                <div className="flex items-start justify-between gap-4 mb-4">
                   <div>
-                    {/* Classification tag */}
-                    <div className="flex items-center gap-3 mb-3">
-                      <span className="text-[9px] font-mono text-gold/50 tracking-[0.3em] uppercase px-2 py-0.5 border border-gold/20">
-                        Mission {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <div className="w-8 h-px bg-card-border" />
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="text-2xl md:text-3xl font-bold text-foreground group-hover:text-cyan transition-colors duration-500">
+                    <span
+                      className="font-heading text-xs uppercase tracking-widest px-3 py-0.5 border-2 border-[#1a1a1a] shadow-[2px_2px_0_#1a1a1a] inline-block mb-3"
+                      style={{ background: accent, color: accent === "#E8002D" ? "#fff" : "#fff" }}
+                    >
+                      Issue #{String(index + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="font-heading text-3xl md:text-4xl text-[#1a1a1a] uppercase leading-none">
                       {project.title}
                     </h3>
-                    <p className="text-cyan/50 text-sm mt-1 font-mono">
+                    <p className="font-comic text-sm italic mt-1" style={{ color: accent }}>
                       {project.tagline}
                     </p>
                   </div>
 
                   {/* Links */}
-                  <div className="flex items-center gap-3 shrink-0">
+                  <div className="flex items-center gap-2 shrink-0">
                     <a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 border border-card-border hover:border-cyan/30 text-muted hover:text-cyan transition-all duration-300"
-                      aria-label="Source Code"
+                      className="comic-btn text-xs py-1.5 px-3"
+                      style={{
+                        background: "#1a1a1a",
+                        color: "#FFE600",
+                        border: "2px solid #1a1a1a",
+                        boxShadow: "3px 3px 0 #555",
+                      }}
                     >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
-                      </svg>
+                      GitHub
                     </a>
                     {project.live && (
                       <a
                         href={project.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 border border-card-border hover:border-cyan/30 text-muted hover:text-cyan transition-all duration-300"
-                        aria-label="Live Demo"
+                        className="comic-btn text-xs py-1.5 px-3"
+                        style={{ background: accent, color: "#fff", border: "2px solid #1a1a1a", boxShadow: "3px 3px 0 #1a1a1a" }}
                       >
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                        </svg>
+                        Live
                       </a>
                     )}
                   </div>
                 </div>
 
                 {/* Divider */}
-                <div className="w-full h-px bg-card-border mb-6" />
+                <div className="h-1 mb-4" style={{ background: accent }} />
 
                 {/* Description */}
-                <p className="text-muted text-sm md:text-base leading-relaxed mb-6">
+                <p className="font-comic text-[#1a1a1a] text-sm md:text-base leading-relaxed mb-5">
                   {project.description}
                 </p>
 
-                {/* Highlights — briefing style */}
-                <div className="grid sm:grid-cols-2 gap-3 mb-6">
-                  {project.highlights.map((highlight, i) => (
+                {/* Highlights */}
+                <div className="grid sm:grid-cols-2 gap-2 mb-5">
+                  {project.highlights.map((h, i) => (
                     <motion.div
                       key={i}
-                      initial={{ opacity: 0, x: -15 }}
+                      initial={{ opacity: 0, x: -10 }}
                       animate={inView ? { opacity: 1, x: 0 } : {}}
-                      transition={{ duration: 0.4, delay: 0.8 + index * 0.3 + i * 0.1 }}
-                      className="flex items-start gap-2 text-sm"
+                      transition={{ duration: 0.3, delay: 0.4 + index * 0.2 + i * 0.08 }}
+                      className="flex items-start gap-2"
                     >
-                      <span className="text-cyan/50 mt-0.5 shrink-0 font-mono text-[10px]">▸</span>
-                      <span className="text-foreground/70">{highlight}</span>
+                      <span className="font-heading text-base mt-0.5 shrink-0" style={{ color: accent }}>✦</span>
+                      <span className="font-comic text-sm text-[#333]">{h}</span>
                     </motion.div>
                   ))}
                 </div>
@@ -129,8 +113,13 @@ export default function Projects() {
                   {project.techStack.map((tech) => (
                     <span
                       key={tech}
-                      className="text-[10px] px-2 py-1 border border-purple/15 text-purple/60 font-mono uppercase tracking-wider
-                                 hover:border-purple/30 hover:text-purple/80 transition-colors duration-300"
+                      className="font-comic text-[10px] uppercase tracking-wider px-2.5 py-1 font-bold"
+                      style={{
+                        background: "#FFE600",
+                        color: "#1a1a1a",
+                        border: "2px solid #1a1a1a",
+                        boxShadow: "2px 2px 0 #1a1a1a",
+                      }}
                     >
                       {tech}
                     </span>
@@ -138,8 +127,8 @@ export default function Projects() {
                 </div>
               </div>
             </motion.div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </section>
   );

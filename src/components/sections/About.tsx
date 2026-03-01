@@ -2,136 +2,129 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import AnimatedCounter from "@/components/ui/AnimatedCounter";
 
 const stats = [
-  { label: "Concurrent Users", value: 1500, suffix: "+", icon: "⚡" },
-  { label: "Polling Load Cut", value: 60, suffix: "%", icon: "📡" },
-  { label: "Latency Reduced", value: 45, suffix: "%", icon: "🎯" },
-  { label: "Deploy Speedup", value: 70, suffix: "%", icon: "🚀" },
-];
-
-const paragraphs = [
-  {
-    text: `I'm a Full Stack Engineer with over a year of hands-on experience building systems that don't just work — they scale. My journey started with curiosity about how things break under pressure, and it led me to architecting backend systems that handle thousands of concurrent connections.`,
-    delay: 0.2,
-  },
-  {
-    text: `I built a real-time tournament system handling 1500+ concurrent users with sub-200ms latency. When REST polling was burning through resources, I replaced it with WebSocket-driven event architecture — cutting polling load by 60%.`,
-    delay: 0.4,
-  },
-  {
-    text: `I've solved race conditions in payment systems using atomic transactions and idempotent webhook handling. I've architected payment microservices integrating Razorpay, Stripe, and Cashfree — handling real money in production with zero tolerance for errors.`,
-    delay: 0.6,
-  },
+  { label: "Concurrent Users", value: "1500+", color: "#E8002D" },
+  { label: "Polling Load Cut", value: "60%", color: "#0052CC" },
+  { label: "Latency Reduced", value: "45%", color: "#00B050" },
+  { label: "Deploy Speedup", value: "70%", color: "#E8002D" },
 ];
 
 export default function About() {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.15 });
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
     <section
       id="about"
       ref={ref}
-      className="relative py-28 md:py-36 px-4 scene-transition"
+      className="relative py-0 border-b-4 border-[#1a1a1a]"
+      style={{ background: "#fff" }}
     >
-      <div className="max-w-5xl mx-auto">
-        {/* Cinematic opening quote */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 1.5, delay: 0.2 }}
-          className="mb-20 md:mb-28"
-        >
-          <div className="cinematic-quote max-w-3xl mx-auto md:mx-0">
-            <p className="text-xl md:text-2xl text-foreground/70 leading-relaxed font-light">
-              Every line of code I write is a step toward building something that
-              outlasts me.
-            </p>
-          </div>
-        </motion.div>
+      {/* Section header panel */}
+      <div className="bg-[#1a1a1a] border-b-4 border-[#1a1a1a] px-6 py-3 flex items-center gap-4">
+        <span className="font-heading text-[#FFE600] text-3xl uppercase tracking-wider">Chapter II</span>
+        <span className="font-heading text-white text-lg uppercase tracking-widest">— About Me</span>
+      </div>
 
-        <div className="grid lg:grid-cols-5 gap-16 items-start">
-          {/* Narrative — left column */}
-          <div className="lg:col-span-3 space-y-8">
-            {paragraphs.map((para, i) => (
-              <motion.p
+      <div className="max-w-6xl mx-auto px-4 py-12 md:py-16">
+        <div className="grid lg:grid-cols-2 gap-8 items-start">
+
+          {/* Left — narration panels */}
+          <div className="space-y-6">
+            {/* Speech bubble intro */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.5 }}
+              className="speech-bubble"
+            >
+              <p className="font-heading text-xl md:text-2xl text-[#1a1a1a] leading-snug">
+                &ldquo;I don&apos;t just write code — I build systems that scale under pressure.&rdquo;
+              </p>
+            </motion.div>
+
+            {[
+              "I&apos;m a Full Stack Engineer with over a year of hands-on experience. I&apos;ve architected backend systems that handle thousands of concurrent connections.",
+              "I built a real-time tournament system handling 1500+ concurrent users with sub-200ms latency. Replaced REST polling with WebSocket-driven event architecture — cutting polling load by 60%.",
+              "Solved race conditions in payment systems using atomic transactions. Architected payment microservices integrating Razorpay, Stripe, and Cashfree — handling real money in production with zero tolerance for errors.",
+            ].map((text, i) => (
+              <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{
-                  duration: 0.8,
-                  delay: para.delay,
-                  ease: [0.25, 0.46, 0.45, 0.94],
-                }}
-                className="text-muted leading-[1.9] text-sm md:text-base"
+                transition={{ duration: 0.5, delay: 0.15 * (i + 1) }}
+                className="comic-panel p-4"
               >
-                {para.text}
-              </motion.p>
+                <p
+                  className="font-comic text-[#1a1a1a] text-sm md:text-base leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: text }}
+                />
+              </motion.div>
             ))}
 
-            {/* DSA callout in cinematic style */}
+            {/* DSA callout */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="mt-8 pl-4 border-l border-purple/20"
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              className="comic-panel-yellow p-4"
             >
-              <p className="text-muted text-sm leading-relaxed">
-                Beyond engineering, I&apos;m deeply invested in algorithmic thinking — with{" "}
-                <span className="text-cyan font-medium">400+ LeetCode problems</span>{" "}
-                solved across trees, graphs, and dynamic programming.
+              <p className="font-comic text-[#1a1a1a] text-sm">
+                <span className="font-heading text-[#E8002D] text-base">BONUS SKILL!</span>{" "}
+                Beyond engineering, I&apos;m invested in algorithmic thinking — with{" "}
+                <strong>400+ LeetCode problems</strong> solved across trees, graphs, and DP.
               </p>
             </motion.div>
           </div>
 
-          {/* Stats — right column, mission data style */}
-          <div className="lg:col-span-2">
+          {/* Right — stats panels */}
+          <div>
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.5 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 }}
               className="mb-4"
             >
-              <span className="text-[10px] font-mono text-cyan/30 tracking-[0.4em] uppercase">
-                Mission Data
-              </span>
+              <div className="bg-[#1a1a1a] inline-block px-4 py-1">
+                <span className="font-heading text-[#FFE600] text-lg uppercase tracking-widest">
+                  Key Stats
+                </span>
+              </div>
             </motion.div>
 
             <div className="grid grid-cols-2 gap-3">
               {stats.map((stat, i) => (
                 <motion.div
                   key={stat.label}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={inView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{
-                    duration: 0.5,
-                    delay: 0.6 + i * 0.15,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                  className="relative p-4 border border-card-border bg-card/30 backdrop-blur-sm
-                            hover:border-cyan/20 transition-all duration-500 group overflow-hidden"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
+                  className="comic-panel p-4 text-center"
                 >
-                  {/* Corner accent */}
-                  <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-cyan/20 group-hover:border-cyan/40 transition-colors" />
-
-                  {/* Scanning line effect */}
-                  <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-cyan/10 to-transparent group-hover:via-cyan/30 transition-all" />
-
-                  <div className="text-lg mb-0.5">{stat.icon}</div>
-                  <div className="text-2xl md:text-3xl font-bold text-cyan text-glow-cyan mb-1 font-mono">
-                    <AnimatedCounter
-                      target={stat.value}
-                      suffix={stat.suffix}
-                      duration={2000}
-                    />
+                  <div
+                    className="font-heading text-4xl mb-1"
+                    style={{ color: stat.color }}
+                  >
+                    {stat.value}
                   </div>
-                  <p className="text-muted/60 text-[10px] uppercase tracking-wider font-mono">
+                  <div className="font-comic text-[11px] text-[#555] uppercase tracking-wider leading-tight">
                     {stat.label}
-                  </p>
+                  </div>
                 </motion.div>
               ))}
             </div>
+
+            {/* Thought bubble extra */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.7 }}
+              className="mt-6 thought-bubble text-center"
+            >
+              <p className="font-comic text-[#555] text-sm italic">
+                &ldquo;Every system I build is battle-tested under real-world load.&rdquo;
+              </p>
+            </motion.div>
           </div>
         </div>
       </div>

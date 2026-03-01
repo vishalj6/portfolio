@@ -9,16 +9,16 @@ interface CinematicIntroProps {
 
 export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
   const [phase, setPhase] = useState<
-    "black" | "countdown" | "studio" | "title" | "fade"
+    "black" | "narration" | "sigil" | "title" | "fade"
   >("black");
 
   useEffect(() => {
     const timers = [
-      setTimeout(() => setPhase("countdown"), 400),
-      setTimeout(() => setPhase("studio"), 2200),
-      setTimeout(() => setPhase("title"), 4000),
-      setTimeout(() => setPhase("fade"), 6200),
-      setTimeout(() => onComplete(), 7000),
+      setTimeout(() => setPhase("narration"), 500),
+      setTimeout(() => setPhase("sigil"), 3500),
+      setTimeout(() => setPhase("title"), 5500),
+      setTimeout(() => setPhase("fade"), 7500),
+      setTimeout(() => onComplete(), 8300),
     ];
     return () => timers.forEach(clearTimeout);
   }, [onComplete]);
@@ -34,84 +34,100 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
           if (phase === "fade") onComplete();
         }}
       >
-        {/* Film grain on intro too */}
-        <div className="film-grain" style={{ opacity: 0.06 }} />
+        {/* Parchment grain on intro */}
+        <div className="parchment-grain" style={{ opacity: 0.06 }} />
 
-        {/* ── PHASE 1: Countdown ── */}
+        {/* Warm ambient glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gold/3 blur-[150px] pointer-events-none" />
+
+        {/* ── PHASE 1: Narration ── */}
         <AnimatePresence mode="wait">
-          {phase === "countdown" && (
+          {phase === "narration" && (
             <motion.div
-              key="countdown"
+              key="narration"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="flex flex-col items-center"
+              transition={{ duration: 0.5 }}
+              className="text-center px-8 max-w-xl"
             >
-              {/* Film reel circle */}
-              <div className="relative w-32 h-32 md:w-40 md:h-40">
-                <motion.div
-                  className="absolute inset-0 rounded-full border-2 border-foreground/20"
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1.5, ease: "linear", repeat: Infinity }}
-                />
-                <motion.div
-                  className="absolute inset-2 rounded-full border border-foreground/10"
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 2, ease: "linear", repeat: Infinity }}
-                />
-                {/* Cross hairs */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-full h-px bg-foreground/15" />
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="h-full w-px bg-foreground/15" />
-                </div>
-                {/* Center circle */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-8 h-8 rounded-full border border-foreground/20" />
-                </div>
-                {/* Number */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <CountdownNumber />
-                </div>
-              </div>
-              {/* Scratchy lines at edges */}
-              <div className="absolute top-8 left-8 w-16 h-px bg-foreground/10" />
-              <div className="absolute bottom-8 right-8 w-16 h-px bg-foreground/10" />
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 0.7, y: 0 }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
+                className="text-foreground/60 text-base md:text-xl leading-relaxed font-heading tracking-wide italic"
+              >
+                In the realm of endless code, where systems rise and fall like
+                kingdoms...
+              </motion.p>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.4 }}
+                transition={{ duration: 1, delay: 1.2 }}
+                className="text-gold/40 text-sm mt-6 tracking-[0.3em] uppercase font-heading"
+              >
+                one engineer forges his legacy
+              </motion.p>
             </motion.div>
           )}
 
-          {/* ── PHASE 2: Studio Logo ── */}
-          {phase === "studio" && (
+          {/* ── PHASE 2: House Sigil ── */}
+          {phase === "sigil" && (
             <motion.div
-              key="studio"
-              initial={{ opacity: 0, scale: 0.9 }}
+              key="sigil"
+              initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="flex flex-col items-center gap-6"
             >
-              {/* Studio diamond */}
+              {/* Shield sigil */}
               <motion.div
-                initial={{ rotate: 45, scale: 0 }}
-                animate={{ rotate: 45, scale: 1 }}
-                transition={{ duration: 0.6, ease: "backOut" }}
-                className="w-16 h-16 border border-cyan/40 flex items-center justify-center"
+                initial={{ scale: 0, rotate: -10 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ duration: 0.7, ease: "backOut" }}
+                className="relative"
               >
-                <span className="text-cyan text-2xl font-bold -rotate-45">
-                  VJ
-                </span>
+                {/* Shield shape with border */}
+                <div className="w-24 h-28 md:w-28 md:h-32 relative flex items-center justify-center">
+                  <svg viewBox="0 0 100 120" className="absolute inset-0 w-full h-full">
+                    <path
+                      d="M50 5 L95 20 L95 70 Q95 100 50 115 Q5 100 5 70 L5 20 Z"
+                      fill="none"
+                      stroke="#c8a951"
+                      strokeWidth="2"
+                      opacity="0.6"
+                    />
+                    <path
+                      d="M50 12 L88 25 L88 68 Q88 95 50 108 Q12 95 12 68 L12 25 Z"
+                      fill="none"
+                      stroke="#c8a951"
+                      strokeWidth="0.5"
+                      opacity="0.3"
+                    />
+                  </svg>
+                  <span className="text-gold text-3xl md:text-4xl font-heading font-bold text-glow-gold relative z-10">
+                    VJ
+                  </span>
+                </div>
               </motion.div>
 
               <div className="text-center">
                 <motion.p
-                  initial={{ opacity: 0, letterSpacing: "0.5em" }}
-                  animate={{ opacity: 1, letterSpacing: "0.3em" }}
+                  initial={{ opacity: 0, letterSpacing: "0.6em" }}
+                  animate={{ opacity: 0.8, letterSpacing: "0.4em" }}
                   transition={{ duration: 1, delay: 0.3 }}
-                  className="text-foreground/60 text-xs md:text-sm uppercase tracking-[0.3em]"
+                  className="text-gold/70 text-xs md:text-sm uppercase tracking-[0.4em] font-heading"
                 >
-                  A Vishal Jadeja Production
+                  House Jadeja
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.4 }}
+                  transition={{ duration: 0.8, delay: 0.8 }}
+                  className="text-foreground/30 text-[10px] tracking-[0.3em] uppercase mt-2"
+                >
+                  Code is Our Steel
                 </motion.p>
               </div>
             </motion.div>
@@ -127,75 +143,57 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
               transition={{ duration: 0.5 }}
               className="text-center px-6"
             >
-              {/* Thin line above */}
+              {/* Ornamental line above */}
               <motion.div
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="w-32 md:w-48 h-px bg-linear-to-r from-transparent via-cyan/50 to-transparent mx-auto mb-8"
+                className="w-32 md:w-48 h-px bg-linear-to-r from-transparent via-gold/50 to-transparent mx-auto mb-6"
               />
+
+              {/* Ornament */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 0.5, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="text-gold/30 text-2xl mb-4 font-heading"
+              >
+                ⚔
+              </motion.div>
 
               {/* Title */}
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight"
+                className="text-3xl sm:text-4xl md:text-6xl font-heading font-bold tracking-wider"
               >
-                <span className="text-foreground">THE </span>
-                <span className="text-cyan text-glow-cyan">ENGINEER</span>
+                <span className="text-foreground/80">THE REALM OF</span>
+                <br />
+                <span className="text-gold text-glow-gold">VISHAL JADEJA</span>
               </motion.h1>
 
               {/* Subtitle */}
               <motion.p
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 0.5 }}
+                animate={{ opacity: 0.4 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
-                className="text-muted text-xs md:text-sm tracking-[0.4em] uppercase mt-4"
+                className="text-muted text-xs md:text-sm tracking-[0.4em] uppercase mt-6 font-heading"
               >
-                An Origin Story
+                A Chronicle of Code & Conquest
               </motion.p>
 
-              {/* Thin line below */}
+              {/* Ornamental line below */}
               <motion.div
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
-                className="w-32 md:w-48 h-px bg-linear-to-r from-transparent via-purple/50 to-transparent mx-auto mt-8"
+                className="w-32 md:w-48 h-px bg-linear-to-r from-transparent via-crimson/40 to-transparent mx-auto mt-6"
               />
             </motion.div>
           )}
         </AnimatePresence>
       </motion.div>
-    </AnimatePresence>
-  );
-}
-
-/* Countdown number component */
-function CountdownNumber() {
-  const [num, setNum] = useState(3);
-
-  useEffect(() => {
-    const t1 = setTimeout(() => setNum(2), 600);
-    const t2 = setTimeout(() => setNum(1), 1200);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, []);
-
-  return (
-    <AnimatePresence mode="wait">
-      <motion.span
-        key={num}
-        initial={{ opacity: 0, scale: 1.5 }}
-        animate={{ opacity: 0.6, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.5 }}
-        transition={{ duration: 0.25 }}
-        className="text-3xl md:text-4xl font-mono text-foreground/60"
-      >
-        {num}
-      </motion.span>
     </AnimatePresence>
   );
 }

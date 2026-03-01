@@ -3,15 +3,10 @@
 export default function FilmOverlay() {
   return (
     <>
-      {/* Film grain texture */}
-      <div className="film-grain" />
-      {/* Vignette darkened edges */}
+      {/* Parchment grain texture */}
+      <div className="parchment-grain" />
+      {/* Warm vignette — firelit edges */}
       <div className="vignette" />
-      {/* Scanlines */}
-      <div className="scanlines" />
-      {/* Letterbox bars — cinematic aspect ratio */}
-      <div className="letterbox-top" />
-      <div className="letterbox-bottom" />
     </>
   );
 }

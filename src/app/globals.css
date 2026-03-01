@@ -1,218 +1,315 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #050510;
-  --color-foreground: #d4d4d8;
-  --color-cyan: #00e5ff;
-  --color-purple: #b44aff;
-  --color-gold: #d4a853;
-  --color-cyan-dim: #00e5ff25;
-  --color-purple-dim: #b44aff25;
-  --color-card: #0c0c1d;
-  --color-card-border: #1a1a35;
-  --color-card-hover: #141430;
-  --color-muted: #6b6b8a;
-  --color-section: #080818;
-  --font-sans: var(--font-space-grotesk);
-  --font-mono: var(--font-geist-mono);
+  --color-background: #FFFBF0;
+  --color-foreground: #1a1a1a;
+  --color-comic-yellow: #FFE600;
+  --color-comic-red: #E8002D;
+  --color-comic-blue: #0052CC;
+  --color-comic-cyan: #00C4CC;
+  --color-comic-green: #00B050;
+  --color-comic-panel: #FFFFFF;
+  --color-comic-border: #1a1a1a;
+  --color-comic-shadow: #1a1a1a;
+  --color-muted: #555555;
+  --font-sans: var(--font-comic-neue);
+  --font-heading: var(--font-bangers);
+  --font-mono: var(--font-fira-code);
 }
 
 html {
   scroll-behavior: smooth;
 }
 
+/* ============ BASE ============ */
 body {
   background: var(--color-background);
   color: var(--color-foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-sans), 'Comic Sans MS', cursive;
   overflow-x: hidden;
   cursor: default;
+  /* Halftone dot pattern */
+  background-image: radial-gradient(circle, #e8d8a0 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-/* ============ SCROLLBAR ============ */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #00e5ff22; border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: #00e5ff55; }
-::selection { background: #00e5ff22; color: #00e5ff; }
+/* ============ SCROLLBAR — Comic Bold ============ */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #FFE600; }
+::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: #E8002D; }
 
-/* ============ FILM GRAIN OVERLAY ============ */
-.film-grain {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  pointer-events: none;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  animation: grain 0.5s steps(6) infinite;
+::selection { background: #FFE600; color: #1a1a1a; }
+
+/* ============ COMIC PANEL ============ */
+.comic-panel {
+  border: 3px solid #1a1a1a;
+  background: #fff;
+  box-shadow: 6px 6px 0 #1a1a1a;
+  position: relative;
 }
 
-@keyframes grain {
-  0%, 100% { transform: translate(0, 0); }
-  10% { transform: translate(-2%, -3%); }
-  20% { transform: translate(3%, 1%); }
-  30% { transform: translate(-1%, 3%); }
-  40% { transform: translate(3%, -2%); }
-  50% { transform: translate(-3%, 1%); }
-  60% { transform: translate(2%, -1%); }
-  70% { transform: translate(-1%, -3%); }
-  80% { transform: translate(1%, 2%); }
-  90% { transform: translate(-2%, 1%); }
+.comic-panel-yellow {
+  border: 3px solid #1a1a1a;
+  background: #FFE600;
+  box-shadow: 6px 6px 0 #1a1a1a;
 }
 
-/* ============ VIGNETTE OVERLAY ============ */
-.vignette {
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.7) 100%);
+.comic-panel-red {
+  border: 3px solid #1a1a1a;
+  background: #E8002D;
+  box-shadow: 6px 6px 0 #1a1a1a;
 }
 
-/* ============ LETTERBOX BARS ============ */
-.letterbox-top,
-.letterbox-bottom {
-  position: fixed;
-  left: 0;
-  right: 0;
-  height: 5vh;
-  background: #000;
-  z-index: 998;
-  pointer-events: none;
-}
-.letterbox-top { top: 0; }
-.letterbox-bottom { bottom: 0; }
-
-@media (max-width: 768px) {
-  .letterbox-top, .letterbox-bottom { height: 3vh; }
+.comic-panel-blue {
+  border: 3px solid #1a1a1a;
+  background: #0052CC;
+  box-shadow: 6px 6px 0 #1a1a1a;
 }
 
-/* ============ SCANLINES ============ */
-.scanlines {
-  position: fixed;
-  inset: 0;
-  z-index: 997;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.03) 0px,
-    rgba(0, 0, 0, 0.03) 1px,
-    transparent 1px,
-    transparent 3px
+/* ============ SPEECH BUBBLE ============ */
+.speech-bubble {
+  position: relative;
+  background: #fff;
+  border: 3px solid #1a1a1a;
+  border-radius: 18px;
+  padding: 1rem 1.5rem;
+  box-shadow: 4px 4px 0 #1a1a1a;
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -18px;
+  left: 28px;
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 18px solid #1a1a1a;
+}
+
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 30px;
+  width: 0;
+  height: 0;
+  border-left: 11px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 14px solid #fff;
+  z-index: 1;
+}
+
+/* Thought bubble */
+.thought-bubble {
+  position: relative;
+  background: #fff;
+  border: 3px solid #1a1a1a;
+  border-radius: 50px;
+  padding: 1rem 1.5rem;
+  box-shadow: 4px 4px 0 #1a1a1a;
+}
+
+/* ============ COMIC TEXT EFFECTS ============ */
+.comic-title {
+  font-family: var(--font-heading), 'Impact', sans-serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  -webkit-text-stroke: 2px #1a1a1a;
+  paint-order: stroke fill;
+}
+
+.comic-title-outline {
+  font-family: var(--font-heading), 'Impact', sans-serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  -webkit-text-stroke: 3px #1a1a1a;
+  color: #FFE600;
+  paint-order: stroke fill;
+}
+
+.text-outline {
+  -webkit-text-stroke: 2px #1a1a1a;
+  paint-order: stroke fill;
+}
+
+/* ============ STARBURST / ACTION SHAPES ============ */
+.starburst {
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%,
+    50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
   );
 }
 
-/* ============ GLOW UTILITIES ============ */
-.glow-cyan { box-shadow: 0 0 20px #00e5ff30, 0 0 60px #00e5ff10; }
-.glow-purple { box-shadow: 0 0 20px #b44aff30, 0 0 60px #b44aff10; }
-.glow-cyan-strong { box-shadow: 0 0 40px #00e5ff50, 0 0 80px #00e5ff20, 0 0 120px #00e5ff10; }
-.text-glow-cyan { text-shadow: 0 0 30px #00e5ff80, 0 0 60px #00e5ff40, 0 0 100px #00e5ff20; }
-.text-glow-purple { text-shadow: 0 0 30px #b44aff80, 0 0 60px #b44aff40; }
-.text-glow-gold { text-shadow: 0 0 20px #d4a85366, 0 0 40px #d4a85333; }
-
-/* ============ MOBILE GRADIENT BG ============ */
-.gradient-bg-mobile {
-  background:
-    radial-gradient(ellipse at 20% 50%, #0a0a2e 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, #150a25 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, #0a1020 0%, transparent 50%),
-    #050510;
+/* ============ HALFTONE OVERLAY ============ */
+.halftone {
+  position: relative;
+}
+.halftone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.08) 1px, transparent 1px);
+  background-size: 8px 8px;
+  pointer-events: none;
+  z-index: 0;
 }
 
-/* ============ CINEMATIC ANIMATIONS ============ */
-@keyframes flicker {
-  0%, 100% { opacity: 1; }
-  92% { opacity: 1; }
-  93% { opacity: 0.8; }
-  94% { opacity: 1; }
-  96% { opacity: 0.9; }
-  97% { opacity: 1; }
+/* ============ SPEED LINES ============ */
+.speed-lines {
+  background: repeating-conic-gradient(
+    #FFE600 0deg 2deg,
+    transparent 2deg 5deg,
+    #FFE600 5deg 6deg,
+    transparent 6deg 10deg
+  );
 }
 
+/* ============ ZAP / POW WORDS ============ */
+.zap-word {
+  font-family: var(--font-heading), 'Impact', sans-serif;
+  font-size: 4rem;
+  text-transform: uppercase;
+  -webkit-text-stroke: 3px #1a1a1a;
+  color: #FFE600;
+  paint-order: stroke fill;
+  transform: rotate(-8deg);
+  display: inline-block;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  filter: drop-shadow(4px 4px 0 #1a1a1a);
+}
+
+/* ============ COMIC ACTION TAG ============ */
+.action-tag {
+  font-family: var(--font-heading), 'Impact', sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  background: #FFE600;
+  border: 2px solid #1a1a1a;
+  padding: 2px 10px;
+  box-shadow: 2px 2px 0 #1a1a1a;
+  display: inline-block;
+}
+
+.action-tag-red {
+  background: #E8002D;
+  color: #fff;
+  border: 2px solid #1a1a1a;
+  box-shadow: 2px 2px 0 #1a1a1a;
+}
+
+.action-tag-blue {
+  background: #0052CC;
+  color: #fff;
+  border: 2px solid #1a1a1a;
+  box-shadow: 2px 2px 0 #1a1a1a;
+}
+
+/* ============ COMIC BUTTON ============ */
+.comic-btn {
+  font-family: var(--font-heading), 'Impact', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: #FFE600;
+  color: #1a1a1a;
+  border: 3px solid #1a1a1a;
+  box-shadow: 4px 4px 0 #1a1a1a;
+  padding: 0.6rem 1.6rem;
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  text-decoration: none;
+}
+.comic-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #1a1a1a;
+}
+.comic-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0 #1a1a1a;
+}
+
+.comic-btn-red {
+  background: #E8002D;
+  color: #fff;
+  border: 3px solid #1a1a1a;
+  box-shadow: 4px 4px 0 #1a1a1a;
+}
+.comic-btn-red:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #1a1a1a;
+}
+
+/* ============ PANEL BORDER (Section divider) ============ */
+.panel-border-top {
+  border-top: 4px solid #1a1a1a;
+}
+.panel-border-bottom {
+  border-bottom: 4px solid #1a1a1a;
+}
+
+/* ============ NEWSPAPER COLUMN ============ */
+.newspaper-col {
+  column-count: 2;
+  column-gap: 2rem;
+  column-rule: 2px solid #1a1a1a;
+}
+
+/* ============ TYPEWRITER CURSOR ============ */
 @keyframes typewriter-cursor {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
 
-@keyframes scanline-move {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
+/* ============ COMIC BOOM ANIMATION ============ */
+@keyframes boom-in {
+  0% { transform: scale(0) rotate(-15deg); opacity: 0; }
+  70% { transform: scale(1.15) rotate(3deg); opacity: 1; }
+  100% { transform: scale(1) rotate(-2deg); opacity: 1; }
+}
+.boom-in { animation: boom-in 0.5s cubic-bezier(0.36,0.07,0.19,0.97) forwards; }
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
 }
 
-@keyframes pulse-ring {
-  0% { transform: scale(0.8); opacity: 1; }
-  100% { transform: scale(2.5); opacity: 0; }
+/* ============ COMIC BADGE ============ */
+.comic-badge {
+  font-family: var(--font-heading), 'Impact', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 2px solid currentColor;
+  padding: 2px 8px;
+  display: inline-block;
+  box-shadow: 2px 2px 0 currentColor;
 }
 
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ============ SECTION BG ALTERNATING ============ */
+.section-white { background: #fff; }
+.section-yellow { background: #FFE600; }
+.section-dark { background: #1a1a1a; color: #fff; }
+.section-blue { background: #0052CC; color: #fff; }
+.section-red { background: #E8002D; color: #fff; }
+.section-cream { background: #FFFBF0; }
+
+/* ============ COMIC GRID PANEL LAYOUT ============ */
+.comic-grid {
+  display: grid;
+  gap: 0;
+  border: 3px solid #1a1a1a;
 }
 
-@keyframes horizontal-scan {
-  0% { left: -20%; }
-  100% { left: 120%; }
+/* ============ FONT HEADING UTILITY ============ */
+.font-heading {
+  font-family: var(--font-heading), 'Impact', sans-serif;
 }
-
-.animate-pulse-ring {
-  animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-}
-
-.animate-flicker {
-  animation: flicker 8s infinite;
-}
-
-/* ============ SCENE TRANSITION ============ */
-.scene-transition {
-  position: relative;
-  overflow: hidden;
-}
-
-.scene-transition::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -20%;
-  width: 10%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, #00e5ff08, transparent);
-  animation: horizontal-scan 8s ease-in-out infinite;
-  pointer-events: none;
-}
-
-/* ============ CINEMATIC QUOTE STYLE ============ */
-.cinematic-quote {
-  position: relative;
-  padding-left: 1.5rem;
-  border-left: 2px solid #00e5ff33;
-  font-style: italic;
-}
-
-.cinematic-quote::before {
-  content: '"';
-  position: absolute;
-  left: -0.5rem;
-  top: -0.5rem;
-  font-size: 3rem;
-  color: #00e5ff15;
-  font-style: normal;
-  line-height: 1;
-}
-
-/* ============ CLASSIFIED STAMP ============ */
-@keyframes stamp-in {
-  0% { transform: scale(3) rotate(-20deg); opacity: 0; }
-  50% { transform: scale(1.1) rotate(-12deg); opacity: 0.8; }
-  100% { transform: scale(1) rotate(-12deg); opacity: 1; }
-}
-
-.classified-stamp {
-  animation: stamp-in 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
-}
-
-/* ============ CREDITS ROLL ============ */
-@keyframes credits-roll {
-  from { transform: translateY(0); }
-  to { transform: translateY(-100%); }
+.font-comic {
+  font-family: var(--font-sans), 'Comic Sans MS', cursive;
 }

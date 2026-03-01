@@ -5,67 +5,79 @@ import { useInView } from "react-intersection-observer";
 import { socials, email } from "@/data/socials";
 
 export default function Contact() {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.15 });
 
   return (
     <section
       id="contact"
       ref={ref}
-      className="relative py-28 md:py-36 px-4 scene-transition"
+      className="border-b-4 border-[#1a1a1a]"
+      style={{ background: "#E8002D" }}
     >
-      <div className="max-w-2xl mx-auto text-center">
-        {/* End credits style heading */}
+      {/* Header */}
+      <div className="bg-[#1a1a1a] border-b-4 border-[#1a1a1a] px-6 py-3 flex items-center gap-4">
+        <span className="font-heading text-[#FFE600] text-3xl uppercase tracking-wider">Chapter VII</span>
+        <span className="font-heading text-white text-lg uppercase tracking-widest">— Get In Touch</span>
+      </div>
+
+      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+        {/* Big action word */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 1.5 }}
-          className="mb-12"
+          initial={{ opacity: 0, scale: 0.5, rotate: -5 }}
+          animate={inView ? { opacity: 1, scale: 1, rotate: -3 } : {}}
+          transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
+          className="mb-8"
         >
-          <p className="text-muted text-sm leading-relaxed max-w-lg mx-auto">
-            I&apos;m always open to discussing new projects, backend architecture
-            challenges, or opportunities to be part of something impactful.
-          </p>
+          <span
+            className="font-heading inline-block text-white uppercase"
+            style={{
+              fontSize: "clamp(3.5rem, 12vw, 7rem)",
+              WebkitTextStroke: "3px #1a1a1a",
+              paintOrder: "stroke fill",
+              textShadow: "6px 6px 0 rgba(0,0,0,0.25)",
+              letterSpacing: "0.05em",
+            }}
+          >
+            Let&apos;s Work!
+          </span>
         </motion.div>
 
-        {/* Email CTA — cinematic button */}
+        {/* Speech bubble */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="mb-16"
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mb-10 inline-block"
+        >
+          <div className="bg-white border-[3px] border-[#1a1a1a] rounded-2xl px-6 py-4 shadow-[4px_4px_0_#1a1a1a]">
+            <p className="font-comic text-[#1a1a1a] text-sm md:text-base">
+              I&apos;m always open to discussing new projects, backend architecture challenges,
+              or opportunities to build something impactful together.
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Email CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.35 }}
+          className="mb-10"
         >
           <a
             href={`mailto:${email}`}
-            className="group relative inline-flex items-center gap-3 px-8 py-3.5 text-sm font-mono tracking-wider uppercase
-                       text-cyan border border-cyan/20 hover:border-cyan/50 hover:bg-cyan/5 transition-all duration-500"
+            className="inline-block font-heading text-2xl uppercase tracking-widest bg-[#FFE600] text-[#1a1a1a] px-8 py-3 border-4 border-[#1a1a1a] shadow-[6px_6px_0_#1a1a1a] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-[3px_3px_0_#1a1a1a] transition-all duration-150"
           >
-            {/* Corner accents */}
-            <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-cyan/50" />
-            <span className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-cyan/50" />
-
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={1.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
-              />
-            </svg>
-            Transmit Signal
+            Send a Message →
           </a>
         </motion.div>
 
-        {/* Social links — minimal */}
+        {/* Social links */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="flex items-center justify-center gap-5 mb-20"
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="flex items-center justify-center gap-3 flex-wrap"
         >
           {socials.map((social, i) => (
             <motion.a
@@ -75,49 +87,26 @@ export default function Contact() {
               rel="noopener noreferrer"
               initial={{ opacity: 0, y: 10 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: 0.6 + i * 0.1 }}
-              whileHover={{ y: -3 }}
-              className="p-3 border border-card-border hover:border-cyan/30 text-muted hover:text-cyan
-                         transition-all duration-300 group"
+              transition={{ duration: 0.3, delay: 0.6 + i * 0.1 }}
+              className="font-heading text-sm uppercase tracking-widest bg-[#1a1a1a] text-[#FFE600] px-4 py-2 border-2 border-[#1a1a1a] shadow-[3px_3px_0_#555] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0_#555] transition-all duration-150"
               aria-label={social.name}
             >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1.5}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d={social.icon} />
-              </svg>
+              {social.name}
             </motion.a>
           ))}
         </motion.div>
 
-        {/* End credits — film style */}
+        {/* Footer stamp */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 1, delay: 0.8 }}
-          className="pt-8 border-t border-card-border/30"
+          transition={{ duration: 0.5, delay: 0.8 }}
+          className="mt-16 text-center"
         >
-          <div className="space-y-3">
-            <p className="text-[10px] font-mono text-muted/30 tracking-[0.5em] uppercase">
-              End Credits
-            </p>
-            <div className="w-12 h-px bg-cyan/10 mx-auto" />
-            <p className="text-muted/30 text-xs font-mono">
-              Directed, Written & Engineered by
-            </p>
-            <p className="text-foreground/50 text-sm font-bold tracking-wider">
-              VISHAL JADEJA
-            </p>
-            <div className="w-12 h-px bg-purple/10 mx-auto mt-4" />
-            <p className="text-muted/20 text-[10px] font-mono tracking-wider mt-4">
-              © {new Date().getFullYear()} — All Rights Reserved
-            </p>
+          <div className="inline-block border-4 border-white/40 px-6 py-2 rotate-[-2deg]">
+            <span className="font-heading text-white/60 text-sm uppercase tracking-widest">
+              Vishal Jadeja · Full Stack Dev · 2025
+            </span>
           </div>
         </motion.div>
       </div>
