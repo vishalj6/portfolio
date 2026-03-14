@@ -1,14 +1,39 @@
 @import "tailwindcss";
 
+/* ── Tailwind v4 dark variant via class ── */
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --theme-bg: #FFFEF2;
+  --theme-surface: #FFFFFF;
+  --theme-card: #FFFFFF;
+  --theme-text-main: #111111;
+  --theme-text-muted: #555555;
+  --theme-border-main: #111111;
+}
+
+:root.dark {
+  --theme-bg: #0C0C0C;
+  --theme-surface: #141414;
+  --theme-card: #1C1C1C;
+  --theme-text-main: #E8E6DC;
+  --theme-text-muted: #8A8880;
+  --theme-border-main: #2E2E2E;
+}
+
 @theme inline {
-  --color-bg: #0C0C0C;
-  --color-surface: #141414;
-  --color-text: #F2F2F0;
-  --color-muted: #6B6B6B;
-  --color-border: #1F1F1F;
-  --color-accent: #F5FF82;
+  --color-bg: var(--theme-bg);
+  --color-surface: var(--theme-surface);
+  --color-card: var(--theme-card);
+  --color-text-main: var(--theme-text-main);
+  --color-text-muted: var(--theme-text-muted);
+  --color-border-main: var(--theme-border-main);
+  --color-accent: #FFE600;
+  --color-accent-red: #E8002D;
+  --color-accent-blue: #0047FF;
   --font-sans: var(--font-space-grotesk);
   --font-mono: var(--font-jetbrains-mono);
+  --font-heading: var(--font-bebas-neue);
 }
 
 html {
@@ -16,36 +41,131 @@ html {
 }
 
 body {
-  background-color: #0C0C0C;
-  color: #F2F2F0;
+  background-color: var(--theme-bg);
+  color: var(--theme-text-main);
   font-family: var(--font-sans), system-ui, sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
+/* ══════════════════════════════════════════
+   DARK MODE — FULL PALETTE
+   bg:      #0C0C0C  (body)
+   surface: #141414  (section alt)
+   card:    #1C1C1C  (cards)
+   raised:  #252525  (card headers, elevated)
+   border:  #2E2E2E  (default) / #FFE600 (accent)
+   text:    #E8E6DC  (warm off-white)
+   muted:   #6A6A6A
+   accent:  #FFE600
+   shadow:  yellow (#FFE600) on dark cards
+   ══════════════════════════════════════════ */
+
+.dark body {
+  background-color: #0C0C0C;
+  color: #E8E6DC;
+}
+
+/* ── Utility overrides ── */
+
+.dark .brutal-card {
+  background: #1C1C1C;
+  border: 3px solid #2E2E2E;
+  box-shadow: 6px 6px 0 #FFE600;
+}
+
+.dark .brutal-card:hover {
+  box-shadow: 8px 8px 0 #FFE600;
+  border-color: #FFE600;
+}
+
+.dark .brutal-btn {
+  border-color: #111111;
+  box-shadow: 4px 4px 0 #111111;
+}
+
+.dark .brutal-btn:hover {
+  box-shadow: 2px 2px 0 #111111;
+}
+
+.dark .brutal-btn-outline {
+  color: #E8E6DC !important;
+  border: 3px solid #FFE600;
+  box-shadow: 4px 4px 0 #FFE600;
+}
+
+.dark .brutal-btn-outline:hover {
+  background: #FFE600;
+  color: #111111 !important;
+  box-shadow: 2px 2px 0 #FFE600;
+}
+
+.dark .skill-tag {
+  background: #1C1C1C;
+  color: #D8D6CC;
+  border: 2px solid #363636;
+  box-shadow: 2px 2px 0 #FFE600;
+}
+
+.dark .skill-tag:hover {
+  background: #FFE600;
+  color: #111111;
+  border-color: #FFE600;
+  box-shadow: 3px 3px 0 #111111;
+}
+
+.dark .section-num {
+  background: #FFE600;
+  color: #111111;
+}
+
+.dark .section-label {
+  color: #6A6A6A;
+}
+
+.dark .sticker-badge {
+  border-color: #111111;
+  box-shadow: 3px 3px 0 #FFE600;
+}
+
+/* ── Scrollbar ── */
 ::-webkit-scrollbar {
-  width: 3px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0C0C0C;
+  background: #111111;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 2px;
+  background: #FFE600;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #F5FF82;
+  background: #fff200;
 }
 
 ::selection {
-  background: #F5FF82;
-  color: #0C0C0C;
+  background: #FFE600;
+  color: #111111;
 }
 
+/* ── Fonts ── */
+.font-heading {
+  font-family: var(--font-heading), var(--font-sans), system-ui, sans-serif;
+}
+
+.website-logo-text {
+  color: var(--color-text-main);
+}
+
+.dark .website-logo-text {
+  color: var(--color-black);
+}
+
+/* ── Animations ── */
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -56,10 +176,6 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.fade-up {
-  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes fade-in {
@@ -84,53 +200,43 @@ body {
   }
 }
 
-@keyframes line-draw {
-  from {
-    width: 0;
-  }
-
-  to {
-    width: 100%;
-  }
-}
-
-@keyframes blink-cursor {
+@keyframes wobble {
 
   0%,
   100% {
-    opacity: 1;
+    transform: rotate(-3deg);
+  }
+
+  25% {
+    transform: rotate(3deg);
   }
 
   50% {
-    opacity: 0;
+    transform: rotate(-2deg);
+  }
+
+  75% {
+    transform: rotate(2deg);
   }
 }
 
-@keyframes glow-pulse {
-
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(245, 255, 130, 0);
-  }
-
-  50% {
-    box-shadow: 0 0 16px 2px rgba(245, 255, 130, 0.15);
-  }
+.fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@keyframes count-up {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.anim-fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* Stagger helpers */
+.anim-fade-in {
+  animation: fade-in 0.5s ease both;
+}
+
+.anim-slide-left {
+  animation: slide-in-left 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Stagger delays */
 .delay-100 {
   animation-delay: 100ms;
 }
@@ -163,31 +269,142 @@ body {
   animation-delay: 800ms;
 }
 
-.anim-fade-up {
-  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+/* ══════════════════════════════════════════
+   NEO BRUTALISM UTILITIES
+   ══════════════════════════════════════════ */
+
+/* Brutalist card */
+.brutal-card {
+  border: 3px solid #111111;
+  box-shadow: 6px 6px 0 #111111;
+  background: #FFFFFF;
+  transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
 }
 
-.anim-fade-in {
-  animation: fade-in 0.6s ease both;
+.brutal-card:hover {
+  box-shadow: 8px 8px 0 #111111;
+  transform: translate(-1px, -1px);
 }
 
-.anim-slide-left {
-  animation: slide-in-left 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+/* Brutalist button — filled accent */
+.brutal-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #FFE600;
+  color: #111111 !important;
+  border: 3px solid #111111;
+  box-shadow: 4px 4px 0 #111111;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: box-shadow 0.12s ease, transform 0.12s ease;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-.anim-count {
-  animation: count-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+.brutal-btn:hover {
+  box-shadow: 2px 2px 0 #111111;
+  transform: translate(2px, 2px);
 }
 
-/* Animated section header line */
-.section-line {
-  flex: 1;
-  height: 1px;
-  background: #1F1F1F;
-  transform-origin: left;
-  animation: line-draw 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+.brutal-btn:active {
+  box-shadow: 0 0 0 #111111;
+  transform: translate(4px, 4px);
 }
 
+/* Brutalist outline button */
+.brutal-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: transparent;
+  color: #111111 !important;
+  border: 3px solid #111111;
+  box-shadow: 4px 4px 0 #111111;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: box-shadow 0.12s ease, transform 0.12s ease, background 0.12s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.brutal-btn-outline:hover {
+  background: #111111;
+  color: #FFFEF2 !important;
+  box-shadow: 2px 2px 0 #111111;
+  transform: translate(2px, 2px);
+}
+
+/* Skill / tech tag */
+.skill-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border: 2px solid #111111;
+  box-shadow: 2px 2px 0 #111111;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #111111;
+  background: #FFFFFF;
+  letter-spacing: 0.04em;
+  transition: background 0.12s ease, color 0.12s ease, box-shadow 0.12s ease, transform 0.12s ease;
+}
+
+.skill-tag:hover {
+  background: #FFE600;
+  color: #111111;
+  box-shadow: 3px 3px 0 #111111;
+  transform: translate(-1px, -1px);
+}
+
+/* Section label */
+.section-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #555555;
+}
+
+/* Section heading number */
+.section-num {
+  font-family: var(--font-heading), sans-serif;
+  font-size: 1.1rem;
+  color: #FFE600;
+  background: #111111;
+  padding: 2px 8px;
+  letter-spacing: 0.05em;
+}
+
+.dark .section-num {
+  color: #111111;
+  background: #FFE600;
+}
+
+/* Availability sticker */
+.sticker-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: #FFE600;
+  border: 2px solid #111111;
+  box-shadow: 3px 3px 0 #111111;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #111111 !important;
+  animation: wobble 3s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* Link underline */
 .link-underline {
   position: relative;
   text-decoration: none;
@@ -197,45 +414,13 @@ body {
   content: '';
   position: absolute;
   left: 0;
-  bottom: -1px;
+  bottom: -2px;
   width: 0;
-  height: 1px;
-  background: #F5FF82;
-  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  height: 3px;
+  background: #FFE600;
+  transition: width 0.2s ease;
 }
 
 .link-underline:hover::after {
   width: 100%;
-}
-
-.section-label {
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #6B6B6B;
-}
-
-.skill-tag {
-  display: inline-block;
-  padding: 3px 10px;
-  border: 1px solid #1F1F1F;
-  font-size: 0.78rem;
-  color: #A0A0A0;
-  letter-spacing: 0.03em;
-  transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
-}
-
-.skill-tag:hover {
-  border-color: #F5FF82;
-  color: #F5FF82;
-  box-shadow: 0 0 8px rgba(245, 255, 130, 0.08);
-}
-
-/* Subtle glow on card hover */
-.card-glow {
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.card-glow:hover {
-  box-shadow: 0 0 0 1px rgba(245, 255, 130, 0.04), 0 8px 40px rgba(0, 0, 0, 0.5);
 }

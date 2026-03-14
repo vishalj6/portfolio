@@ -15,42 +15,50 @@ export default function DSA() {
     <section
       id="dsa"
       ref={ref}
-      className="border-b-4 border-[#1a1a1a]"
+      className="border-t-4 border-b-4 border-black"
       style={{ background: "#FFE600" }}
     >
-      {/* Header */}
-      <div className="bg-[#1a1a1a] border-b-4 border-[#1a1a1a] px-6 py-3 flex items-center gap-4">
+      {/* Header bar */}
+      <div className="bg-black border-b-4 border-black px-6 py-3 flex items-center gap-4">
         <span className="font-heading text-[#FFE600] text-3xl uppercase tracking-wider">Chapter VI</span>
-        <span className="font-heading text-white text-lg uppercase tracking-widest">— Problem Solver</span>
+        <span className="font-heading text-white text-xl uppercase tracking-widest">— Problem Solver</span>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-12 md:py-16 text-center">
-        {/* Big number starburst */}
+      <div className="max-w-4xl mx-auto px-5 py-14 md:py-20 text-center">
+
+        {/* Starburst badge */}
         <motion.div
           initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
           animate={inView ? { opacity: 1, scale: 1, rotate: -5 } : {}}
           transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
-          className="flex justify-center mb-10"
+          className="flex justify-center mb-12"
         >
-          <div className="relative inline-block">
-            {/* Starburst outer */}
+          <div className="relative inline-block w-52 h-52 md:w-64 md:h-64">
+            {/* Shadow layer */}
             <div
-              className="w-52 h-52 md:w-64 md:h-64 bg-[#E8002D] flex items-center justify-center absolute inset-0 m-auto"
+              className="absolute inset-0 bg-black"
               style={{
-                clipPath:
-                  "polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)",
+                clipPath: "polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)",
+                transform: "translate(8px, 8px)",
               }}
             />
+            {/* Red outer star */}
             <div
-              className="w-52 h-52 md:w-64 md:h-64 bg-[#FFE600] flex flex-col items-center justify-center relative"
+              className="absolute inset-0 bg-[#E8002D]"
               style={{
-                clipPath:
-                  "polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)",
-                transform: "scale(0.88) rotate(5deg)",
+                clipPath: "polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)",
+              }}
+            />
+            {/* Yellow inner star */}
+            <div
+              className="absolute inset-0 bg-[#FFE600] flex flex-col items-center justify-center"
+              style={{
+                clipPath: "polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)",
+                transform: "scale(0.85) rotate(5deg)",
               }}
             >
-              <span className="font-heading text-[#1a1a1a] text-5xl md:text-6xl leading-none">400+</span>
-              <span className="font-comic text-[#1a1a1a] text-xs font-bold uppercase tracking-wide leading-tight mt-1">
+              <span className="font-heading text-black text-5xl md:text-6xl leading-none">400+</span>
+              <span className="font-mono text-black text-[10px] font-bold uppercase tracking-wide leading-tight mt-1">
                 LeetCode<br />Solved!
               </span>
             </div>
@@ -62,11 +70,14 @@ export default function DSA() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="inline-block mb-8"
+          className="inline-block mb-10"
         >
-          <div className="bg-white border-3 border-[#1a1a1a] rounded-2xl px-6 py-3 shadow-[4px_4px_0_#1a1a1a]" style={{ border: "3px solid #1a1a1a" }}>
-            <p className="font-comic text-[#1a1a1a] text-sm md:text-base max-w-lg">
-              Strong foundation in data structures & algorithms — every system I build is backed by algorithmic thinking,
+          <div
+            className="bg-white px-6 py-4 shadow-[5px_5px_0_#111]"
+            style={{ border: "3px solid #111" }}
+          >
+            <p className="font-sans text-black text-sm md:text-base max-w-lg font-medium leading-relaxed">
+              Strong foundation in data structures &amp; algorithms — every system I build is backed by algorithmic thinking,
               from choosing the right cache structure to optimizing database query patterns.
             </p>
           </div>
@@ -80,7 +91,8 @@ export default function DSA() {
               initial={{ opacity: 0, scale: 0.7 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.25, delay: 0.4 + i * 0.06 }}
-              className="font-heading text-sm uppercase tracking-widest px-3 py-1.5 bg-[#1a1a1a] text-[#FFE600] border-2 border-[#1a1a1a] shadow-[2px_2px_0_#555]"
+              className="font-heading text-sm uppercase tracking-widest px-3 py-1.5 bg-black text-[#FFE600] shadow-[3px_3px_0_#555]"
+              style={{ border: "2px solid #111" }}
             >
               {cat}
             </motion.span>

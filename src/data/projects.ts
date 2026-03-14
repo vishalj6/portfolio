@@ -29,7 +29,7 @@ export const projects: Project[] = [
       "Intelligent rate limit handling",
       "95% reduction in manual effort",
     ],
-    github: "https://github.com/vishalj6/syncify",
+    github: "https://github.com/vishal-jadeja/syncify",
     imageUrl: "/images/syncify-image.webp",
     live: "https://syncify-vishal.netlify.app",
     // from public folder
@@ -55,7 +55,7 @@ export const projects: Project[] = [
   //     "Race condition resolution in payments",
   //     "45% MongoDB latency reduction",
   //   ],
-  //   github: "https://github.com/vishalj6/tournament-system",
+  //   github: "https://github.com/vishal-jadeja/tournament-system",
   //   imageUrl: "https://t3.ftcdn.net/jpg/04/94/65/34/360_F_494653408_L5XoC3iFVyKkVz5K7e9kbmKrv0iDMaNt.jpg",
   // },
   {
@@ -77,7 +77,7 @@ export const projects: Project[] = [
       "Mobile-first responsive UI",
       "Scalable MongoDB schema design",
     ],
-    github: "https://github.com/vishalj6/AmazonClone",
+    github: "https://github.com/vishal-jadeja/AmazonClone",
     imageUrl: "/images/amazon-clone.webp",
   },
 ];

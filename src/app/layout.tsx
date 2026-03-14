@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -18,6 +18,13 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const bebasNeue = Bebas_Neue({
+  variable: "--font-bebas-neue",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Vishal Jadeja | Software Engineer",
   description:
@@ -28,6 +35,8 @@ export const metadata: Metadata = {
     "Software Engineer",
     "Software Developer",
     "Backend Engineer",
+    "SDE-1",
+    "Scalable Systems",
     "MERN Stack",
     "Node.js",
     "React",
@@ -64,14 +73,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Anti-flicker: apply theme before first paint */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme')||'light';var d=document.documentElement;if(t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches)){d.classList.add('dark');}else{d.classList.remove('dark');}}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body
-        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${bebasNeue.variable} antialiased`}
       >
         {children}
         <Analytics />
         <SpeedInsights />
-
       </body>
     </html>
   );

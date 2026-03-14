@@ -1,79 +1,78 @@
 "use client";
 
-import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
 import { socials, email } from "@/data/socials";
 
 export default function Contact() {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.15 });
-
   return (
-    <section id="contact" ref={ref} className="border-t border-[#1F1F1F] py-24 px-6 md:px-16 bg-[#0F0F0F]">
-      <div className="max-w-5xl mx-auto">
+    <section id="contact" className="border-t-4 border-border-main py-24 px-5 sm:px-8 md:px-16 bg-surface">
+      <div className="max-w-6xl mx-auto">
+
         {/* Section header */}
-        <div className="flex items-baseline gap-6 mb-16">
-          <span className="text-[#F5FF82]/50 text-xs font-mono tracking-widest">05</span>
-          <span className="section-label">Contact</span>
-          <div className="section-line" />
+        <div className="flex items-center gap-4 mb-14">
+          <span className="section-num">05</span>
+          <h2 className="font-heading text-text-main text-4xl md:text-5xl tracking-wider uppercase">Contact</h2>
+          <div className="flex-1 h-1 bg-text-main dark:bg-accent ml-2" />
         </div>
 
-        <div
-          className={`transition-all duration-700 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5 }}
         >
-          <p className="text-[#6B6B6B] text-base max-w-md mb-10 leading-relaxed">
-            Open to interesting projects, roles, and conversations. Drop me a
-            line and I'll get back to you.
-          </p>
+          {/* CTA block — uses brutal-card which auto-updates in dark */}
+          <div className="brutal-card p-0 overflow-hidden max-w-2xl">
 
-          {/* Email */}
-          <a
-            href={`mailto:${email}`}
-            className="group inline-flex items-center gap-3 text-[#F2F2F0] text-2xl md:text-3xl font-semibold hover:text-[#F5FF82] transition-colors mb-12"
-          >
-            {email}
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0 duration-200"
-            >
-              <path d="M2 7h10M7 2l5 5-5 5" />
-            </svg>
-          </a>
+            {/* Yellow header stripe */}
+            <div className="bg-accent px-8 py-5" style={{ borderBottom: "3px solid #111" }}>
+              <p className="font-heading text-black text-3xl md:text-4xl tracking-wider uppercase leading-tight">
+                Let&#39;s build something<br />great together.
+              </p>
+            </div>
 
-          {/* Social links */}
-          <div className="flex items-center gap-6 pt-6 border-t border-[#1F1F1F]">
-            {socials.map((s) => (
-              <a
-                key={s.name}
-                href={s.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-[#6B6B6B] hover:text-[#F5FF82] transition-colors group"
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d={s.icon} />
-                </svg>
-                <span className="group-hover:text-[#F5FF82] transition-colors">
-                  {s.name}
-                </span>
+            {/* Body */}
+            <div className="p-5 sm:p-8 flex flex-col gap-7">
+              <p className="text-text-muted text-base leading-relaxed font-medium">
+                Open to interesting projects, roles, and conversations. Drop me a
+                line and I'll get back to you.
+              </p>
+
+              {/* Email CTA */}
+              <a href={`mailto:${email}`} className="group block">
+                <div className="brutal-btn text-base md:text-lg w-full justify-between py-4 px-6">
+                  <span className="font-heading text-black text-sm sm:text-xl tracking-wider">{email}</span>
+                  <svg
+                    width="20" height="20" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" strokeWidth="2.5"
+                    strokeLinecap="round" strokeLinejoin="round"
+                    className="group-hover:translate-x-1 transition-transform duration-150"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </div>
               </a>
-            ))}
+
+              {/* Social links */}
+              <div className="flex flex-wrap items-center gap-3 pt-4 border-t-2 border-border-main">
+                {socials.map((s) => (
+                  <a
+                    key={s.name}
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="brutal-btn-outline py-2 text-xs gap-2"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d={s.icon} />
+                    </svg>
+                    {s.name}
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

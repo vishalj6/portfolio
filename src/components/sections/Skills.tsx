@@ -1,41 +1,47 @@
 "use client";
 
-import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
 import { skillCategories } from "@/data/skills";
 
 export default function Skills() {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 });
-
   return (
-    <section id="skills" ref={ref} className="border-t border-[#1F1F1F] py-24 px-6 md:px-16">
-      <div className="max-w-5xl mx-auto">
+    <section id="skills" className="border-t-4 border-border-main py-24 px-5 sm:px-8 md:px-16 bg-bg">
+      <div className="max-w-6xl mx-auto">
+
         {/* Section header */}
-        <div className="flex items-baseline gap-6 mb-16">
-          <span className="text-[#F5FF82]/50 text-xs font-mono tracking-widest">02</span>
-          <span className="section-label">Skills</span>
-          <div className="section-line" />
+        <div className="flex items-center gap-4 mb-14">
+          <span className="section-num">04</span>
+          <h2 className="font-heading text-text-main text-4xl md:text-5xl tracking-wider uppercase">Skills</h2>
+          <div className="flex-1 h-1 bg-text-main dark:bg-accent ml-2" />
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {skillCategories.map((cat, ci) => (
-            <div
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.5, delay: ci * 0.1 }}
               key={cat.title}
-              className={`transition-all duration-600 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
-              style={{ transitionDelay: `${ci * 80}ms` }}
             >
-              <h3 className="text-[#F2F2F0] text-sm font-semibold tracking-wide mb-4">
-                {cat.title}
-              </h3>
+              {/* Category heading */}
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-3 h-3 bg-accent border-2 border-border-main dark:border-[#111] shrink-0" />
+                <h3 className="font-heading text-text-main text-2xl tracking-wider uppercase">{cat.title}</h3>
+              </div>
               <div className="flex flex-wrap gap-2">
                 {cat.skills.map((skill, si) => (
-                  <span
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: ci * 0.1 + si * 0.05 }}
                     key={skill}
-                    className={`skill-tag transition-all duration-400 ${inView ? "opacity-100" : "opacity-0"}`}
-                    style={{ transitionDelay: `${ci * 80 + si * 40}ms` }}
-                  >{skill}</span>
+                    className="skill-tag"
+                  >{skill}</motion.span>
                 ))}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
