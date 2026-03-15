@@ -53,7 +53,7 @@ export default function Hero() {
             {/* Bio */}
             <p className="text-text-muted text-base leading-relaxed max-w-[600px] font-medium">
               I build scalable back-end systems and clean front-end interfaces.
-              1+ year shipping real-time products at Glitchover from WebSocket
+              1.5+ year shipping real-time products at Glitchover from WebSocket
               infra to payment integrations.
             </p>
 
@@ -107,7 +107,7 @@ export default function Hero() {
               <div className="border-l-4 border-[#FFE600] pl-3">
                 <p className="font-mono text-[9px] tracking-widest uppercase text-text-muted mb-1">Experience</p>
                 <p className="text-text-main text-sm font-semibold">Software Engineer</p>
-                <p className="font-heading text-text-main text-lg tracking-wide">Glitchover</p>
+                <p className="font-heading text-text-main text-sm tracking-wide">Glitchover</p>
                 <p className="font-mono text-[10px] text-text-muted mt-0.5">2024 – Present · Full-time</p>
               </div>
 

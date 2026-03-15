@@ -41,19 +41,8 @@ export default function About() {
             <p className="text-text-muted text-lg leading-relaxed">
               I specialize in the <strong className="text-text-main">MERN stack (MongoDB, Express, React, Node.js)</strong> and
               building high-performance APIs, event-driven systems, and scalable backend services.
-              One of the key systems I engineered supports
-              <strong className="text-text-main"> 1,500+ concurrent users</strong> through
-              <strong className="text-text-main"> WebSocket-based real-time architecture</strong>,
-              significantly reducing server load and improving responsiveness.
-            </p>
-
-            <p className="text-text-muted text-lg leading-relaxed">
               I enjoy solving complex engineering problems — from optimizing database queries and
-              eliminating race conditions to designing resilient backend systems. My work has helped
-              <strong className="text-text-main"> reduce latency by 45%</strong>,
-              <strong className="text-text-main"> cut API polling by 60%</strong>, and
-              <strong className="text-text-main"> accelerate deployments by 70%</strong>
-              through robust CI/CD pipelines and infrastructure improvements.
+              eliminating race conditions to designing resilient backend systems.
             </p>
 
             <p className="text-text-muted text-lg leading-relaxed">

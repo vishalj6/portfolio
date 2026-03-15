@@ -96,7 +96,7 @@ export default function Experience() {
                   {/* Key contributions */}
                   <div className="px-5 py-4">
                     <p className="font-mono text-[9px] uppercase tracking-widest text-text-muted font-bold mb-3">Key Contributions</p>
-                    <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2">
+                    <ul className="flex flex-col gap-x-6 gap-y-2">
                       {exp.achievements.map((a, j) => (
                         <li key={j} className="flex items-start gap-2 text-sm text-text-main leading-relaxed">
                           <span className="shrink-0 mt-0.5 font-bold text-accent text-lg leading-none" style={{ WebkitTextStroke: "1px #111" }}>›</span>
