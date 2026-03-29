@@ -21,31 +21,49 @@ export default function Projects() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ x: -1, y: -1, transition: { duration: 0.15, ease: "easeOut" } }}
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
               key={project.title}
               className={`brutal-card flex flex-col h-full ${projects.length % 2 !== 0 && i === projects.length - 1
-                  ? "md:col-span-2 md:max-w-[50%] md:mx-auto w-full"
-                  : ""
+                ? "md:col-span-2 md:max-w-[50%] md:mx-auto w-full"
+                : ""
                 }`}
             >
               {/* Project image */}
-              {project.imageUrl && (
-                <div className="relative w-full h-52 overflow-hidden shrink-0" style={{ borderBottom: "3px solid #111" }}>
+              <div className="relative w-full h-52 overflow-hidden shrink-0" style={{ borderBottom: "3px solid #111" }}>
+                {project.imageUrl ? (
                   <Image
                     src={project.imageUrl}
                     alt={`${project.title} screenshot`}
                     fill
-                    className="object-cover object-start"
+                    className="object-cover object-start brutal-card-img transition-transform duration-300 ease-out"
                     sizes="(max-width: 768px) 100vw, 50vw"
                     unoptimized
                   />
-                  {/* Number badge */}
-                  <div className="absolute top-3 left-3 bg-accent border-2 border-black px-2 py-0.5 shadow-[2px_2px_0_#111]">
-                    <span className="font-heading text-black text-xl leading-none">0{i + 1}</span>
+                ) : (
+                  <div className="w-full h-full bg-card flex flex-col items-center justify-center gap-2">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="stroke-text-muted opacity-40">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                    <span className="font-mono text-xs text-text-muted opacity-40 uppercase tracking-widest">No Preview</span>
                   </div>
+                )}
+                {/* Number badge */}
+                <div className="absolute top-3 left-3 bg-accent border-2 border-black px-2 py-0.5 shadow-[2px_2px_0_#111]">
+                  <span className="font-heading text-black text-xl leading-none">0{i + 1}</span>
                 </div>
-              )}
+                {/* Status badge */}
+                {project.status && (
+                  <div className={`absolute top-3 right-3 flex items-center justify-center border-2 border-black px-2 py-1 shadow-[2px_2px_0_#111] ${project.status === "in-progress" ? "bg-orange-400" : "bg-green-400"}`}>
+                    <span className="font-mono text-black text-[10px] font-bold uppercase tracking-widest leading-none">
+                      {project.status === "in-progress" ? "In Progress" : "Completed"}
+                    </span>
+                  </div>
+                )}
+              </div>
 
               {/* Card content */}
               <div className="flex flex-col gap-4 p-6 flex-1">

@@ -1,13 +1,3 @@
-export interface Experience {
-  role: string;
-  company: string;
-  period: string;
-  type: string;
-  description: string;
-  achievements: string[];
-  current: boolean;
-}
-
 export const experiences: Experience[] = [
   {
     role: "Software Developer",
@@ -15,17 +5,18 @@ export const experiences: Experience[] = [
     period: "Feb 2025 - Present",
     type: "Full-time",
     description:
-      "Leading development teams and architecting scalable solutions. Built microservices architecture, developed automation bots, integrated multiple payment gateways, and implemented CI/CD pipelines for streamlined deployment.",
+      "Architecting scalable backend systems, real-time infrastructure, and payment microservices for a B2C gaming platform. Core responsibilities span system design, microservice ownership, database performance, and cross-team engineering.",
     achievements: [
-      "Architected a real-time event-driven tournament system serving 1,500+ concurrent users",
-      "Eliminated polling bottlenecks by migrating to WebSocket-based architecture, cutting API load by 60% and achieving sub-200ms latency at peak traffic.",
-      "Integrated Razorpay, Stripe, and Cashfree payment gateways with 99.9% uptime",
-      "Resolved critical race conditions in payment confirmation workflows using atomic MongoDB transactions and idempotent webhook handling, preventing duplicate wallet credits and ensuring zero financial inconsistencies across 3 integrated payment providers (Razorpay, Stripe, Cashfree).",
-      "Reduced average MongoDB query latency by 45% for high-frequency leaderboard reads by redesigning schemas, introducing compound indexes, and rewriting aggregation pipelines",
-      "Designed and deployed 2 independent microservices (payment gateway, Discord bot) using the Factory Pattern, enabling integration of new payment providers with zero refactoring and cutting future integration effort by an estimated 60%",
-      "Led migration of PWA from CRA (React 16) to Vite (React 19), reducing build times by 80% and improving cold-start performance — unblocking faster release cycles for the engineering team.",
-      "Introduced Redis-based caching layer for high-read endpoints, reducing database load during peak traffic and improving p99 response times without schema changes",
-      "Developed automation bots that improved operational efficiency by 40%",
+      "Architected event-driven real-time tournament system with 25+ Socket.io events delivering sub-100ms bracket, standings, and lobby updates to 1,500+ concurrent WebSocket subscribers across room-scoped channels — eliminating polling and cutting API load by 60%.",
+      "Engineered extensible multi-gateway payment microservice using Factory + Strategy patterns across Razorpay, Cashfree, and Stripe — enabling new gateway onboarding with zero changes to existing production code and zero controller-level branching.",
+      "Secured webhook ingestion pipeline with HMAC-SHA256 timing-safe comparison (crypto.timingSafeEqual) and idempotent order-status checks, eliminating replay attacks and duplicate wallet credits from payment gateway retry storms across 3 providers.",
+      "Reduced MongoDB query latency by 45% by redesigning compound index strategy across transaction and payout collections — covering {orderId, status}, {status, createdAt}, and {isActive, priority} — and implementing financial snapshot denormalization capturing 12 immutable fields at transaction time for audit-compliant multi-currency payout accuracy.",
+      "Engineered multi-step financial waterfall with floating-point integrity checksum (±0.02 tolerance) covering forex markup, GST tax splitting (CGST/SGST/IGST), promo codes, and platform fees — catching silent arithmetic drift across high-volume cross-currency payment flows.",
+      "Implemented Strategy pattern dispatching 5 bracket-generation algorithms (single-elimination, double-elimination, round-robin, Swiss, Battle Royale) at runtime, with O(N) preliminary-round insertion for non-power-of-2 participant counts and Fisher-Yates O(N) shuffle for unbiased seeding.",
+      "Engineered pessimistic cache-update strategy with recursive Immer tree-walker simultaneously patching 3 RTK Query cache layers after match results, eliminating redundant GET requests and maintaining bracket consistency client-side without a full refetch.",
+      "Built zero-downtime database-driven feature flag system enabling ops-controlled payment gateway toggling and dynamic fee configuration without redeployment, combined with 4-tier RBAC and IP-level ban detection across all payment admin routes.",
+      "Optimized payment confirmation latency by deferring non-critical conversion tracking (Meta Pixel, analytics) via setImmediate and parallelizing multi-collection MongoDB writes with Promise.all, decoupling user-visible response time from third-party API performance.",
+      "Led PWA migration from CRA (React 16) to Vite (React 19), reducing build times by 80% and improving cold-start performance, unblocking faster release cycles for the engineering team.",
     ],
     current: true,
   },
@@ -35,16 +26,14 @@ export const experiences: Experience[] = [
     period: "Aug 2024 - Feb 2025",
     type: "Internship",
     description:
-      "Focused on building robust authentication systems and implementing role-based access control. Developed real-time notification systems and gained hands-on experience with modern web development practices.",
+      "Built authentication infrastructure, real-time systems, and CI/CD pipelines across the core platform. Focused on security hardening, test coverage, and developer tooling.",
     achievements: [
-      "Built CI/CD pipelines on Bitbucket cutting deployment time by 70%",
-      "established Jest-based unit and integration test suites across critical API paths, reducing production regressions",
-      "Engineered authentication and authorization layer using Passport.js, JWT, and RBAC across 4 dashboards",
-      "Added rate-limiting and input validation to neutralize abuse vectors and injection attacks.",
-      "Developed real-time notification system using WebSockets",
-      "Contributed to frontend development using React and TypeScript",
-      "Collaborated on code reviews following clean architecture best practices",
+      "Engineered unified authentication pipeline using Passport.js supporting 5 identity providers (Google, Discord, Apple, local×2) with dual user-type session deserialization, stateless JWT auth, and 4-tier RBAC controlling access across 50+ API endpoints.",
+      "Designed 11-stage Express middleware pipeline — CORS, NoSQL injection prevention, XSS sanitization, two-tier rate limiting (100 req/min global, 10 req/s on auth/payment routes), and APM tracing — securing every request with defense-in-depth and early-exit rejection.",
+      "Configured Bitbucket Pipelines CI/CD with dual Jest environments (dev/prod) and branch-gated manual approval for production deploys, cutting deployment time by 70% and reducing production regressions through automated integration testing.",
+      "Developed real-time notification system using Socket.io with graceful degradation — unauthenticated connections receive guest role rather than disconnection, preserving real-time access for public tournament spectators without forcing auth.",
+      "Engineered fault-tolerant multi-channel Discord notification pipeline using Promise.allSettled for concurrent channel dispatch with zero failure cascade, backed by auto-discovery command registry enabling O(1) slash command routing across dynamically loaded modules.",
     ],
     current: false,
   },
-];
+];  

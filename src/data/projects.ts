@@ -7,9 +7,38 @@ export interface Project {
   github: string;
   live?: string;
   imageUrl?: string;
+  status?: "in-progress" | "completed";
 }
 
 export const projects: Project[] = [
+  {
+    title: "Mintmark",
+    tagline: "Personal Branding & Knowledge Platform",
+    description:
+      "A passive-first personal branding platform that turns what you learn into platform-ready content for LinkedIn, X, and Medium — simultaneously. Features a unified activity heatmap across all learning sources, AI-powered content generation via BYOK, and a personal knowledge assistant scoped strictly to your own notes and posts.",
+    techStack: [
+      "Next.js 16",
+      "TypeScript",
+      "React 19",
+      "Supabase",
+      "TanStack Query",
+      "Zustand",
+      "Tailwind CSS v4",
+      "Trigger.dev",
+      "Upstash Redis",
+    ],
+    highlights: [
+      "BYOK AI layer supporting Claude, GPT, Gemini, and Groq",
+      "Unified heatmap aggregating GitHub, LeetCode, notes, and sessions",
+      "Per-platform AI instructions with simultaneous content generation",
+      "RAG-powered personal knowledge assistant with strict tenant isolation",
+      "Early access waitlist with referral queue mechanics",
+    ],
+    github: "https://github.com/vishal-jadeja/mintmark",
+    imageUrl: "/images/MintMark-EA.webp",
+    status: "in-progress",
+    live: "https://mintmark-vishal.vercel.app",
+  },
   {
     title: "Syncify",
     tagline: "YouTube → Spotify Playlist Converter",
@@ -32,32 +61,7 @@ export const projects: Project[] = [
     github: "https://github.com/vishal-jadeja/syncify",
     imageUrl: "/images/syncify-image.webp",
     live: "https://syncify-vishal.netlify.app",
-    // from public folder
   },
-  // {
-  //   title: "Real-Time Tournament System",
-  //   tagline: "High-Concurrency Competitive Platform",
-  //   description:
-  //     "A production-grade tournament platform handling 1500+ concurrent users with sub-200ms latency. Features real-time WebSocket updates, optimized MongoDB queries, payment microservices with race condition resolution, and atomic transaction handling.",
-  //   techStack: [
-  //     "Node.js",
-  //     "WebSockets",
-  //     "MongoDB",
-  //     "Razorpay",
-  //     "Stripe",
-  //     "Microservices",
-  //     "Redis",
-  //   ],
-  //   highlights: [
-  //     "1500+ concurrent users",
-  //     "Sub-200ms latency",
-  //     "60% reduction in API polling load",
-  //     "Race condition resolution in payments",
-  //     "45% MongoDB latency reduction",
-  //   ],
-  //   github: "https://github.com/vishal-jadeja/tournament-system",
-  //   imageUrl: "https://t3.ftcdn.net/jpg/04/94/65/34/360_F_494653408_L5XoC3iFVyKkVz5K7e9kbmKrv0iDMaNt.jpg",
-  // },
   {
     title: "Amazon Clone",
     tagline: "E-Commerce Web Application",
@@ -79,5 +83,27 @@ export const projects: Project[] = [
     ],
     github: "https://github.com/vishal-jadeja/AmazonClone",
     imageUrl: "/images/amazon-clone.webp",
+  },
+  {
+    title: "Movie Recommendation System",
+    tagline: "Content-Based Film Discovery Engine",
+    description:
+      "A content-based movie recommender that finds similar films using cosine similarity on TF-IDF vectorized metadata — genres, keywords, cast, and crew. Built as an interactive Streamlit app where you pick a movie and instantly get five tailored recommendations.",
+    techStack: [
+      "Python",
+      "Streamlit",
+      "Scikit-learn",
+      "Pandas",
+      "TMDB API",
+      "Cosine Similarity",
+      "TF-IDF",
+    ],
+    highlights: [
+      "Cosine similarity on TF-IDF vectorized movie metadata",
+      "Combines genres, keywords, cast, and crew as features",
+      "Real-time poster fetching via TMDB API",
+      "Interactive Streamlit UI with instant recommendations",
+    ],
+    github: "https://github.com/vishal-jadeja/Movie-Recommendation-System",
   },
 ];
