@@ -9,6 +9,7 @@ export interface ChunkMetadata {
   tags: string[];
   chunk_index: number;
   char_count: number;
+  [key: string]: string | number | boolean | string[];
 }
 
 export interface VectorChunk {
@@ -44,8 +45,7 @@ export async function upsertChunks(chunks: VectorChunk[]): Promise<void> {
       `[pinecone] Upserting batch ${batchNum}/${totalBatches} (${batch.length} vectors)`
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await index.upsert(batch as any);
+    await index.upsert({ records: batch });
   }
 }
 
@@ -77,8 +77,11 @@ export async function queryChunks(
 export async function deleteBySource(sourceFile: string): Promise<void> {
   const index = getIndex();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  await index.deleteMany({ source_file: { $eq: sourceFile } } as any);
-
-  console.log(`[pinecone] Deleted chunks for source: ${sourceFile}`);
+  try {
+    await index.deleteMany({ filter: { source_file: { $eq: sourceFile } } });
+    console.log(`[pinecone] Deleted chunks for source: ${sourceFile}`);
+  } catch (err) {
+    // PineconeNotFoundError (404) is expected when the index is empty or no matching vectors exist
+    if ((err as Error)?.name !== "PineconeNotFoundError") throw err;
+  }
 }

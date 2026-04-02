@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 import { env } from "@/lib/config/env";
 
 export class EmbedError extends Error {
@@ -11,16 +11,17 @@ export class EmbedError extends Error {
   }
 }
 
-let _client: GoogleGenerativeAI | null = null;
+let _client: GoogleGenAI | null = null;
 
-function getClient(): GoogleGenerativeAI {
+function getClient(): GoogleGenAI {
   if (!_client) {
-    _client = new GoogleGenerativeAI(env.GOOGLE_API_KEY);
+    _client = new GoogleGenAI({ apiKey: env.GOOGLE_API_KEY });
   }
   return _client;
 }
 
-const EMBED_MODEL = "text-embedding-004";
+const EMBED_MODEL = "gemini-embedding-001";
+const EMBED_DIMENSIONS = 768; // must match the Pinecone index dimension
 const MAX_CHARS = 2000;
 const BATCH_SIZE = 5;
 const BATCH_DELAY_MS = 250;
@@ -28,9 +29,12 @@ const BATCH_DELAY_MS = 250;
 export async function embedText(text: string): Promise<number[]> {
   const trimmed = text.trim().slice(0, MAX_CHARS);
   try {
-    const model = getClient().getGenerativeModel({ model: EMBED_MODEL });
-    const result = await model.embedContent(trimmed);
-    return result.embedding.values;
+    const result = await getClient().models.embedContent({
+      model: EMBED_MODEL,
+      contents: trimmed,
+      config: { outputDimensionality: EMBED_DIMENSIONS },
+    });
+    return result.embeddings![0].values!;
   } catch (err) {
     const context = `embedText — input length: ${trimmed.length}`;
     console.error(`[embedder] Error in ${context}:`, err);
