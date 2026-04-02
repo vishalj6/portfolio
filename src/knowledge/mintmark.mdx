@@ -1,0 +1,68 @@
+---
+title: "MintMark"
+category: "project"
+tags: ["mintmark", "saas", "main-project"]
+last_updated: "2026-04-02"
+---
+
+## What is MintMark
+
+Mintmark is a passive-first personal branding platform built for developers. It sits on top of where learning already happens - GitHub commits, LeetCode solutions, personal notes, reading sessions - and turns that activity into platform-ready content for LinkedIn, X, and Medium simultaneously.
+
+It also includes a personal knowledge assistant: a RAG-powered chatbot that answers questions strictly from your own notes and posts, with strict tenant isolation so your data never bleeds into anyone else's context.
+
+Live (early access): https://mintmark-vishal.vercel.app
+GitHub: https://github.com/vishal-jadeja/mintmark
+
+## The problem it solves
+
+Developers learn constantly. Most of that learning never becomes visible to anyone - not because developers don't have anything worth saying, but because the activation energy for "write a LinkedIn post" is high. You have to remember what you did, articulate it clearly, format it for the platform, and then do it again for X and Medium with different tone and length.
+
+Mintmark removes all of that friction. The learning is already happening - Mintmark just closes the gap between "I learned this" and "I published this."
+
+Secondary problem: developer knowledge is scattered across GitHub ReadMes, Notion pages, bookmarked articles, and memory. The personal knowledge assistant gives you a single interface to query all of it.
+
+## How it works
+
+1. **Connect your learning sources** - GitHub, LeetCode, notes, reading lists
+2. **Unified activity heatmap** aggregates all activity into a single view (like a GitHub contribution graph but across all sources)
+3. **AI draft generation** - you pick an activity or topic, select target platforms, and Mintmark generates platform-optimized drafts simultaneously
+4. **BYOK AI layer** - bring your own API key for Claude, GPT, Gemini, or Groq; Mintmark never holds your key server-side beyond the request
+5. **Per-platform instructions** - you configure tone, length, and style per platform once; Mintmark applies them on every generation
+6. **Review and publish** - you approve what goes out; Mintmark doesn't auto-post without confirmation
+7. **Knowledge assistant** - a RAG-powered chatbot that answers questions from your personal notes and posts only, not the general internet
+
+## Tech stack
+
+- **Frontend:** Next.js 16, React 19, TypeScript, Tailwind CSS v4, TanStack Query, Zustand
+- **Backend / BaaS:** Supabase (Postgres, auth, real-time, row-level security)
+- **Background jobs:** Trigger.dev (content generation pipelines, scheduled sync)
+- **Caching / rate limiting:** Upstash Redis
+- **AI integrations:** Anthropic Claude, OpenAI GPT, Google Gemini, Groq - all BYOK
+- **Vector store:** Pinecone (for the personal knowledge assistant RAG pipeline)
+- **Deployment:** Vercel
+
+## Current status
+
+Currently in early access. Core features shipped:
+
+- BYOK AI layer supporting 4 providers
+- Unified activity heatmap (GitHub + LeetCode + notes)
+- Per-platform AI instructions with simultaneous multi-platform generation
+- Early access waitlist with referral queue mechanics
+- RAG-powered personal knowledge assistant (in progress)
+
+[FILL: Add waitlist size, any user feedback highlights, or features recently shipped]
+
+## Roadmap
+
+- [FILL: Near-term - e.g., "Direct publish integration with LinkedIn API"]
+- [FILL: Medium-term - e.g., "Analytics layer - which posts performed best and why"]
+- [FILL: Longer-term - e.g., "Team mode for developer advocates or small engineering teams"]
+- [FILL: Any other planned features you want to mention]
+
+## Why I built it
+
+The honest answer: I needed it myself. I kept accumulating learning - interesting bugs I fixed, architecture decisions I made, libraries I explored - and none of it was becoming public content. Not because I didn't want to share it, but because the gap between "I know this thing" and "I've written this up for LinkedIn" was just large enough that I'd defer it indefinitely.
+
+I built Mintmark to eliminate that gap for myself first. It also became the project where I went deepest on things I'd wanted production experience with: RAG pipelines, multi-tenant architecture, BYOK AI integrations, background job orchestration with Trigger.dev, and building a SaaS product end-to-end as a solo developer.

@@ -1,0 +1,182 @@
+---
+title: "FAQs"
+category: "faq"
+tags: ["questions", "personality", "hiring", "fun"]
+last_updated: "2026-04-02"
+---
+
+## Frequently Asked Questions
+
+---
+
+### Are you currently open to new opportunities?
+
+[FILL: "Yes, actively looking" OR "Not actively hunting but open to the right role — feel free to reach out with details and I'll give you an honest answer." Include what kind of role you'd consider.]
+
+---
+
+### What is your notice period?
+
+[FILL: e.g., "One month from my current employer." OR "Available immediately."]
+
+---
+
+### Are you open to remote work?
+
+Yes, remote is my strong preference. I've been working in a remote-first setup and I do my best deep work async. I'm comfortable with time zone overlap for standups and collaboration windows, but I don't need to be in the same city as the team.
+
+---
+
+### Are you open to relocation?
+
+[FILL: Honest answer — e.g., "Open to relocation for the right opportunity, especially for roles outside India with visa sponsorship. Not interested in relocating within India at this stage."]
+
+---
+
+### What is your preferred tech stack and why?
+
+My happy path is **TypeScript + Node.js + Next.js + MongoDB** for most web applications. I reach for this stack because:
+- TypeScript catches entire classes of bugs at authoring time, not in production at 2am
+- Node.js event loop model is genuinely efficient for I/O-heavy workloads
+- Next.js gives you sensible defaults for routing, SSR, and deployment without fighting the framework
+- MongoDB's flexible schema and powerful aggregation pipeline cover 80% of data access patterns I encounter
+
+I'll always pick the right tool for the actual problem though — I've used Supabase (Postgres) for Mintmark because row-level security was genuinely the right primitive there.
+
+---
+
+### What kind of projects excite you most?
+
+Backend systems with real performance stakes — something where you have to think about latency, concurrency, or financial correctness. Real-time systems. Payment infrastructure. Anything where the constraints are interesting and the bugs are expensive.
+
+On the product side, developer tools and productivity software. I built Mintmark partly because I would use it myself every day.
+
+---
+
+### What's your working style — sync or async?
+
+Async for execution, sync for alignment. I prefer written context over a meeting for anything that can be communicated clearly in text. But architecture discussions, ambiguous requirements, and team retrospectives are worth getting everyone in a room (virtual or otherwise).
+
+---
+
+### How do you handle code reviews?
+
+I give specific, actionable feedback tied to a reason. "This could be a performance issue because [X]" beats "this seems slow." I don't comment on style unless the linter isn't configured to catch it. I try to distinguish between blocking concerns and optional suggestions.
+
+I expect the same in return.
+
+---
+
+### What's your salary expectation?
+
+[FILL: Handle however you're comfortable — e.g., "I prefer to discuss compensation in context of the full offer and role. Happy to share my range once we've both determined the role is a fit."]
+
+Alternatively, as a placeholder for the AI bot: *"Great question. My salary expectations are best discussed directly — the bot has been instructed to be useful, not to accidentally negotiate against me. Reach out via email."*
+
+---
+
+### Do you have experience leading a team?
+
+[FILL: Honest answer — e.g., "Not as a formal manager yet, but I've led technical direction on the payment microservice and real-time system at Glitchover, mentored junior devs on code review standards, and driven architectural decisions end-to-end. Looking to grow into a tech lead or senior IC role."]
+
+---
+
+### What is MintMark?
+
+Mintmark is a personal branding platform I'm building for developers. The core idea: you learn things every day — you read articles, solve problems, build features, explore new libraries — but very little of that learning becomes visible to anyone. Mintmark connects to where your learning already happens (GitHub activity, LeetCode, your own notes) and turns it into platform-ready content for LinkedIn, X, and Medium, simultaneously.
+
+It also has a personal knowledge assistant — a RAG-powered chatbot that answers questions strictly from your own notes and posts, not the general internet.
+
+---
+
+### Why did you build MintMark?
+
+I kept telling myself I'd post more on LinkedIn "when I had something worth saying" and then not posting because the activation energy was too high. I figured if I was feeling that friction, other developers probably were too. So I built the tool I needed.
+
+It also became the project where I went deepest on RAG systems, background job orchestration, BYOK AI integration, and multi-tenant architecture — all things I wanted production experience with.
+
+---
+
+### What problem does MintMark solve exactly?
+
+The gap between "I learned something today" and "I published something today." Most developers have consistent learning activity (commits, problems solved, articles read) but almost none of it becomes public content. Mintmark closes that gap by automating the content generation step while keeping you in control of what actually gets published.
+
+---
+
+### What is MintMark's current status?
+
+Currently in early access. The core loops — content generation, unified activity heatmap, and the knowledge assistant — are built. I'm iterating on the onboarding experience and collecting feedback from early users.
+
+[FILL: Add waitlist number or any specific milestone if you want]
+
+---
+
+### Is MintMark open source?
+
+[FILL: "Not currently — the core product is closed source. The portfolio bot powering this chat, however, is something I might open source once it's more polished." OR your actual answer.]
+
+---
+
+### What does your debugging process look like?
+
+Reproduce it reliably first. Without a reproduction, you're guessing. Then isolate the smallest possible failing case. Read the actual error — the full stack trace, not just the last line. Form a hypothesis, test it, move on. I don't reach for `console.log` until I've read the error message twice.
+
+---
+
+### Do you write tests?
+
+Yes, and I regret every codebase where I didn't start with them. Integration tests over unit tests where possible — mocking too deep gives you false confidence. I set up CI to run tests on every PR and treat a broken test as a broken build, not a suggestion.
+
+---
+
+### VS Code or something else?
+
+VS Code, heavily configured. Vim keybindings, GitHub Copilot, and Claude Code for the heavy lifting. I've tried JetBrains IDEs and they're excellent but I keep coming back to VS Code's extension ecosystem.
+
+---
+
+### What's your relationship status?
+
+Technically it's complicated — I'm in a long-term relationship with TypeScript. We fight sometimes (usually about generics) but we always make up. MongoDB is my situationship: fun, flexible, occasionally sends me confusing error messages at 3am.
+
+---
+
+### What's your favourite food?
+
+[FILL: Actual answer]. I treat food the same way I treat dependencies: I prefer things with simple ingredients that do one thing well. Complex menus with 40 options are a code smell.
+
+---
+
+### What do you do when you're stuck on a problem?
+
+Explain it to someone — or to rubber duck if no one's available. Claude Code is my current rubber duck of choice because it asks good clarifying questions instead of just nodding. Walking away for 20 minutes also works better than staring harder at the same bug.
+
+---
+
+### What's your opinion on [hot take: tabs vs spaces]?
+
+Tabs. But I'll defer to whatever the project's Prettier config says because this is not worth a discussion. The only correct answer is: pick one and enforce it with a formatter so no human has to think about it again.
+
+---
+
+### What's your opinion on JavaScript frameworks in general?
+
+I think framework churn is overstated as a problem. The fundamentals — how the DOM works, what the event loop does, how HTTP requests are structured — stay stable. Frameworks are just opinions about how to organize that. Pick one that has good primitives, learn it deeply, and don't rewrite things that are working.
+
+---
+
+### What's your Stack Overflow usage like?
+
+Mostly read, rarely post. I'll reach for the docs before Stack Overflow and Stack Overflow before AI for anything security-related. For everything else: whatever gets me the answer fastest. Pasting an error message into Claude Code has a better hit rate these days for Node/TypeScript issues.
+
+---
+
+### If you weren't a developer, what would you be doing?
+
+[FILL: Genuine answer — could be something completely different or adjacent, e.g., product manager, architect, game designer, etc.]
+
+---
+
+### What's one thing you wish you'd learned earlier?
+
+That "working code" and "correct code" are meaningfully different and the gap between them is usually where production incidents live. I spent too long being satisfied with "it works on my machine." The shift to thinking about edge cases, concurrent access, and failure modes as first-class design concerns changed how I write code permanently.
