@@ -52,7 +52,7 @@ export async function upsertChunks(chunks: VectorChunk[]): Promise<void> {
 export async function queryChunks(
   embedding: number[],
   topK = 5,
-  minScore = 0.7
+  minScore = 0.35
 ): Promise<RetrievedChunk[]> {
   const index = getIndex();
 
@@ -62,7 +62,10 @@ export async function queryChunks(
     includeMetadata: true,
   });
 
-  return (response.matches ?? [])
+  const allMatches = response.matches ?? [];
+  console.log("[pinecone] raw scores:", allMatches.map((m) => m.score?.toFixed(3)));
+
+  return allMatches
     .filter((match) => (match.score ?? 0) >= minScore)
     .map((match) => {
       const meta = match.metadata as unknown as ChunkMetadata;

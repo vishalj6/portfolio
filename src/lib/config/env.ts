@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const envSchema = z.object({
   GOOGLE_API_KEY: z.string().min(1),
+  GROQ_API_KEY: z.string().min(1),
   PINECONE_API_KEY: z.string().min(1),
   PINECONE_INDEX_NAME: z.string().default("portfolio-bot"),
   BOT_OWNER_NAME: z.string().min(1),

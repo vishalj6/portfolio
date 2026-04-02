@@ -1,6 +1,7 @@
 import { createHash } from "crypto";
-import { GoogleGenAI } from "@google/genai";
-import type { Content } from "@google/genai";
+import Groq from "groq-sdk";
+// import { GoogleGenAI } from "@google/genai";    // ← swap back: uncomment + re-comment Groq lines
+// import type { Content } from "@google/genai";
 import { env } from "@/lib/config/env";
 import { getSecurityHeaders } from "@/lib/security/headers";
 import { checkRateLimit } from "@/lib/security/rate-limiter";
@@ -13,7 +14,8 @@ import { buildSystemPrompt } from "@/lib/rag/prompt-builder";
 // Module-level singletons (instantiated once per server process)
 // ---------------------------------------------------------------------------
 
-const gemini = new GoogleGenAI({ apiKey: env.GOOGLE_API_KEY });
+const groq = new Groq({ apiKey: env.GROQ_API_KEY });
+// const gemini = new GoogleGenAI({ apiKey: env.GOOGLE_API_KEY });
 const isDev = env.NODE_ENV === "development";
 
 // ---------------------------------------------------------------------------
@@ -129,7 +131,7 @@ export async function POST(request: Request): Promise<Response> {
   // 6. Retrieve relevant chunks from Pinecone
   let chunks: Awaited<ReturnType<typeof queryChunks>>;
   try {
-    chunks = await queryChunks(embedding, 5, 0.7);
+    chunks = await queryChunks(embedding, 5, 0.35);
   } catch (err) {
     const detail = err instanceof Error ? err.message : undefined;
     console.error("[chat] Pinecone error:", detail);
@@ -139,30 +141,54 @@ export async function POST(request: Request): Promise<Response> {
   // 7. Build system prompt
   const systemPrompt = buildSystemPrompt(chunks);
 
-  // 8. Build Gemini contents array:
-  //    system prompt injected as first user turn + model ack, then history
-  const contents: Content[] = [
-    { role: "user", parts: [{ text: systemPrompt }] },
-    { role: "model", parts: [{ text: "Understood." }] },
+  // 8. Build messages array for the LLM
+  const groqMessages: Groq.Chat.ChatCompletionMessageParam[] = [
+    { role: "system", content: systemPrompt },
     ...input.messages.map((m) => ({
-      role: m.role === "assistant" ? "model" : ("user" as "user" | "model"),
-      parts: [{ text: m.role === "user" ? sanitizeMessage(m.content) : m.content }],
+      role: m.role as "user" | "assistant",
+      content: m.role === "user" ? sanitizeMessage(m.content) : m.content,
     })),
   ];
 
-  // 9. Start Gemini streaming
-  let geminiStream: AsyncIterable<import("@google/genai").GenerateContentResponse>;
+  // ── Gemini equivalent (swap back: uncomment below, comment out groqMessages above) ──
+  // const contents: Content[] = [
+  //   { role: "user", parts: [{ text: systemPrompt }] },
+  //   { role: "model", parts: [{ text: "Understood." }] },
+  //   ...input.messages.map((m) => ({
+  //     role: m.role === "assistant" ? "model" : ("user" as "user" | "model"),
+  //     parts: [{ text: m.role === "user" ? sanitizeMessage(m.content) : m.content }],
+  //   })),
+  // ];
+
+  // 9. Start Groq streaming
+  let groqStream: AsyncIterable<Groq.Chat.Completions.ChatCompletionChunk>;
   try {
-    geminiStream = await gemini.models.generateContentStream({
-      model: "gemini-2.0-flash",
-      contents,
-      config: { maxOutputTokens: 400, temperature: 0.7 },
+    groqStream = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: groqMessages,
+      max_tokens: 400,
+      temperature: 0.7,
+      stream: true,
     });
   } catch (err) {
     const detail = err instanceof Error ? err.message : undefined;
-    console.error("[chat] Gemini error:", detail);
+    console.error("[chat] Groq error:", detail);
     return jsonError(502, "Generation unavailable", detail);
   }
+
+  // ── Gemini streaming equivalent (swap back: uncomment below, comment out groqStream above) ──
+  // let geminiStream: AsyncIterable<import("@google/genai").GenerateContentResponse>;
+  // try {
+  //   geminiStream = await gemini.models.generateContentStream({
+  //     model: "gemini-2.5-flash",
+  //     contents,
+  //     config: { maxOutputTokens: 400, temperature: 0.7 },
+  //   });
+  // } catch (err) {
+  //   const detail = err instanceof Error ? err.message : undefined;
+  //   console.error("[chat] Gemini error:", detail);
+  //   return jsonError(502, "Generation unavailable", detail);
+  // }
 
   // 10. Log request metadata (SHA-256 IP, never raw)
   const log = {
@@ -180,17 +206,20 @@ export async function POST(request: Request): Promise<Response> {
   const stream = new ReadableStream({
     async start(controller) {
       try {
-        for await (const chunk of geminiStream) {
-          const text = chunk.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+        for await (const chunk of groqStream) {
+          const text = chunk.choices[0]?.delta?.content ?? "";
           if (text) {
-            controller.enqueue(encoder.encode(`data: ${text}\n\n`));
+            controller.enqueue(encoder.encode(text));
           }
         }
-        controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+        // ── Gemini equivalent ──
+        // for await (const chunk of geminiStream) {
+        //   const text = chunk.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+        //   if (text) controller.enqueue(encoder.encode(text));
+        // }
       } catch (err) {
         // Mid-stream error — headers already sent, close gracefully
         console.error("[chat] Stream error:", err instanceof Error ? err.message : err);
-        controller.enqueue(encoder.encode("data: [DONE]\n\n"));
       } finally {
         controller.close();
       }
@@ -200,8 +229,7 @@ export async function POST(request: Request): Promise<Response> {
   return new Response(stream, {
     status: 200,
     headers: secureHeaders({
-      "Content-Type": "text/event-stream",
-      "X-Accel-Buffering": "no",
+      "Content-Type": "text/plain; charset=utf-8",
     }),
   });
 }
