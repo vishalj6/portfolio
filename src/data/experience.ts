@@ -1,3 +1,13 @@
+export interface Experience {
+  role: string;
+  company: string;
+  period: string;
+  type: string;
+  description: string;
+  achievements: string[];
+  current: boolean;
+}
+
 export const experiences: Experience[] = [
   {
     role: "Software Developer",

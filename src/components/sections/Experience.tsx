@@ -40,7 +40,7 @@ export default function Experience() {
 
           {/* ── Tree trunk + branches ── */}
           <div className="ml-[8px] sm:ml-[19px] border-l-[3px] border-dashed border-border-main dark:border-accent/40">
-            {experiences.map((exp, i) => (
+            {experiences?.map((exp, i: number) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, x: -20 }}
