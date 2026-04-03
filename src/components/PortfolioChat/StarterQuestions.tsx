@@ -7,7 +7,8 @@ const QUESTIONS = [
   "Tell me about MintMark",
   "Are you open to work?",
   "What are you learning?",
-  "Do you have a girlfriend? 👀",
+  "What's your favorite IPL team?" // favorite ipl team
+  // "Do you have a girlfriend? 👀",
 ];
 
 interface Props {

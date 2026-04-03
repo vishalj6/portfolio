@@ -20,6 +20,13 @@ export function getSecurityHeaders(): Headers {
     ].join("; ")
   );
   headers.set("Cache-Control", "no-store");
+  // Enforce HTTPS for 1 year; includeSubDomains covers any future subdomains
+  headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+  // Disable browser features that a portfolio API has no use for
+  headers.set(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+  );
 
   return headers;
 }

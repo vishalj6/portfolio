@@ -11,6 +11,11 @@ const envSchema = z.object({
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
+  SUPABASE_URL: z.string().url(),
+  SUPABASE_SECRET_KEY: z.string().min(1),
+  // Optional: if set, GET /api/health requires `Authorization: Bearer <value>`
+  // for full diagnostic output. Without it, the endpoint returns status only.
+  HEALTH_SECRET: z.string().min(16).optional(),
 });
 
 function parseEnv() {
