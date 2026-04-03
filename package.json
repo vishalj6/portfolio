@@ -6,16 +6,28 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "bot:ingest": "npx tsx scripts/ingest.mts",
+    "bot:ingest:file": "npx tsx scripts/ingest.mts --file"
   },
   "dependencies": {
+    "@ai-sdk/react": "^3.0.145",
+    "@google/genai": "^1.0.0",
+    "@pinecone-database/pinecone": "^7.1.0",
+    "@supabase/supabase-js": "^2.101.1",
     "@vercel/analytics": "^1.6.1",
     "@vercel/speed-insights": "^1.3.1",
+    "ai": "^6.0.143",
     "framer-motion": "^12.36.0",
+    "gray-matter": "^4.0.3",
+    "groq-sdk": "^1.1.2",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "react-intersection-observer": "^10.0.3"
+    "react-intersection-observer": "^10.0.3",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -25,6 +37,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

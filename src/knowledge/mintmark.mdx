@@ -1,0 +1,162 @@
+---
+title: "Mintmark"
+category: "project"
+project_type: "SaaS / Solo"
+status: "early-access"
+url: "https://mintmark-vishal.vercel.app"
+github: "https://github.com/vishal-jadeja/mintmark"
+tags: ["mintmark", "saas", "personal-branding", "rag", "ai", "content-generation", "linkedin", "twitter", "medium", "byok", "heatmap", "knowledge-assistant", "nextjs", "supabase", "typescript", "trigger.dev", "upstash", "pgvector", "multi-tenant", "background-jobs", "chrome-extension", "notion-sync", "solo-project"]
+description: "Mintmark is a passive-first personal branding platform that turns developer learning activity into platform-ready content for LinkedIn, X, and Medium. Built solo by Vishal Jadeja. Currently in early access."
+last_updated: "2026-04-02"
+---
+
+## What is Mintmark
+
+Mintmark is a passive-first personal branding platform built for developers. It sits on top of where learning already happens — GitHub commits, LeetCode solutions, personal notes, reading sessions — and turns that activity into platform-ready content for LinkedIn, X, and Medium simultaneously.
+
+It also includes a personal knowledge assistant: a RAG-powered chatbot that answers questions strictly from your own notes and posts, with strict tenant isolation so your data never bleeds into anyone else's context.
+
+The name comes from a **mintmark** — the tiny stamp a mint presses onto a coin to certify it's real, authentic, and came from a specific source. Mintmark stamps your authentic knowledge and identity onto the internet.
+
+**Live (early access):** https://mintmark-vishal.vercel.app
+**GitHub:** https://github.com/vishal-jadeja/mintmark
+
+---
+
+## The problem it solves
+
+Developers learn constantly. Most of that learning never becomes visible — not because developers don't have anything worth saying, but because the activation energy for "write a LinkedIn post" is high. You have to remember what you did, articulate it clearly, format it for the platform, and repeat for X and Medium with different tone and length.
+
+Mintmark removes that friction. The learning is already happening — Mintmark closes the gap between "I learned this" and "I published this."
+
+Secondary problem: developer knowledge is scattered across GitHub READMEs, Notion pages, bookmarked articles, and memory. The personal knowledge assistant provides a single interface to query all of it.
+
+---
+
+## Core features
+
+### Content Studio
+
+Input once, publish everywhere. Paste what you learned — a YouTube video, an article, a personal experience — and Mintmark generates posts for LinkedIn, X, and Medium simultaneously, each formatted to your own rules.
+
+- **Per-platform AI instructions** — define tone, format, length, and style per platform independently. LinkedIn gets professional storytelling. X gets a punchy hook. Medium gets depth.
+- **Parallel generation** — all three platforms generated at once via `Promise.all`, streamed to the UI
+- **Inline editing** — edit any generated post before publishing; nothing goes out without explicit approval
+- **One-click publish** — connected platforms publish directly from Mintmark
+- **BYOK AI** — bring your own API key (Anthropic, OpenAI, Gemini, or Groq); Mintmark never pays for your AI calls and never stores your key server-side beyond the request
+
+### Unified Activity Heatmap
+
+A single GitHub-style contribution heatmap that aggregates everything you do across every connected source into one grid. Sources tracked:
+
+| Source | What counts |
+|---|---|
+| GitHub | Commits, PRs, reviews |
+| LeetCode | Problems solved |
+| YouTube | Videos watched >50% |
+| LinkedIn / X / Medium | Posts published |
+| Notes | Notes created or updated |
+| Sessions | Manual work sessions logged |
+| VS Code | Coding time (via extension) |
+
+Color intensity (0–4) reflects activity volume per day. Hover for a breakdown. Filter by source. Navigate by year. Streak updates in real time.
+
+### Personal Knowledge Assistant
+
+A RAG-powered chatbot that answers questions using your own notes, posts, and activity as context — not the general internet. Example queries:
+
+- "What do I know about system design?"
+- "Have I written any notes about React hooks?"
+- "Suggest a topic I should post about based on what I've been learning."
+- "Summarize what I've been learning this month."
+
+Built on a RAG pipeline using pgvector. Every answer shows which notes it cited. Strictly scoped to your data — never cross-tenant, never hallucinated context.
+
+### Notion Sync
+
+Two-way sync between Mintmark notes and your Notion workspace. Runs every 30 minutes via background job. Conflicts are flagged — never silently overwritten.
+
+### Productivity Suite
+
+Modular widget dashboard: Pomodoro timer, stopwatch, Spotify embed, quick notes capture, and a manual session logger (AI auto-tags topics and feeds into the heatmap).
+
+### Early Access System
+
+Waitlist with referral-based queue movement (each referral moves you up 5 positions), invite-only signup with single-use tokens (48-hour expiry), and a runtime-configurable invite cap via admin dashboard (no redeploy required).
+
+---
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16.2 + React 19 + TypeScript |
+| Styling | Tailwind CSS v4 + shadcn/ui + Framer Motion |
+| State | TanStack Query v5 (server) + Zustand v5 (UI) |
+| Auth | NextAuth.js v5 (App Router) |
+| Database | Supabase (PostgreSQL + pgvector + Realtime + RLS) |
+| Background jobs | Trigger.dev v3 |
+| Cache / Rate limiting | Upstash Redis |
+| AI layer | Unified BYOK adapter — Anthropic, OpenAI, Gemini, Groq |
+| Email | Brevo (React Email templates) |
+| Chrome Extension | Manifest V3 |
+| Deployment | Vercel + Supabase |
+
+---
+
+## Security architecture
+
+Security is treated as a first-class concern, not an afterthought:
+
+- **Encrypted token storage** — all OAuth tokens encrypted with AES-256 before hitting Supabase; encryption key never leaves the server
+- **httpOnly cookies only** — no tokens in `localStorage` or client-accessible storage
+- **Row Level Security** — enabled on every Supabase table; application layer also filters by `user_id` — RLS is the safety net, not the only guard
+- **PKCE flow** — used for all OAuth connections (LinkedIn, X, Medium, GitHub, Notion)
+- **Refresh token rotation** — rotated on every use
+- **Rate limiting** — 100 req/min per user on all API routes via Upstash; 10 waitlist signups per IP per hour
+- **AI assistant isolation** — every RAG query scopes to `user_id` first; cross-tenant data access is architecturally impossible
+
+---
+
+## Database schema (key tables)
+
+| Table | Purpose |
+|---|---|
+| `users` | Core user records |
+| `platform_connections` | Encrypted OAuth tokens per platform |
+| `platform_instructions` | Per-platform AI tone and format rules |
+| `content_inputs` | Raw learning inputs |
+| `generated_content` | AI-generated posts (draft → published) |
+| `unified_activity` | Single source of truth for the heatmap |
+| `notes` | User notes with pgvector embeddings |
+| `ai_conversations` / `ai_messages` | AI assistant history |
+| `waitlist` / `invite_tokens` | Early access system |
+
+---
+
+## Roadmap
+
+| Phase | Status | Focus |
+|---|---|---|
+| Phase 1 | In Progress | Content studio, platform connections, productivity widgets, early access |
+| Phase 2 | Planned | Notes editor, Notion sync, AI assistant, knowledge graph, RSS tracker |
+| Phase 3 | Planned | Chrome extension, YouTube tracking, unified heatmap, voice-to-content |
+| Phase 4 | Planned | Gmail, GitHub commits, LeetCode, VS Code extension, public portfolio |
+| Phase 5 | Planned | Weekly digest, trending topics, LinkedIn analytics, content calendar |
+| Phase 6 | Planned | XP system, streak gamification, milestone posts, open source release |
+
+---
+
+## Why I built it
+
+The honest answer: I needed it myself. I kept accumulating learning — interesting bugs I fixed, architecture decisions I made, libraries I explored — and none of it was becoming public content. Not because I didn't want to share it, but because the gap between "I know this thing" and "I've written this up for LinkedIn" was just large enough that I'd defer it indefinitely.
+
+Mintmark was built to eliminate that gap for myself first. It also became the project where I went deepest on RAG pipelines, multi-tenant architecture, BYOK AI integrations, background job orchestration with Trigger.dev, and building a SaaS product end-to-end as a solo developer.
+
+---
+
+## Current status
+
+Early access. Core features shipped: BYOK AI layer supporting 4 providers, unified activity heatmap (GitHub + LeetCode + notes), per-platform AI instructions with simultaneous multi-platform generation, early access waitlist with referral queue, and the RAG-powered knowledge assistant (in progress).
+
+Contributing is not open yet. The repo is public for transparency. Full open source planned for Phase 6.

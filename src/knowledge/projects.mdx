@@ -1,0 +1,131 @@
+---
+title: "Projects"
+category: "work"
+tags:
+  [
+    "projects",
+    "portfolio",
+    "mintmark",
+    "syncify",
+    "amazon-clone",
+    "movie-recommendation",
+    "saas",
+    "full-stack",
+    "machine-learning",
+    "python",
+    "react",
+    "nodejs",
+    "mongodb",
+    "youtube-api",
+    "spotify-api",
+    "tmdb",
+    "scikit-learn",
+    "rag",
+    "byok",
+    "supabase",
+    "trigger.dev",
+    "solo-developer",
+  ]
+description: "All projects built by Vishal Jadeja — from production SaaS (Mintmark) to learning projects in full-stack and applied ML."
+last_updated: "2026-04-02"
+---
+
+## Projects
+
+---
+
+### Mintmark — Personal Branding & Knowledge Platform
+
+**Status:** Early access — live at https://mintmark-vishal.vercel.app
+
+**What it does:**
+A passive-first personal branding platform that turns developer learning activity into platform-ready content for LinkedIn, X, and Medium simultaneously. Features a unified activity heatmap aggregating GitHub, LeetCode, notes, and sessions; BYOK AI content generation supporting Anthropic, OpenAI, Gemini, and Groq; and a RAG-powered personal knowledge assistant scoped strictly to your own notes and posts with full tenant isolation.
+
+**Problem it solved:**
+Developers learn constantly but rarely publish what they learn — the activation energy for writing a LinkedIn post is just high enough to defer indefinitely. Mintmark removes that friction by meeting developers where learning already happens and generating platform-ready drafts automatically.
+
+**My role:**
+Solo founder and sole developer. Designed the full architecture and built every layer — auth, backend APIs, frontend, AI integrations, real-time heatmap, background job pipelines, and the RAG pipeline end-to-end.
+
+**Tech stack:**
+Next.js 16, React 19, TypeScript, Tailwind CSS v4, Supabase (PostgreSQL + pgvector + RLS), TanStack Query v5, Zustand v5, Trigger.dev v3, Upstash Redis, NextAuth.js v5, Anthropic Claude / OpenAI GPT / Google Gemini / Groq (BYOK)
+
+**Links:**
+
+- GitHub: https://github.com/vishal-jadeja/mintmark
+- Live: https://mintmark-vishal.vercel.app
+
+---
+
+### Syncify — YouTube → Spotify Playlist Converter
+
+**Status:** Live at https://syncify-vishal.netlify.app
+
+**What it does:**
+Converts YouTube playlists to Spotify using intelligent fuzzy matching on track metadata. Handles full OAuth 2.0 flows for both platforms, gracefully manages API rate limits, and resolves imperfect title matches that a direct string comparison would miss.
+
+**Problem it solved:**
+Migrating playlists between platforms was entirely manual — search every song, find the closest match, add it one by one. Syncify automates the whole flow end-to-end, including handling cases where YouTube and Spotify titles differ slightly.
+
+**My role:**
+Solo developer. Built end-to-end: OAuth plumbing for both platforms, the fuzzy matching algorithm, rate limit handling, and the full React frontend.
+
+**Tech stack:**
+React.js, Node.js, TypeScript, OAuth 2.0, YouTube Data API v3, Spotify Web API, fuzzy string matching
+
+**Outcome:**
+Reduced manual playlist migration effort by ~95%.
+
+**Links:**
+
+- GitHub: https://github.com/vishal-jadeja/syncify
+- Live: https://syncify-vishal.netlify.app
+
+---
+
+### Amazon Clone — E-Commerce Web Application
+
+**Status:** Learning project — completed
+
+**What it does:**
+A full-stack e-commerce application replicating Amazon's core user-facing features — JWT-based authentication, product catalog browsing, shopping cart management, and order processing with a mobile-first responsive UI.
+
+**Purpose:**
+A deep dive into full-stack e-commerce patterns: auth flows, cart state management, order lifecycle, and MongoDB schema design at scale. Not built to ship — built to understand the fundamentals before working on production systems.
+
+**Tech stack:**
+React.js, Redux, Node.js, Express.js, MongoDB, JWT
+
+**Links:**
+
+- GitHub: https://github.com/vishal-jadeja/AmazonClone
+
+---
+
+### Movie Recommendation System — Content-Based Film Discovery Engine
+
+**Status:** Learning project — completed
+
+**What it does:**
+Finds similar films using cosine similarity on TF-IDF vectorized metadata — genres, keywords, cast, and crew. Built as an interactive Streamlit app: pick a movie, get five tailored recommendations instantly with real-time poster fetching via the TMDB API.
+
+**Purpose:**
+An introduction to applied ML and recommendation systems — understanding how vector similarity search works at a foundational level before neural embeddings and approximate nearest neighbour search entered the picture. The same core concept powers production RAG systems like the one in Mintmark.
+
+**Tech stack:**
+Python, Streamlit, Scikit-learn, Pandas, TMDB API, TF-IDF vectorization, cosine similarity
+
+**Links:**
+
+- GitHub: https://github.com/vishal-jadeja/Movie-Recommendation-System
+
+---
+
+## Project timeline
+
+| Project                     | Type             | Year         | Stack                           |
+| --------------------------- | ---------------- | ------------ | ------------------------------- |
+| Mintmark                    | Production SaaS  | 2026–present | Next.js, Supabase, AI, RAG      |
+| Syncify                     | Utility tool     | 2024         | React, Node.js, OAuth APIs      |
+| Amazon Clone                | Learning project | 2023         | React, Express, MongoDB         |
+| Movie Recommendation System | Learning project | 2023         | Python, Scikit-learn, Streamlit |

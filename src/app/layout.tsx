@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Space_Grotesk, JetBrains_Mono, Bebas_Neue } from "next/font/google";
+import DynamicChat from "@/components/PortfolioChat/DynamicChat";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -88,6 +89,7 @@ export default function RootLayout({
         {children}
         <Analytics />
         <SpeedInsights />
+        <DynamicChat />
       </body>
     </html>
   );
