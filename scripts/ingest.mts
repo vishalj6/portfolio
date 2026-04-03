@@ -8,7 +8,7 @@ import type { VectorChunk, ChunkMetadata } from "@/lib/rag/pinecone-client";
 // Static imports are hoisted, so we use dynamic imports for the RAG modules
 // after manually loading the env file.
 // ---------------------------------------------------------------------------
-const envPath = path.resolve(".env.local");
+const envPath = path.resolve(".env");
 if (fs.existsSync(envPath)) {
   const envContent = fs.readFileSync(envPath, "utf-8");
   for (const line of envContent.split("\n")) {
