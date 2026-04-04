@@ -26,6 +26,7 @@ This is a single-page portfolio. `src/app/page.tsx` renders all sections sequent
 **Data flow:** Static TypeScript objects in `src/data/` → imported directly into section components → no server fetching, no state management library.
 
 **Content to update lives in:**
+
 - `src/data/experience.ts` — work history
 - `src/data/projects.ts` — project cards
 - `src/data/skills.ts` — skill categories
@@ -36,6 +37,7 @@ This is a single-page portfolio. `src/app/page.tsx` renders all sections sequent
 All styles live in `src/app/globals.css`. Dark mode is toggled by adding/removing the `.dark` class on `<html>` — **not** via `prefers-color-scheme` media query. The theme is stored in `localStorage` under the key `'theme'`.
 
 **Neobrutalism utility classes** (defined in `globals.css`, use these instead of one-off Tailwind):
+
 - `.brutal-card` — bordered card with offset shadow
 - `.brutal-btn` — filled yellow (#FFE600) button
 - `.brutal-btn-outline` — transparent bordered button
@@ -44,11 +46,13 @@ All styles live in `src/app/globals.css`. Dark mode is toggled by adding/removin
 - `.sticker-badge` — wobbling highlight badge
 
 **CSS variables** (available via Tailwind as `bg-bg`, `text-text-main`, etc.):
+
 - `--theme-bg`, `--theme-surface`, `--theme-card` — background layers
 - `--theme-text-main`, `--theme-text-muted`, `--theme-border-main`
 - `--color-accent: #FFE600`, `--color-accent-red`, `--color-accent-blue`
 
 **Fonts** (loaded via `next/font/google` in `layout.tsx`, referenced as CSS variables):
+
 - `font-heading` class → Bebas Neue (`--font-heading`)
 - `font-sans` default → Space Grotesk
 - `font-mono` → JetBrains Mono
@@ -63,3 +67,5 @@ Two animation systems coexist — use the appropriate one:
 ## `next.config.ts`
 
 `transpilePackages: ["three"]` is pre-configured for potential Three.js use. No other Next.js config overrides exist.
+
+# Always be collaberative don't do anything major without asking me

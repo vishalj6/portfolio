@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import type { UIMessage } from "ai";
 import type { ChatStatus } from "ai";
@@ -78,9 +79,11 @@ export default function ChatPanel({
     <div className={styles.panel}>
       {/* Header */}
       <div className={styles.header}>
-        <div className={styles.headerText}>
-          <span className={styles.headerName}>Vishal Jadeja</span>
-          <span className={styles.headerSub}>Ask me anything</span>
+        <div className={styles.headerInfo}>
+          <div className={styles.headerText}>
+            <span className={styles.headerName}>Vishal's AI</span>
+            <span className={styles.headerSub}>● Always Online</span>
+          </div>
         </div>
         <div className={styles.headerActions}>
           <button
@@ -89,7 +92,7 @@ export default function ChatPanel({
             title="Clear chat"
             aria-label="Clear chat history"
           >
-            ⌫
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2" /></svg>
           </button>
           <button
             className={styles.headerBtn}
@@ -97,7 +100,7 @@ export default function ChatPanel({
             title="Close"
             aria-label="Close chat"
           >
-            ✕
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
           </button>
         </div>
       </div>
@@ -121,27 +124,29 @@ export default function ChatPanel({
 
       {/* Input */}
       <div className={styles.inputArea}>
-        <textarea
-          ref={textareaRef}
-          className={styles.textarea}
-          value={input}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          placeholder="Ask me anything… (Enter to send)"
-          disabled={isLoading}
-          rows={1}
-        />
-        <button
-          className={styles.sendBtn}
-          onClick={submit}
-          disabled={isLoading || !input.trim()}
-          aria-label="Send message"
-        >
-          {/* Send arrow icon */}
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-          </svg>
-        </button>
+        <div className={styles.inputWrap}>
+          <textarea
+            ref={textareaRef}
+            className={styles.textarea}
+            value={input}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            placeholder="Message Vishal's AI..."
+            disabled={isLoading}
+            rows={1}
+          />
+          <button
+            className={styles.sendBtn}
+            onClick={submit}
+            disabled={isLoading || !input.trim()}
+            aria-label="Send message"
+          >
+            {/* Up arrow icon */}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 19V5M5 12l7-7 7 7" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,13 +1,18 @@
 "use client";
 
-import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Theme = "light" | "dark";
 
-const ICONS: Record<Theme, React.ReactElement> = {
-  light: (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+// Must match :root and :root.dark --theme-bg in globals.css
+const THEME_BG: Record<Theme, string> = {
+  light: "#fafafa",
+  dark: "#080808",
+};
+
+function SunIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="5" />
       <line x1="12" y1="1" x2="12" y2="3" />
       <line x1="12" y1="21" x2="12" y2="23" />
@@ -18,29 +23,25 @@ const ICONS: Record<Theme, React.ReactElement> = {
       <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
       <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
     </svg>
-  ),
-  dark: (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
     </svg>
-  ),
-};
-
-const LABELS: Record<Theme, string> = {
-  light: "Light",
-  dark: "Dark"
-};
-
-const OPTIONS: Theme[] = ["light", "dark"];
+  );
+}
 
 function applyTheme(theme: Theme) {
-  const isDark = theme === "dark";
-  document.documentElement.classList.toggle("dark", isDark);
+  document.documentElement.classList.toggle("dark", theme === "dark");
 }
 
 export default function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
+  const btnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -49,34 +50,69 @@ export default function ThemeToggle() {
     applyTheme(saved);
   }, []);
 
-  function handleSelect(t: Theme) {
-    setTheme(t);
-    localStorage.setItem("theme", t);
-    applyTheme(t);
+  function toggle() {
+    const next: Theme = theme === "light" ? "dark" : "light";
+
+    // Capture button center coordinates
+    const rect = btnRef.current?.getBoundingClientRect();
+    const cx = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
+    const cy = rect ? rect.top + rect.height / 2 : window.innerHeight / 2;
+
+    // Radius needed to cover the entire viewport from (cx, cy)
+    const maxRadius = Math.ceil(
+      Math.hypot(
+        Math.max(cx, window.innerWidth - cx),
+        Math.max(cy, window.innerHeight - cy)
+      )
+    );
+
+    // Fallback if View Transitions API is not supported
+    if (!document.startViewTransition) {
+      setTheme(next);
+      localStorage.setItem("theme", next);
+      applyTheme(next);
+      return;
+    }
+
+    // Execute transition
+    const transition = document.startViewTransition(() => {
+      // Import flushSync dynamically to avoid issues with standard imports in some environments
+      // but since it's a click handler, we can just use set timeout or standard React state
+      // Actually standard React state updates inside startViewTransition are batched but may not flush synchronously.
+      // Next.js handles this well, but we also manually toggle the class on `document.documentElement`
+      // which is synchronous! The only React state is `theme` for the icon.
+      setTheme(next);
+      localStorage.setItem("theme", next);
+      applyTheme(next);
+    });
+
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${cx}px ${cy}px)`,
+            `circle(${maxRadius}px at ${cx}px ${cy}px)`
+          ]
+        },
+        {
+          duration: 600,
+          easing: "ease-in-out",
+          pseudoElement: "::view-transition-new(root)",
+        }
+      );
+    });
   }
 
   if (!mounted) return null;
 
   return (
-    <div className="flex items-center border-2 border-black dark:border-[#2E2E2E] shadow-[2px_2px_0_#111] dark:shadow-[2px_2px_0_#FFE600]">
-      {OPTIONS.map((opt) => {
-        const active = theme === opt;
-        return (
-          <button
-            key={opt}
-            onClick={() => handleSelect(opt)}
-            aria-label={`Switch to ${LABELS[opt]} theme`}
-            title={LABELS[opt]}
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 font-mono text-[10px] font-bold tracking-widest uppercase transition-colors duration-100 border-r-2 border-black dark:border-[#2E2E2E] last:border-r-0 ${active
-              ? "bg-[#FFE600] text-black"
-              : "bg-white dark:bg-[#1C1C1C] text-black dark:text-[#A0A09A] hover:bg-[#FFE600]/40 dark:hover:bg-[#FFE600]/15 dark:hover:text-[#E8E6DC]"
-              }`}
-          >
-            {ICONS[opt]}
-            <span className="hidden sm:inline">{LABELS[opt]}</span>
-          </button>
-        );
-      })}
-    </div>
+    <button
+      ref={btnRef}
+      onClick={toggle}
+      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}
+      className="w-8 h-8 flex items-center justify-center rounded-md border border-border-main text-text-muted hover:text-text-main hover:border-text-muted transition-all duration-150"
+    >
+      {theme === "light" ? <MoonIcon /> : <SunIcon />}
+    </button>
   );
 }

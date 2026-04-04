@@ -2,57 +2,56 @@
 
 import { motion } from "framer-motion";
 
-
 export default function About() {
   return (
-    <section id="about" className="bg-surface border-t-4 border-border-main py-24 px-5 sm:px-8 md:px-16">
-      <div className="max-w-6xl mx-auto">
+    <section id="about" className="bg-bg py-16 px-5 sm:px-8">
+      <div className="max-w-[840px] mx-auto">
 
-        {/* Section header */}
-        <div className="flex items-center gap-4 mb-14">
-          <span className="section-num">01</span>
-          <h2 className="font-heading text-text-main text-4xl md:text-5xl tracking-wider uppercase">About</h2>
-          <div className="flex-1 h-1 bg-text-main dark:bg-accent ml-2" />
-        </div>
-        <div className="max-w-6xl">
-          {/* Bio */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="flex flex-col gap-6"
-          >
+        <motion.h2
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.45 }}
+          className="font-bold text-text-main text-2xl mb-6"
+        >
+          About
+        </motion.h2>
 
-            <p className="text-text-main text-2xl md:text-3xl font-bold leading-snug font-heading tracking-wide uppercase">
-              I build scalable backend systems and real-time applications.
-            </p>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col gap-4"
+        >
+          <p className="text-text-main text-xl md:text-2xl font-semibold leading-snug tracking-tight">
+            I build scalable backend systems and real-time applications.
+          </p>
 
-            <p className="text-text-muted text-lg leading-relaxed">
-              I'm a <strong className="text-text-main">Full-Stack Software Engineer</strong> focused on
-              <strong className="text-text-main"> backend architecture, distributed systems, and real-time infrastructure</strong>.
-              Currently working at
-              <span className="font-bold text-text-main underline decoration-accent decoration-2 underline-offset-2 mx-1">
-                Glitchover
-              </span>,
-              where I design and build production systems that power competitive gaming platforms.
-            </p>
+          <p className="text-text-muted text-base leading-relaxed">
+            I&apos;m a <strong className="text-text-main font-semibold">Full-Stack Software Engineer</strong> focused on
+            <strong className="text-text-main font-semibold"> backend architecture, distributed systems, and real-time infrastructure</strong>.
+            Currently working at{' '}
+            <a href="https://glitchover.com" target="_blank" rel="noopener noreferrer"
+              className="text-text-main font-semibold link-underline">
+              Glitchover
+            </a>
+            , where I design and build production systems that power competitive gaming platforms.
+          </p>
 
-            <p className="text-text-muted text-lg leading-relaxed">
-              I specialize in the <strong className="text-text-main">MERN stack (MongoDB, Express, React, Node.js)</strong> and
-              building high-performance APIs, event-driven systems, and scalable backend services.
-              I enjoy solving complex engineering problems — from optimizing database queries and
-              eliminating race conditions to designing resilient backend systems.
-            </p>
+          <p className="text-text-muted text-base leading-relaxed">
+            I specialize in the <strong className="text-text-main font-semibold">MERN stack</strong> and building
+            high-performance APIs, event-driven systems, and scalable backend services.
+            I enjoy solving complex engineering problems — from optimizing database queries
+            and eliminating race conditions to designing resilient backend systems.
+          </p>
 
-            <p className="text-text-muted text-lg leading-relaxed">
-              Outside of work, I spend time deep-diving into
-              <strong className="text-text-main"> system design, distributed systems, and scalable architectures</strong>,
-              continuously improving how large-scale software systems are built and operated.
-            </p>
-
-          </motion.div>
-        </div>
+          <p className="text-text-muted text-base leading-relaxed">
+            Outside of work, I deep-dive into
+            <strong className="text-text-main font-semibold"> system design, distributed systems, and scalable architectures</strong>,
+            and enjoy solving algorithmic problems on LeetCode.
+          </p>
+        </motion.div>
       </div>
     </section>
   );

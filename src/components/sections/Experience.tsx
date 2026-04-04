@@ -1,121 +1,107 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { experiences } from "@/data/experience";
 
 export default function Experience() {
+  const [expanded, setExpanded] = useState<Record<number, boolean>>({ 0: true });
+
   return (
-    <section id="experience" className="bg-surface border-t-4 border-border-main py-24 px-5 sm:px-8 md:px-16">
-      <div className="max-w-6xl mx-auto">
+    <section id="experience" className="py-16 px-5 sm:px-8 bg-bg">
+      <div className="max-w-[840px] mx-auto">
 
-        {/* Section header */}
-        <div className="flex items-center gap-4 mb-14">
-          <span className="section-num">02</span>
-          <h2 className="font-heading text-text-main text-4xl md:text-5xl tracking-wider uppercase">Experience</h2>
-          <div className="flex-1 h-1 bg-text-main dark:bg-accent ml-2" />
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
+        <motion.h2
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.45 }}
+          className="font-bold text-text-main text-2xl mb-8"
         >
+          Work Experience
+        </motion.h2>
 
-          {/* ── Root node: company ── */}
-          <div className="flex items-center gap-3 mb-1">
-            <div
-              className="w-10 h-10 border-[3px] border-border-main dark:border-accent bg-accent flex items-center justify-center shrink-0 shadow-[3px_3px_0_#111] dark:shadow-[3px_3px_0_#FFE600]"
+        <div className="flex flex-col">
+          {experiences.map((exp, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.4, delay: i * 0.08 }}
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-                <polyline points="9,22 9,12 15,12 15,22" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-text-main font-bold text-base font-heading tracking-widest uppercase">Glitchover</p>
-              <p className="font-mono text-text-muted text-[10px] tracking-wide">Aug 2024 – Present</p>
-            </div>
-          </div>
-
-          {/* ── Tree trunk + branches ── */}
-          <div className="ml-[8px] sm:ml-[19px] border-l-[3px] border-dashed border-border-main dark:border-accent/40">
-            {experiences?.map((exp, i: number) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, delay: i * 0.15 }}
-                className="flex items-start"
+              {/* Entry row */}
+              <button
+                onClick={() => setExpanded((prev) => ({ ...prev, [i]: !prev[i] }))}
+                className="w-full flex items-center justify-between gap-4 py-4 text-left group"
               >
-                {/* Branch arm: horizontal + node dot */}
-                <div className="shrink-0 flex items-center mt-7 mr-1 sm:mr-5">
-                  <div className="w-1 sm:w-8 h-[3px] -ml-[3px] bg-text-main dark:bg-accent/40" />
-                  <div
-                    className={`w-3 sm:w-4 h-3 sm:h-4 border-[3px] shrink-0 ${exp.current
-                      ? "bg-accent border-border-main dark:border-accent shadow-[2px_2px_0_#111] dark:shadow-[2px_2px_0_#FFE600]"
-                      : "bg-surface dark:bg-[#252525] border-border-main dark:border-[#444] shadow-[2px_2px_0_#111] dark:shadow-[2px_2px_0_#444]"
-                      }`}
-                  />
-                </div>
-
-                {/* Card */}
-                <div className="flex-1 my-4 brutal-card overflow-hidden">
-
-                  {/* Card header */}
-                  <div
-                    className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-5 pt-4 pb-3 ${exp.current
-                      ? "bg-accent"
-                      : "bg-card"
-                      }`}
-                    style={{ borderBottom: "3px solid" }}
+                <div className="flex items-center gap-3 min-w-0">
+                  {/* Company icon */}
+                  <motion.div
+                    animate={{ scale: [1, 1.3, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, repeatType: "loop", ease: "easeInOut" }}
+                    className="w-8 h-8 rounded-full border border-[var(--glass-border)] flex items-center justify-center shrink-0 bg-[var(--theme-card)]"
                   >
-                    <div>
-                      <div className="flex flex-wrap items-center gap-2 mb-0.5">
-                        <h3 className={`font-heading text-2xl tracking-wider uppercase ${exp.current ? "text-black" : "text-text-main"}`}>{exp.role}</h3>
-                        {exp.current && (
-                          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-black text-accent text-[9px] font-mono tracking-widest" style={{ border: "2px solid #111" }}>
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e] animate-pulse" />
-                            CURRENT
-                          </span>
-                        )}
-                      </div>
-                      <span className="font-mono dark:text-text-muted text-[10px] text-text-main/60 font-bold uppercase tracking-wide">{exp.type}</span>
-                    </div>
-                    <span className="shrink-0 self-start sm:self-auto font-mono text-xs border-2 border-border-main px-3 py-1 bg-surface font-bold shadow-[2px_2px_0_#111]">
-                      {exp.period}
-                    </span>
-                  </div>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-text-muted">
+                      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                      <polyline points="9,22 9,12 15,12 15,22" />
+                    </svg>
+                  </motion.div>
+                  <span className="font-bold text-text-main text-base group-hover:opacity-80 transition-opacity truncate">
+                    {exp.company}
+                  </span>
+                  <span className="font-mono text-text-muted text-sm shrink-0">
+                    / {exp.role}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="font-mono text-text-muted text-xs">{exp.period}</span>
+                  <svg
+                    width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                    className={`text-text-muted transition-transform duration-200 ${expanded[i] ? 'rotate-180' : ''}`}
+                  >
+                    <path d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </button>
 
-                  {/* Description */}
-                  <p className="px-5 py-3.5 text-text-muted text-sm leading-relaxed" style={{ borderBottom: "2px solid var(--desc-border, #eee)" }}>
-                    {exp.description}
-                  </p>
-
-                  {/* Key contributions */}
-                  <div className="px-5 py-4">
-                    <p className="font-mono text-[9px] uppercase tracking-widest text-text-muted font-bold mb-3">Key Contributions</p>
-                    <ul className="flex flex-col gap-x-6 gap-y-2">
+              {/* Expandable content */}
+              <AnimatePresence initial={false}>
+                {expanded[i] && (
+                  <motion.div
+                    key="content"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                    style={{ overflow: 'hidden' }}
+                  >
+                    <ul className="flex flex-col gap-2 pb-5 pl-11">
                       {exp.achievements.map((a, j) => (
-                        <li key={j} className="flex items-start gap-2 text-sm text-text-main leading-relaxed">
-                          <span className="shrink-0 mt-0.5 font-bold text-accent text-lg leading-none" style={{ WebkitTextStroke: "1px #111" }}>›</span>
+                        <motion.li
+                          key={j}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.25, delay: j * 0.05 }}
+                          className="flex items-start gap-2.5 text-sm text-text-muted leading-relaxed"
+                        >
+                          <span className="shrink-0 mt-[7px] w-1.5 h-1.5 rounded-full bg-[var(--theme-border-main)]" />
                           {a}
-                        </li>
+                        </motion.li>
                       ))}
                     </ul>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-            {/* Start cap */}
-            <div className="flex items-center gap-2 mt-3 mb-1">
-              <div className="w-5 h-[3px] -ml-[3px] bg-text-main dark:bg-accent/40" />
-              <span className="font-mono text-text-muted text-[9px] tracking-widest uppercase">Start</span>
-            </div>
-          </div>
-        </motion.div>
+              {/* Divider — hatch between entries */}
+              {i < experiences.length - 1 && (
+                <div className="hatch-bg h-px my-1" />
+              )}
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

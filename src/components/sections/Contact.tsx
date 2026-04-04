@@ -1,79 +1,102 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { socials, email } from "@/data/socials";
+import { email } from "@/data/socials";
+import MagneticElement from "@/components/MagneticElement";
+
+function Corner({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
+  const base = "absolute w-4 h-4 text-[var(--theme-border-main)]";
+  const cls = {
+    tl: `${base} top-0 left-0 -translate-x-1/2 -translate-y-1/2`,
+    tr: `${base} top-0 right-0 translate-x-1/2 -translate-y-1/2`,
+    bl: `${base} bottom-0 left-0 -translate-x-1/2 translate-y-1/2`,
+    br: `${base} bottom-0 right-0 translate-x-1/2 translate-y-1/2`,
+  }[pos];
+
+  return (
+    <motion.svg
+      className={cls}
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      animate={{ opacity: [0.4, 0.9, 0.4] }}
+      transition={{ duration: 3, repeat: Infinity }}
+    >
+      <line x1="8" y1="0" x2="8" y2="16" />
+      <line x1="0" y1="8" x2="16" y2="8" />
+    </motion.svg>
+  );
+}
 
 export default function Contact() {
   return (
-    <section id="contact" className="border-t-4 border-border-main py-24 px-5 sm:px-8 md:px-16 bg-surface">
-      <div className="max-w-6xl mx-auto">
+    <section id="contact" className="py-0 bg-bg overflow-hidden">
 
-        {/* Section header */}
-        <div className="flex items-center gap-4 mb-14">
-          <span className="section-num">05</span>
-          <h2 className="font-heading text-text-main text-4xl md:text-5xl tracking-wider uppercase">Contact</h2>
-          <div className="flex-1 h-1 bg-text-main dark:bg-accent ml-2" />
-        </div>
+      {/* Top hatch strip */}
+      <div className="hatch-bg h-10 w-full" />
 
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5 }}
-        >
-          {/* CTA block — uses brutal-card which auto-updates in dark */}
-          <div className="brutal-card p-0 overflow-hidden max-w-2xl">
+      {/* Main card area */}
+      <div className="px-5 sm:px-8 py-10">
+        <div className="max-w-[840px] mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.55 }}
+            className="relative border border-[var(--glass-border)] bg-[var(--theme-bg)] dark:bg-[radial-gradient(35%_80%_at_25%_0%,rgba(255,255,255,0.05),transparent)] rounded-sm px-8 py-16 flex flex-col items-center text-center gap-6 overflow-visible"
+          >
+            {/* Corner crosshairs */}
+            <Corner pos="tl" />
+            <Corner pos="tr" />
+            <Corner pos="bl" />
+            <Corner pos="br" />
 
-            {/* Yellow header stripe */}
-            <div className="bg-accent px-8 py-5" style={{ borderBottom: "3px solid #111" }}>
-              <p className="font-heading text-black text-3xl md:text-4xl tracking-wider uppercase leading-tight">
-                Let&#39;s build something<br />great together.
-              </p>
-            </div>
+            {/* Heading */}
+            <h2 className="font-bold text-text-main text-3xl sm:text-4xl tracking-tight">
+              Let&apos;s work together
+            </h2>
 
-            {/* Body */}
-            <div className="p-5 sm:p-8 flex flex-col gap-7">
-              <p className="text-text-muted text-base leading-relaxed font-medium">
-                Open to interesting projects, roles, and conversations. Drop me a
-                line and I'll get back to you.
-              </p>
+            {/* Subtitle */}
+            <p className="text-text-muted text-sm sm:text-base font-mono max-w-sm">
+              Have a project in mind? Let&apos;s create something amazing.
+            </p>
 
-              {/* Email CTA */}
-              <a href={`mailto:${email}`} className="group block">
-                <div className="brutal-btn text-base md:text-lg w-full justify-between py-4 px-6">
-                  <span className="font-heading text-black text-sm sm:text-xl tracking-wider">{email}</span>
-                  <svg
-                    width="20" height="20" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" strokeWidth="2.5"
-                    strokeLinecap="round" strokeLinejoin="round"
-                    className="group-hover:translate-x-1 transition-transform duration-150"
-                  >
+            {/* Buttons */}
+            <div className="flex items-center gap-3 flex-wrap justify-center">
+              <MagneticElement strength={0.3}>
+                <motion.a
+                  href={`mailto:${email}`}
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="modern-btn-outline px-6 py-2.5"
+                >
+                  Email Me
+                </motion.a>
+              </MagneticElement>
+              <MagneticElement strength={0.3}>
+                <motion.a
+                  href="https://cal.com/vishal-jadeja"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="modern-btn px-6 py-2.5"
+                >
+                  Book a Call
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
-                </div>
-              </a>
-
-              {/* Social links */}
-              <div className="flex flex-wrap items-center gap-3 pt-4 border-t-2 border-border-main">
-                {socials.map((s) => (
-                  <a
-                    key={s.name}
-                    href={s.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="brutal-btn-outline py-2 text-xs gap-2"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <path d={s.icon} />
-                    </svg>
-                    {s.name}
-                  </a>
-                ))}
-              </div>
+                </motion.a>
+              </MagneticElement>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
+
+      {/* Bottom hatch strip */}
+      <div className="hatch-bg h-10 w-full" />
+
     </section>
   );
 }

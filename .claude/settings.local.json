@@ -8,7 +8,8 @@
       "Bash(npx eslint:*)",
       "Bash(echo \"PID: $!\" sleep 4 curl -s http://localhost:3000/api/health)",
       "Bash(curl:*)",
-      "WebSearch"
+      "WebSearch",
+      "WebFetch(domain:divyanshudhruv.is-a.dev)"
     ]
   }
 }

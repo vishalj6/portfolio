@@ -1,15 +1,21 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import ThemeToggle from "@/components/ThemeToggle";
+import MagneticElement from "@/components/MagneticElement";
 
 const navLinks = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#skills" },
+  { label: "Blog", href: "#blog" },
   { label: "Contact", href: "#contact" },
 ];
+
+function openChat() {
+  window.dispatchEvent(new CustomEvent("openChat"));
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -23,67 +29,81 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 border-b-4 border-black dark:border-accent anim-fade-in ${scrolled
-          ? "bg-bg/95 backdrop-blur-sm"
-          : "bg-bg"
-        }`}
+      className={`sticky top-0 z-50 border-b ${scrolled ? "bg-[var(--theme-bg)] border-[var(--theme-border-main)]" : "bg-[var(--theme-bg)] border-[var(--theme-border-main)]"}`}
     >
-      <nav className="max-w-6xl mx-auto px-5 sm:px-8 md:px-16 h-14 flex items-center justify-between gap-4">
+      <nav className="px-5 sm:px-8 h-14 flex items-center justify-between gap-6">
         {/* Logo */}
         <a
           href="#"
-          className="font-heading website-logo-text text-2xl tracking-wider bg-accent border-2 border-black px-3 py-0.5 shadow-[3px_3px_0_#111] hover:shadow-[1px_1px_0_#111] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-100 shrink-0"
+          className="font-mono font-bold text-text-main text-sm tracking-widest hover:text-text-muted transition-colors shrink-0"
         >
           VJ
         </a>
 
-        {/* Desktop links */}
-        <ul className="hidden md:flex items-center gap-1 flex-1">
+        {/* Desktop links — centered */}
+        <ul className="hidden md:flex items-center gap-5 flex-1">
           {navLinks.map((link) => (
             <li key={link.href}>
-              <a
-                href={link.href}
-                className="section-label px-3 py-2 hover:bg-[#FFE600] hover:text-black border-2 border-transparent hover:border-black dark:hover:border-black transition-all duration-100 block"
-              >
-                {link.label}
-              </a>
+              <MagneticElement strength={0.15}>
+                <motion.a
+                  href={link.href}
+                  whileHover={{ y: -1 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  className="text-text-muted hover:text-text-main text-sm font-medium transition-colors duration-150"
+                >
+                  {link.label}
+                </motion.a>
+              </MagneticElement>
             </li>
           ))}
         </ul>
 
-        {/* Theme toggle (desktop) */}
-        <div className="hidden md:block shrink-0">
+        {/* Right side */}
+        <div className="hidden md:flex items-center gap-3 shrink-0">
+          <button
+            onClick={openChat}
+            className="text-sm font-medium text-text-muted hover:text-text-main transition-colors flex items-center gap-1.5"
+            aria-label="Talk to AI"
+          >
+            Talk to AI ✦
+          </button>
           <ThemeToggle />
         </div>
 
         {/* Mobile toggle */}
-        <button
-          className="md:hidden flex flex-col gap-[5px] p-2 border-2 border-black dark:border-accent hover:bg-accent transition-colors duration-100"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          <span className={`block w-5 h-0.5 bg-text-main transition-all duration-200 ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
-          <span className={`block w-5 h-0.5 bg-text-main transition-all duration-200 ${menuOpen ? "opacity-0" : ""}`} />
-          <span className={`block w-5 h-0.5 bg-text-main transition-all duration-200 ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
-        </button>
+        <div className="md:hidden flex items-center gap-3">
+          <ThemeToggle />
+          <button
+            className="flex flex-col gap-[5px] p-1.5"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+          >
+            <span className={`block w-5 h-0.5 bg-text-muted transition-all duration-200 ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
+            <span className={`block w-5 h-0.5 bg-text-muted transition-all duration-200 ${menuOpen ? "opacity-0" : ""}`} />
+            <span className={`block w-5 h-0.5 bg-text-muted transition-all duration-200 ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
+          </button>
+        </div>
       </nav>
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden border-t-4 border-black dark:border-accent bg-surface px-6 py-4 flex flex-col gap-1">
+        <div className="md:hidden border-t border-[var(--glass-border)] bg-bg px-5 py-4 flex flex-col gap-1">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="section-label py-3 px-2 hover:bg-accent hover:text-black border-b-2 border-border-main transition-colors duration-100 last:border-b-0"
+              className="text-text-muted hover:text-text-main text-sm font-medium py-2.5 border-b border-[var(--glass-border)] last:border-b-0 transition-colors"
               onClick={() => setMenuOpen(false)}
             >
               {link.label}
             </a>
           ))}
-          <div className="pt-3 border-t-2 border-border-main mt-1">
-            <ThemeToggle />
-          </div>
+          <button
+            onClick={() => { openChat(); setMenuOpen(false); }}
+            className="text-sm text-text-muted font-medium text-left pt-3"
+          >
+            Talk to AI ✦
+          </button>
         </div>
       )}
     </header>

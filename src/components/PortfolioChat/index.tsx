@@ -95,6 +95,13 @@ export default function PortfolioChat() {
     }
   }
 
+  // Listen for openChat event from Navbar "Talk to AI" button
+  useEffect(() => {
+    const onOpenChat = () => handleOpen();
+    window.addEventListener("openChat", onOpenChat);
+    return () => window.removeEventListener("openChat", onOpenChat);
+  }, []);
+
   function handleClear() {
     localStorage.removeItem(LS_HISTORY);
     localStorage.removeItem(LS_SESSION);
@@ -127,11 +134,12 @@ export default function PortfolioChat() {
             {/* Chat panel */}
             <motion.div
               key="panel"
+              className={styles.chatWrapper}
               initial={{ opacity: 0, y: 20, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 14, scale: 0.97 }}
               transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-              style={{ position: "absolute", bottom: "72px", right: "0", zIndex: 9999 }}
+              style={{ zIndex: 9999, transformOrigin: "bottom right" }}
             >
               <ChatPanel
                 messages={messages}
@@ -154,14 +162,12 @@ export default function PortfolioChat() {
         aria-label={isOpen ? "Close chat" : "Open chat"}
       >
         {isOpen ? (
-          // X icon
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--theme-text-main, #111111)">
-            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M18 6L6 18M6 6l12 12" />
           </svg>
         ) : (
-          // Chat bubble icon
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--theme-text-main, #111111)">
-            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z" />
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
           </svg>
         )}
         {!hasOpened && <span className={styles.pulseDot} />}
