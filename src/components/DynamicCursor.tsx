@@ -1,6 +1,8 @@
+"use client";
+
 import dynamic from "next/dynamic";
 
-const CustomCursor = dynamic(() => import("./CustomCursor"));
+const CustomCursor = dynamic(() => import("./CustomCursor"), { ssr: false });
 
 export default function DynamicCursor() {
   return <CustomCursor />;

@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { email } from "@/data/socials";
-import MagneticElement from "@/components/MagneticElement";
 
 function Corner({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
   const base = "absolute w-4 h-4 text-[var(--theme-border-main)]";
@@ -33,11 +32,8 @@ export default function Contact() {
   return (
     <section id="contact" className="py-0 bg-bg overflow-hidden">
 
-      {/* Top hatch strip */}
-      <div className="hatch-bg h-10 w-full" />
-
       {/* Main card area */}
-      <div className="px-5 sm:px-8 py-10">
+      <div className="px-5 sm:px-8 py-8">
         <div className="max-w-[840px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -64,39 +60,31 @@ export default function Contact() {
 
             {/* Buttons */}
             <div className="flex items-center gap-3 flex-wrap justify-center">
-              <MagneticElement strength={0.3}>
-                <motion.a
-                  href={`mailto:${email}`}
-                  whileHover={{ scale: 1.02, y: -1 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="modern-btn-outline px-6 py-2.5"
-                >
-                  Email Me
-                </motion.a>
-              </MagneticElement>
-              <MagneticElement strength={0.3}>
-                <motion.a
-                  href="https://cal.com/vishal-jadeja"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.02, y: -1 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="modern-btn px-6 py-2.5"
-                >
-                  Book a Call
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </motion.a>
-              </MagneticElement>
+              <motion.a
+                href={`mailto:${email}`}
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
+                className="modern-btn-outline px-6 py-2.5"
+              >
+                Email Me
+              </motion.a>
+              <motion.a
+                href="https://cal.com/vishal-jadeja"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
+                className="modern-btn px-6 py-2.5"
+              >
+                Book a Call
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </motion.a>
             </div>
           </motion.div>
         </div>
       </div>
-
-      {/* Bottom hatch strip */}
-      <div className="hatch-bg h-10 w-full" />
-
     </section>
   );
 }

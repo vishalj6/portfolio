@@ -8,20 +8,19 @@ import Experience from "@/components/sections/Experience";
 import Projects from "@/components/sections/Projects";
 import Skills from "@/components/sections/Skills";
 import GitHubContributions from "@/components/sections/GitHubContributions";
-import OpenSource from "@/components/sections/OpenSource";
-import Blog from "@/components/sections/Blog";
 import Quote from "@/components/sections/Quote";
 import Contact from "@/components/sections/Contact";
+import SectionDivider from "@/components/SectionDivider";
+
 function ViewCounter() {
   const [count, setCount] = useState<number | null>(null);
 
   useEffect(() => {
-    // Increment then fetch total
     fetch("/api/views", { method: "POST", body: JSON.stringify({ page: "/" }), headers: { "Content-Type": "application/json" } })
       .then(() => fetch("/api/views?page=/"))
       .then((r) => r.json())
       .then((data) => setCount(data.count))
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   if (count === null) return null;
@@ -39,18 +38,23 @@ function ViewCounter() {
 
 export default function Home() {
   return (
-    <div className="max-w-[840px] mx-auto min-h-screen bg-bg border-x border-[var(--theme-border-main)]">
+    <div className="max-w-[840px] mx-auto min-h-screen bg-bg border-x border-border-main">
       <Navbar />
       <main>
         <Hero />
+        <SectionDivider />
         <About />
+        <SectionDivider />
         <Experience />
+        <SectionDivider />
         <Projects />
+        <SectionDivider />
         <Skills />
+        <SectionDivider />
         <GitHubContributions />
-        <OpenSource />
-        <Blog />
+        <SectionDivider />
         <Quote />
+        <SectionDivider />
         <Contact />
       </main>
       <footer className="border-t border-[var(--glass-border)] py-8 px-5 sm:px-8 bg-bg">

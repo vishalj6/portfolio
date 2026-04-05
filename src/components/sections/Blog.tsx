@@ -30,7 +30,7 @@ export default function Blog() {
   }
 
   return (
-    <section id="blog" className="py-16 px-5 sm:px-8 bg-bg">
+    <section id="blog" className="py-8 px-5 sm:px-8 bg-bg">
       <div className="max-w-[840px] mx-auto">
 
         <motion.div
@@ -133,7 +133,7 @@ export default function Blog() {
             </button>
             <a
               href="#"
-              className="h-11 flex justify-center w-full sm:w-auto items-center gap-2 rounded-full bg-[var(--theme-text-main)] px-8 text-sm font-medium text-[var(--theme-bg)] hover:scale-105 active:scale-95 transition-all shadow-lg"
+              className="h-10 flex justify-center w-full sm:w-auto items-center gap-2 rounded-full bg-[var(--theme-text-main)] px-8 text-sm font-medium text-[var(--theme-bg)] hover:scale-105 active:scale-95 transition-all shadow-lg"
             >
               View All Stories
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

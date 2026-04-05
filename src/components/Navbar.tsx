@@ -3,13 +3,12 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import ThemeToggle from "@/components/ThemeToggle";
-import MagneticElement from "@/components/MagneticElement";
 
 const navLinks = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
-  { label: "Blog", href: "#blog" },
+  // { label: "Blog", href: "#blog" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -44,16 +43,14 @@ export default function Navbar() {
         <ul className="hidden md:flex items-center gap-5 flex-1">
           {navLinks.map((link) => (
             <li key={link.href}>
-              <MagneticElement strength={0.15}>
-                <motion.a
-                  href={link.href}
-                  whileHover={{ y: -1 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  className="text-text-muted hover:text-text-main text-sm font-medium transition-colors duration-150"
-                >
-                  {link.label}
-                </motion.a>
-              </MagneticElement>
+              <motion.a
+                href={link.href}
+                whileHover={{ y: -1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                className="text-text-muted hover:text-text-main text-sm font-medium transition-colors duration-150"
+              >
+                {link.label}
+              </motion.a>
             </li>
           ))}
         </ul>
@@ -62,10 +59,11 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3 shrink-0">
           <button
             onClick={openChat}
-            className="text-sm font-medium text-text-muted hover:text-text-main transition-colors flex items-center gap-1.5"
+            className="text-sm font-medium text-text-muted hover:text-text-main transition-colors flex items-center gap-1.5 border border-solid border-[var(--glass-border)] px-4 py-1 h-8 rounded-full hover:scale-105"
             aria-label="Talk to AI"
           >
-            Talk to AI ✦
+            Talk to AI
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sparkles text-muted-foreground/60 group-hover:text-primary transition-colors" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg>
           </button>
           <ThemeToggle />
         </div>
@@ -100,7 +98,7 @@ export default function Navbar() {
           ))}
           <button
             onClick={() => { openChat(); setMenuOpen(false); }}
-            className="text-sm text-text-muted font-medium text-left pt-3"
+            className="text-sm text-text-muted font-medium text-left pt-3 border border-solid border-[var(--glass-border)]"
           >
             Talk to AI ✦
           </button>

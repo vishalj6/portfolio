@@ -6,7 +6,7 @@ import { projects } from "@/data/projects";
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-16 px-5 sm:px-8 bg-bg">
+    <section id="projects" className="py-8 px-5 sm:px-8 bg-bg">
       <div className="max-w-[840px] mx-auto">
 
         <motion.h2
