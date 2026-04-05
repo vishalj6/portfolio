@@ -22,7 +22,10 @@ export async function GET(request: Request): Promise<Response> {
     .select("count")
     .eq("page", page);
 
-  if (error) return json({ error: "Failed to fetch views" }, 500);
+  if (error) {
+    console.log("error in GET /api/views:", error);
+    return json({ error: "Failed to fetch views" }, 500);
+  }
 
   const total = (data ?? []).reduce((sum, row) => sum + Number(row.count), 0);
   return json({ count: total, page });
@@ -50,6 +53,9 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   const { data, error } = await supabase.rpc("increment_views", { p_page: page });
-  if (error) return json({ error: "Failed to increment views" }, 500);
+  if (error) {
+    console.log("error in POST /api/views:", error);
+    return json({ error: "Failed to increment views" }, 500);
+  }
   return json({ count: data, page });
 }
