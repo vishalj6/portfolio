@@ -33,27 +33,32 @@ function formatDate(date: Date): string {
 /** Build a 7×52 grid (rows = day-of-week Sun–Sat, cols = weeks) for the last 364 days */
 function buildHeatmapGrid(calendar: Record<string, number>) {
   const today = new Date();
-  // Rewind to the start of the current week (Sunday)
-  const endOfGrid = new Date(today);
-  endOfGrid.setDate(today.getDate() - today.getDay() + 6); // last Saturday of current week
+
+  // Work in UTC so our timestamps match LeetCode's key format exactly.
+  // Start from the most recent Sunday (UTC) and go back 52 weeks.
+  const todayUTC = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
+  const dayOfWeekUTC = new Date(todayUTC).getUTCDay(); // 0=Sun … 6=Sat
+  // Rewind to the Saturday that ends the current week
+  const endOfGridUTC = todayUTC + (6 - dayOfWeekUTC) * 86400_000;
 
   const cells: { date: Date; count: number }[][] = Array.from({ length: 7 }, () => []);
 
   for (let week = 51; week >= 0; week--) {
     for (let dow = 0; dow < 7; dow++) {
       const daysBack = week * 7 + (6 - dow);
-      const d = new Date(endOfGrid);
-      d.setDate(endOfGrid.getDate() - daysBack);
+      const cellUTC = endOfGridUTC - daysBack * 86400_000;
 
-      const ts = Math.floor(d.getTime() / 1000).toString();
+      // LeetCode key = seconds since Unix epoch at UTC midnight
+      const ts = Math.floor(cellUTC / 1000).toString();
       const count = calendar[ts] ?? 0;
 
-      cells[dow].push({ date: d, count });
+      cells[dow].push({ date: new Date(cellUTC), count });
     }
   }
 
   return cells; // cells[dow][weekIndex]
 }
+
 
 function LeetCodeHeatmap({ calendar }: { calendar: Record<string, number> }) {
   const grid = buildHeatmapGrid(calendar);
@@ -230,7 +235,7 @@ function LeetCodeView() {
 // ---------------------------------------------------------------------------
 
 export default function GitHubContributions() {
-  const [tab, setTab] = useState<'github' | 'leetcode'>('github');
+  const [tab, setTab] = useState<'github' | 'leetcode'>('leetcode');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
@@ -241,7 +246,7 @@ export default function GitHubContributions() {
   };
 
   return (
-    <section id="contributions" className="py-16 px-5 sm:px-8 bg-bg">
+    <section id="contributions" className="py-8 px-5 sm:px-8 bg-bg">
       <div className="max-w-[840px] mx-auto">
 
         {/* Section header */}
@@ -260,11 +265,10 @@ export default function GitHubContributions() {
               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className={`px-4 py-1.5 rounded-md text-xs font-semibold tracking-widest uppercase transition-all duration-200 ${
-                  tab === t
-                    ? 'bg-[var(--theme-text-main)] text-[var(--theme-bg)]'
-                    : 'text-text-muted hover:text-text-main'
-                }`}
+                className={`px-4 py-1.5 rounded-md text-xs font-semibold tracking-widest uppercase transition-all duration-200 ${tab === t
+                  ? 'bg-[var(--theme-text-main)] text-[var(--theme-bg)]'
+                  : 'text-text-muted hover:text-text-main'
+                  }`}
               >
                 {t}
               </button>

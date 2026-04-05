@@ -1,94 +1,97 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export default function CustomCursor() {
+  const [isHovering, setIsHovering] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
-  const dotX = useSpring(mouseX, { stiffness: 600, damping: 30 });
-  const dotY = useSpring(mouseY, { stiffness: 600, damping: 30 });
+  // Outer ring: slow, heavy spring → visible trailing delay
+  const ringSpring = { damping: 28, stiffness: 120, mass: 0.5 };
+  const cursorX = useSpring(mouseX, ringSpring);
+  const cursorY = useSpring(mouseY, ringSpring);
 
-  const ringX = useSpring(mouseX, { stiffness: 180, damping: 22 });
-  const ringY = useSpring(mouseY, { stiffness: 180, damping: 22 });
-
-  const ringScale = useMotionValue(1);
-  const ringOpacity = useMotionValue(0.5);
+  // Inner dot: slightly quicker spring, still smooth
+  const dotSpring = { damping: 22, stiffness: 280, mass: 0.25 };
+  const dotX = useSpring(mouseX, dotSpring);
+  const dotY = useSpring(mouseY, dotSpring);
 
   useEffect(() => {
-    const move = (e: MouseEvent) => {
+    // Only enable on non-touch devices
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
+    const onMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
+      if (!isVisible) setIsVisible(true);
     };
 
-    const onEnter = (e: MouseEvent) => {
+    const handleMouseOver = (e: MouseEvent) => {
+      if (!e.target) return;
       const target = e.target as HTMLElement;
-      if (target.closest("a, button, [role='button'], input, textarea, select")) {
-        ringScale.set(1.6);
-        ringOpacity.set(0.85);
-      }
+      // Check if we hover over clickable elements
+      const isClickable =
+        window.getComputedStyle(target).cursor === "pointer" ||
+        target.closest("a") !== null ||
+        target.closest("button") !== null;
+
+      setIsHovering(isClickable);
     };
 
-    const onLeave = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest("a, button, [role='button'], input, textarea, select")) {
-        ringScale.set(1);
-        ringOpacity.set(0.5);
-      }
-    };
+    const handleMouseLeave = () => setIsVisible(false);
+    const handleMouseEnter = () => setIsVisible(true);
 
-    window.addEventListener("mousemove", move);
-    document.addEventListener("mouseover", onEnter);
-    document.addEventListener("mouseout", onLeave);
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseover", handleMouseOver);
+    document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("mouseenter", handleMouseEnter);
 
     return () => {
-      window.removeEventListener("mousemove", move);
-      document.removeEventListener("mouseover", onEnter);
-      document.removeEventListener("mouseout", onLeave);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseover", handleMouseOver);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("mouseenter", handleMouseEnter);
     };
-  }, [mouseX, mouseY, ringScale, ringOpacity]);
+  }, [mouseX, mouseY, isVisible]);
+
+  if (!isVisible) return null;
 
   return (
     <>
-      {/* Outer ring */}
       <motion.div
+        className="fixed top-0 left-0 pointer-events-none z-[99999] rounded-full mix-blend-difference hidden md:block"
         style={{
-          x: ringX,
-          y: ringY,
-          scale: ringScale,
-          opacity: ringOpacity,
+          width: 30,
+          height: 30,
+          x: cursorX,
+          y: cursorY,
           translateX: "-50%",
           translateY: "-50%",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: 28,
-          height: 28,
-          borderRadius: "50%",
-          border: "1.5px solid var(--theme-text-muted)",
-          pointerEvents: "none",
-          zIndex: 9999,
-          transition: "opacity 0.2s ease",
+          border: "1.5px solid rgba(255, 255, 255, 1)",
+          backgroundColor: isHovering ? "rgba(255, 255, 255, 1)" : "transparent",
         }}
+        animate={{
+          scale: isHovering ? 1.5 : 1,
+        }}
+        transition={{ type: "spring", stiffness: 180, damping: 22 }}
       />
-      {/* Inner dot */}
       <motion.div
+        className="fixed top-0 left-0 pointer-events-none z-[100000] rounded-full mix-blend-difference hidden md:block"
         style={{
+          width: 6,
+          height: 6,
           x: dotX,
           y: dotY,
           translateX: "-50%",
           translateY: "-50%",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: 7,
-          height: 7,
-          borderRadius: "50%",
-          backgroundColor: "var(--theme-text-main)",
-          pointerEvents: "none",
-          zIndex: 10000,
-          mixBlendMode: "difference",
+          backgroundColor: "rgba(255, 255, 255, 1)",
+        }}
+        animate={{
+          opacity: isHovering ? 0 : 1,
         }}
       />
     </>

@@ -41,17 +41,13 @@ export default function PortfolioChat() {
   );
   const [input, setInput] = useState("");
 
-  // Load initial state from localStorage (runs once on mount)
   const [initialMessages] = useState<UIMessage[]>(() => loadHistory());
 
-  // Stable session ID — persisted across page reloads, rotated on clear
   const sessionIdRef = useRef<string>("");
   useEffect(() => {
     sessionIdRef.current = getOrCreateSessionId();
   }, []);
 
-  // Stable function stored in a ref so the React Compiler doesn't flag
-  // sessionIdRef.current as a render-time ref access (it's only read at call time).
   const prepareSendMessagesRequest = useRef<PrepareSendMessagesRequest<UIMessage>>(
     ({ messages }) => ({
       body: {
@@ -72,7 +68,7 @@ export default function PortfolioChat() {
 
   const transport = useMemo(
     () => new TextStreamChatTransport({ api: "/api/chat", prepareSendMessagesRequest }),
-    [] // stable — prepareSendMessagesRequest is a ref-stored function, never changes
+    []
   );
 
   const { messages, sendMessage, status, setMessages } = useChat({
@@ -80,7 +76,6 @@ export default function PortfolioChat() {
     transport,
   });
 
-  // Persist messages to localStorage on every change
   useEffect(() => {
     if (messages.length > 0) {
       localStorage.setItem(LS_HISTORY, JSON.stringify(messages));
@@ -95,7 +90,6 @@ export default function PortfolioChat() {
     }
   }
 
-  // Listen for openChat event from Navbar "Talk to AI" button
   useEffect(() => {
     const onOpenChat = () => handleOpen();
     window.addEventListener("openChat", onOpenChat);
@@ -116,14 +110,14 @@ export default function PortfolioChat() {
   }
 
   return (
-    <div className={styles.root}>
+    <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end">
       <AnimatePresence>
         {isOpen && (
           <>
             {/* Blurred backdrop */}
             <motion.div
               key="backdrop"
-              className={styles.backdrop}
+              className="fixed inset-0 z-[9998] bg-black/30 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -131,15 +125,15 @@ export default function PortfolioChat() {
               onClick={() => setIsOpen(false)}
             />
 
-            {/* Chat panel */}
+            {/* Chat panel — glass + framer transform on same element */}
             <motion.div
               key="panel"
-              className={styles.chatWrapper}
-              initial={{ opacity: 0, y: 20, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 14, scale: 0.97 }}
+              className={`mb-3.5 pointer-events-auto relative w-[400px] max-w-[calc(100vw-48px)] rounded-[20px] border border-[var(--theme-border-main)] overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.5),0_8px_24px_rgba(0,0,0,0.3),0_1px_0_rgba(255,255,255,0.06)_inset,0_0_0_0.5px_rgba(255,255,255,0.04)_inset] bg-[var(--glass-bg)] backdrop-blur-[20px] saturate-[180%]`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 14 }}
               transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-              style={{ zIndex: 9999, transformOrigin: "bottom right" }}
+              style={{ zIndex: 9999 }}
             >
               <ChatPanel
                 messages={messages}
@@ -157,7 +151,7 @@ export default function PortfolioChat() {
 
       {/* Floating toggle button */}
       <button
-        className={styles.toggleBtn}
+        className="relative w-[50px] h-[50px] rounded-full bg-[var(--theme-card)] border border-[var(--theme-border-main)] text-[var(--theme-text-muted)] cursor-pointer flex items-center justify-center flex-shrink-0 shadow-[0_4px_24px_rgba(0,0,0,0.25),0_1px_0_rgba(255,255,255,0.05)_inset] transition-all duration-200 hover:-translate-y-0.5 hover:scale-105 hover:shadow-[0_8px_32px_rgba(0,0,0,0.35),0_1px_0_rgba(255,255,255,0.08)_inset] hover:border-white/12 hover:text-[var(--theme-text-main)] active:translate-y-0 active:scale-[0.97]"
         onClick={isOpen ? () => setIsOpen(false) : handleOpen}
         aria-label={isOpen ? "Close chat" : "Open chat"}
       >
@@ -170,7 +164,9 @@ export default function PortfolioChat() {
             <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
           </svg>
         )}
-        {!hasOpened && <span className={styles.pulseDot} />}
+        {!hasOpened && (
+          <span className={styles.pulseDot} />
+        )}
       </button>
     </div>
   );

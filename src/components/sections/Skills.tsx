@@ -56,7 +56,7 @@ const SKILL_COLORS: Record<string, string> = {
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-16 px-5 sm:px-8 bg-bg">
+    <section id="skills" className="py-8 px-5 sm:px-8 bg-bg">
       <div className="max-w-[840px] mx-auto">
 
         <motion.h2

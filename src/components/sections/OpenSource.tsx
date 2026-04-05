@@ -34,7 +34,7 @@ function ArrowBtn({ href }: { href?: string }) {
 
 export default function OpenSource() {
   return (
-    <section id="opensource" className="py-16 px-5 sm:px-8 bg-bg">
+    <section id="opensource" className="py-8 px-5 sm:px-8 bg-bg">
       <div className="max-w-[840px] mx-auto">
 
         <motion.h2
