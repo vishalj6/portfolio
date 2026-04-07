@@ -98,7 +98,7 @@ export default function Navbar() {
           ))}
           <button
             onClick={() => { openChat(); setMenuOpen(false); }}
-            className="text-sm text-text-muted font-medium text-left pt-3 border border-solid border-[var(--glass-border)]"
+            className="text-sm text-text-muted font-medium text-left pt-3"
           >
             Talk to AI ✦
           </button>

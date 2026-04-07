@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { GitHubCalendar } from 'react-github-calendar';
 
@@ -19,11 +19,20 @@ interface LeetCodeStats {
 // Heatmap helpers
 // ---------------------------------------------------------------------------
 
-function getCellColor(count: number): string {
-  if (count === 0) return 'var(--theme-surface)';
-  if (count <= 2) return '#FFE60040';
-  if (count <= 5) return '#FFE60099';
-  return '#FFE600';
+function getCellColor(count: number, isDark: boolean): string {
+  if (isDark) {
+    if (count === 0) return '#ffffff08';
+    if (count === 1) return '#FFE60025';
+    if (count <= 3) return '#FFE60055';
+    if (count <= 6) return '#FFE60099';
+    return '#FFE600';
+  } else {
+    if (count === 0) return '#f1f5f9';
+    if (count === 1) return '#fef08a';
+    if (count <= 3) return '#fde047';
+    if (count <= 6) return '#facc15';
+    return '#eab308';
+  }
 }
 
 function formatDate(date: Date): string {
@@ -62,6 +71,15 @@ function buildHeatmapGrid(calendar: Record<string, number>) {
 
 function LeetCodeHeatmap({ calendar }: { calendar: Record<string, number> }) {
   const grid = buildHeatmapGrid(calendar);
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsDark(document.documentElement.classList.contains('dark'));
+    check();
+    const obs = new MutationObserver(check);
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => obs.disconnect();
+  }, []);
 
   return (
     <div className="flex flex-col gap-2">
@@ -86,8 +104,8 @@ function LeetCodeHeatmap({ calendar }: { calendar: Record<string, number> }) {
                   width: '11px',
                   height: '11px',
                   borderRadius: '2px',
-                  backgroundColor: getCellColor(cell.count),
-                  border: '1px solid rgba(255,255,255,0.04)',
+                  backgroundColor: getCellColor(cell.count, isDark),
+                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.06)'}`,
                   cursor: cell.count > 0 ? 'default' : undefined,
                   transition: 'opacity 0.15s',
                 }}
@@ -106,8 +124,8 @@ function LeetCodeHeatmap({ calendar }: { calendar: Record<string, number> }) {
               width: '10px',
               height: '10px',
               borderRadius: '2px',
-              backgroundColor: getCellColor(n),
-              border: '1px solid rgba(255,255,255,0.06)',
+              backgroundColor: getCellColor(n, isDark),
+              border: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
               flexShrink: 0,
             }}
           />
@@ -237,13 +255,29 @@ function LeetCodeView() {
 export default function GitHubContributions() {
   const [tab, setTab] = useState<'github' | 'leetcode'>('leetcode');
   const [mounted, setMounted] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+  const calendarScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => setMounted(true), []);
 
+  useEffect(() => {
+    const check = () => setIsDark(document.documentElement.classList.contains('dark'));
+    check();
+    const obs = new MutationObserver(check);
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => obs.disconnect();
+  }, []);
+
   const darkTheme = {
-    light: ['#1a1a1a', '#0d2b1a', '#0f4223', '#1a6b3a', '#22c55e'],
+    light: ['#ffffff', '#d1fae5', '#6ee7b7', '#10b981', '#059669'],
     dark: ['#1a1a1a', '#0d2b1a', '#0f4223', '#1a6b3a', '#22c55e'],
   };
+
+  useEffect(() => {
+    if (mounted && tab === 'github' && calendarScrollRef.current) {
+      calendarScrollRef.current.scrollLeft = calendarScrollRef.current.scrollWidth;
+    }
+  }, [mounted, tab]);
 
   return (
     <section id="contributions" className="py-8 px-5 sm:px-8 bg-bg">
@@ -284,11 +318,18 @@ export default function GitHubContributions() {
         >
           {tab === 'github' ? (
             <div className="flex flex-col gap-6">
-              <div className="overflow-x-auto">
+              <div
+                ref={calendarScrollRef}
+                className="overflow-x-auto"
+                style={{
+                  scrollbarWidth: 'thin',
+                  scrollbarColor: 'var(--theme-border-main) transparent',
+                }}
+              >
                 {mounted ? (
                   <GitHubCalendar
                     username={GITHUB_USERNAME}
-                    colorScheme="dark"
+                    colorScheme={isDark ? 'dark' : 'light'}
                     theme={darkTheme}
                     fontSize={12}
                     blockSize={13}
